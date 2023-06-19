@@ -1,0 +1,62 @@
+{
+  "ftp://setodmin@hyperlanding.net": {
+    ".ash_history": {
+      "type": "-",
+      "size": 89,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bash_history": {
+      "type": "-",
+      "size": 1770,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bash_logout": {
+      "type": "-",
+      "size": 17,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bash_profile": {
+      "type": "-",
+      "size": 200,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".bashrc": {
+      "type": "-",
+      "size": 370,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".git": {},
+    ".mysql_history": {
+      "type": "-",
+      "size": 166,
+      "lmtime": 0,
+      "modified": false
+    },
+    ".vscode": {},
+    "gabia.html": {
+      "type": "-",
+      "size": 58,
+      "lmtime": 0,
+      "modified": false
+    },
+    "index.html": {
+      "type": "-",
+      "size": 111,
+      "lmtime": 0,
+      "modified": false
+    },
+    "index.php": {
+      "type": "-",
+      "size": 57,
+      "lmtime": 0,
+      "modified": false
+    },
+    "lib": {}
+  },
+  "$version": 1
+}

@@ -1,0 +1,22 @@
+{
+    "host": "hyperlanding.net",
+    "username": "setodmin",
+    "password": "setoweb12!@",
+    "remotePath": "/",
+    "protocol": "ftp",
+    "port": 0,
+    "fileNameEncoding": "utf8",
+    "autoUpload": true,
+    "autoDelete": false,
+    "autoDownload": false,
+    "ignore": [
+        ".git",
+        "/.vscode",
+        ".ash_history",
+        ".bash_history",
+        ".bash_logout",
+        ".bashrc",
+        ".bash_profile",
+        ".mysql_histoy"
+    ]
+}
