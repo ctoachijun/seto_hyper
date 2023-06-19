@@ -15,13 +15,6 @@
     "allow": [],
     "ignore": [
         "\\.vscode",
-        "\\.git",
-        "\\.DS_Store"
-    ],
-    "generatedFiles": {
-        "extensionsToInclude": [
-            ""
-        ],
-        "path": ""
-    }
+        "\\.git"
+    ]
 }
