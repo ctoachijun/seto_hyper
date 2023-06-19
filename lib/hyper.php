@@ -49,6 +49,14 @@ function getAdminInfo($id){
   return sql_fetch($sql);
 }
 
+function chkLoginAdmin($aid,$aidx){
+  if(!$aid || !$aidx){
+    echo "<script>
+    alert('로그인이 필요한 메뉴입니다.');
+    location.replace('./');
+    </script>";
+  }
+}
 
 
 

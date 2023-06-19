@@ -92,7 +92,7 @@
           let jud = true;
 
           $.ajax({
-            url: "../ajax_hyper.php",
+            url: "ajax_admin.php",
             type: "post",
             async: false,
             data: { "w_mode": "adminChk", "id": id, "pw": pw }
@@ -107,7 +107,8 @@
           })
           
           if(jud){
-            return true;
+            // return true;
+            location.href="main.php";
           }
           
           return false;
@@ -122,7 +123,7 @@
 
 
   <main class="form-signin">
-    <form method="post" id="accnt" onsubmit="return chkAccnt();" action="./main.html">
+    <form method="post" id="accnt" onsubmit="return chkAccnt();" action="./main.php">
       <img class="mb-4" src="./tpl/assets/img/logo.png" alt="" width="72" height="57">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
       <input type="text" id="id" name="id" class="form-control" placeholder="ID" required autofocus>
