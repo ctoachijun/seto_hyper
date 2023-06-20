@@ -1,5 +1,18 @@
 <?
 include "./admin_header.php";
+
+// for($i=1;$i<13;$i++){
+//   $email = "jhj{$i}@setoworks.com";
+//   $sql = "INSERT INTO st_smail SET s_aidx = 1, s_iidx = 1, s_email = '{$email}', s_wdate = now()";
+//   sql_exec($sql);
+//   sleep(1);
+// }
+
+$mail_box = getMailListAll($aid);
+// 최초값 설정
+$total_cnt = count($mail_box);
+
+
 ?>
 
 <div class="container maillist">
@@ -32,14 +45,20 @@ include "./admin_header.php";
             </tr>
           </thead>
           <tbody>
+<?
+          foreach($mail_box as $v) :
+?>            
             <tr>
-              <th>3</th>
-              <td>캐머라</td>
+              <th><?=$total_cnt?></th>
+              <td></td>
               <td>아톨</td>
               <td>atollatoll@atoll.com</td>
               <td>어제</td>
             </tr>
-
+<?
+            $total_cnt--;
+          endforeach;
+?>
 
           </tbody>
         </table>

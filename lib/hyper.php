@@ -58,6 +58,23 @@ function chkLoginAdmin($aid,$aidx){
   }
 }
 
+function getMailListAll($id){
+  
+  // 관리자 고유번호와 소속을 추출
+  $admin = getAdminInfo($id);
+  $aidx = $admin['a_idx'];
+  $agroup = $admin['a_group'];
+  
+  if($agroup == "MK"){  // 메이커인 경우
+    $sql = "SELECT * FROM st_smail WHERE s_aidx = {$aidx} ORDER BY s_wdate DESC";
+  }else{
+    $sql = "SELECT * FROM st_smail ORDER BY s_wdate DESC";
+  }
+  
+  return sql_query($sql);
+}
+
+
 
 
 ?>
