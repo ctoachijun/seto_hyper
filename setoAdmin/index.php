@@ -7,7 +7,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.79.0">
-  <title>Signin Template · Bootstrap v5.0</title>
+  <title>HyperLanding Admin</title>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" type="text/javascript"></script>
 

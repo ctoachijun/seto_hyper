@@ -20,24 +20,24 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="tpl/assets/img/favicon.png" rel="icon">
-  <link href="tpl/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
-  <link href="tpl/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="tpl/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="tpl/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="tpl/assets/vendor/quill/quill.snow.css" rel="stylesheet">
-  <link href="tpl/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
-  <link href="tpl/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="tpl/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
   <!-- Template Main CSS File -->
-  <link href="tpl/assets/css/style.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
 
   <!-- =======================================================
   * Template Name: NiceAdmin
@@ -55,7 +55,7 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="main.php" class="logo d-flex align-items-center">
-        <img src="tpl/assets/img/logo.png" alt="">
+        <img src="assets/img/logo.png" alt="">
         <span class="d-none d-lg-block">Setoworks</span>
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -82,7 +82,7 @@
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="tpl/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
             <span class="d-none d-md-block dropdown-toggle ps-2"><?=$aid?></span>
           </a><!-- End Profile Iamge Icon -->
 
