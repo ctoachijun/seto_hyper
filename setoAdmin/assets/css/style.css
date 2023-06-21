@@ -1240,6 +1240,15 @@ h6 {
 # 메일 페이지
 --------------------------------------------------------------*/
 .maillist .middle_div{flex-direction:column;width:100%;}
+.maillist .middle_div form{width:90%}
+.maillist .middle_div .total_count{width:8%;text-align:left;font-size:.8rem;align-items: flex-end;}
+.maillist .search_div{justify-content:space-between;height:2.5rem;width:100%;margin-bottom:15px;}
+.maillist .search_div .typeselect{height:2.5rem;width:16%;margin-right:10px;}
+.maillist .search_div .swinput{height:2.5rem;width:40%;margin-right:10px;}
+.maillist .search_div .btn{height:2.5rem;}
+.maillist .search_div div:nth-child(2){width:80%}
+.maillist .search_div div:last-child{width:10%; justify-content: flex-end;}
+.maillist .search_div img{cursor:pointer;width:50px;height:auto;}
 .maillist .middle_div .table_div{width:90%;}
 .maillist table{width:100%;text-align:center;}
 .maillist table th{border-top:1px solid #ACACAC;}

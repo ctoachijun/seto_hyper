@@ -1,10 +1,11 @@
 <?
   include "../lib/hyper.php";
   
-  $aid = $_SESSION['admin_id'];
-  $aidx = $_SESSION['admin_idx'];
+  $admin_id = $_SESSION['admin_id'];
+  $admin_idx = $_SESSION['admin_idx'];
   
-  chkLoginAdmin($aid,$aidx);
+  chkLoginAdmin($admin_id,$admin_idx);
+  
   
 ?>
 

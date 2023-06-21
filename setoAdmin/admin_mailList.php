@@ -14,46 +14,78 @@ include "./admin_header.php";
 // }
 
 
+
 // 페이징을 위한 쿼리스트링
-$qs = $_SERVER['QUERY_STRING'];
-if(!$qs){
-  $end = 5;
+$pqs = $_SERVER['QUERY_STRING'];
+
+if(!$pqs){
+  $end = 10;
   $start = 0;
   $cur_page = 1;
-  $qs = "&end={$end}&start={$start}&cur_page={$cur_page}";
+  $pqs = "&end={$end}&start={$start}&cur_page={$cur_page}";
 }
 
 if($cur_page > 1){
   $start = $end * ($cur_page - 1);
-  $total_cnt = $total_cnt - $start;
+  $number = $total_cnt - $start;
 }else{
   $start = 0;
 }
 
-$tbl_name = "st_smail";
+
 $where = "WHERE 1 ";
 $limit = "LIMIT {$start},{$end}";
 
-
 // 관리자 고유번호와 소속을 추출
-$admin = getAdminInfo($id);
+$admin = getAdminInfo($aid);
 $aidx = $admin['a_idx'];
 $agroup = $admin['a_group'];
 
 if ($agroup == "MK") { // 메이커인 경우
   $where .= "AND s_aidx = {$aidx} ";
-} else {
+}else{
 }
-$sql = "SELECT * FROM {$tbl_name} {$where} ORDER BY s_wdate DESC {$limit}";
+
+
+
+// 검색에 따른 조건 추가
+if($type){
+  $start = 0;
+  $cur_page = 1;
+} 
+
+
+if($type == "p"){
+  
+  $where = "as ss INNER JOIN st_item as si ON ss.s_iidx = si.i_idx ".$where;
+  $where .= "AND si.i_name like '%{$sw}%'";
+}else if($type == "b"){
+
+  $where = "as ss INNER JOIN st_item as si ON ss.s_iidx = si.i_idx INNER JOIN st_brand as sb ON si.i_bidx = sb.b_idx ".$where;
+  $where .= "AND sb.b_name like '%{$sw}%'";
+  
+}else if($type == "d"){
+  $where .= "AND s_wdate like '%{$sw}%'";
+}
+
+$sql = "SELECT * FROM st_smail {$where} ORDER BY s_wdate DESC {$limit}";
 $mail_box = sql_query($sql);
+// echo "$sql <br>";
+
+
 
 // 번호 붙이기 위한 총 개수 추출
-if(!$total_cnt){
-  $total_cnt = count(getMailListAll($aid));
-}  
-$qs .= "&total_cnt={$total_cnt}";
+$total_cnt = count(getMailListAll($aid,$where));
+  if(!$number){
+    $pqs .= "&total_cnt={$total_cnt}";
+    $number = $total_cnt;
+  }
 
+
+// input 만들 때 제외 할 파라미터 이름
+$nopt = array("sw","type","total_cnt");
 ?>
+
 
 <div class="container maillist">
   <div class="pagetitle">
@@ -71,8 +103,27 @@ $qs .= "&total_cnt={$total_cnt}";
       <h5 class="card-title">수집 된 메일 목록</h5>
 
     </div>
-    <div class="middle_div card-body d-flex align-items-center">
 
+    <div class="middle_div card-body d-flex align-items-center">
+      <form action="<?=$PHP_SELF?>" method="GET" >
+      <? echo qsChgForminput($pqs,$nopt); ?>
+        <!-- <input type="hidden" name="pqs" value="<?=$pqs?>" />       -->
+        <div class="search_div d-flex">
+          <div class="total_count d-flex">총 <?=$total_cnt?>건</div>
+          <div class="d-flex">
+            <select class="form-select typeselect" aria-label="Default select example" name="type">
+              <option value="p" <? if($type == "p") echo "selected"; ?>>제품</option>
+              <option value="b" <? if($type == "b") echo "selected"; ?>>브랜드</option>
+              <option value="d" <? if($type == "d") echo "selected"; ?>>등록일</option>
+            </select>
+            <input type="text" class="form-control swinput" name="sw" value="<?=$sw?>" />
+            <button type="button" class="btn btn-primary" onclick="chgCurPage()">검색</button>
+          </div>
+          <div class="d-flex">
+            <img src="../img/exel.png" onclick="downExcel(1,'<?=$admin_idx?>')" />
+          </div>
+        </div>
+      </form>
       <div class="table_div">
         <table clss="table table-striped">
           <thead>
@@ -95,14 +146,14 @@ $qs .= "&total_cnt={$total_cnt}";
             $wdate = $v['s_wdate'];
 ?>            
             <tr>
-              <th><?=$total_cnt?></th>
+              <th><?=$number?></th>
               <td><?=$brand_name?></td>
               <td><?=$item_name?></td>
               <td><?=$mail?></td>
               <td><?=$wdate?></td>
             </tr>
 <?
-            $total_cnt--;
+            $number--;
           endforeach;
 ?>
 
@@ -111,7 +162,7 @@ $qs .= "&total_cnt={$total_cnt}";
       </div>
       <div class="paging_div">
         <div class='pagin'>
-          <? getPaging($tbl_name,$qs); ?>
+          <? getPaging($tbl_name,$pqs,$where); ?>
         </div>
       </div>
 

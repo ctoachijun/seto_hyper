@@ -2,6 +2,7 @@
 $root_path = $_SERVER['DOCUMENT_ROOT'];
 require_once $root_path . "/lib/db_config.php";
 
+
 $host = $_SERVER["SERVER_NAME"];
 
 ini_set("session.use_trans_sid", 0); // PHPSESSID를 자동으로 넘기지 않음
@@ -82,7 +83,7 @@ function chkLoginAdmin($aid, $aidx)
   }
 }
 
-function getMailListAll($id)
+function getMailListAll($id,$whr)
 {
 
   // 관리자 고유번호와 소속을 추출
@@ -91,9 +92,9 @@ function getMailListAll($id)
   $agroup = $admin['a_group'];
 
   if ($agroup == "MK") { // 메이커인 경우
-    $sql = "SELECT * FROM st_smail WHERE s_aidx = {$aidx} ORDER BY s_wdate DESC";
+    $sql = "SELECT * FROM st_smail {$whr} AND s_aidx = {$aidx} ORDER BY s_wdate DESC";
   } else {
-    $sql = "SELECT * FROM st_smail ORDER BY s_wdate DESC";
+    $sql = "SELECT * FROM st_smail {$whr} ORDER BY s_wdate DESC";
   }
 
   return sql_query($sql);
@@ -119,7 +120,27 @@ function getBrandInfo($idx)
 /*
   공통 관련
 */
-function getPaging($tbl_name, $qs){
+
+function qsChgForminput($qs,$nopt){
+  $box = explode("&",$qs);
+  foreach($box as $v1){
+    if($v1){
+      $box2 = explode("=",$v1);
+      $name = $box2[0];
+      $value = $box2[1];
+      
+      if(array_search($name,$nopt) === 0 || array_search($name,$nopt)){
+      }else{
+        $html .= "<input type='hidden' name='{$name}' value='{$value}' />";
+      }
+    }
+  }
+    
+  return $html;
+}
+function getPaging($tbl_name, $qs, $where){
+
+  $tbl_name = "st_smail";
   
   // 쿼리스트링에서 변수 및 값 대입
   $box = explode("&",$qs);
@@ -130,14 +151,20 @@ function getPaging($tbl_name, $qs){
     }
   }
 
+  
+  // if(empty($arr['pqs'])){
+  //   $arr['pqs'] = $qs;
+  // }
+  
+  
   foreach($arr as $i => $v){
     $$i = $v;
     // echo "$i - $v <br>";
   }
   
   
-  if (!empty($where)) $where = "WHERE 1 " . $where;
-  $sql = "SELECT count(*) as total FROM {$tbl_name} {$join} {$where}";
+  // if (!empty($where)) $where = "WHERE 1 " . $where;
+  $sql = "SELECT count(*) as total FROM {$tbl_name} {$where}";
   // echo "top sql : $sql <br>";
 
   $re = sql_fetch($sql);
@@ -156,7 +183,7 @@ function getPaging($tbl_name, $qs){
   }
 
   // $end == 20 ? $block_limit = 7 : $block_limit = 10;
-  $block_limit = 5; // 한 화면에 뿌려질 블럭 개수
+  $block_limit = 10; // 한 화면에 뿌려질 블럭 개수
   $total_block = ceil($total_page / $block_limit); // 전체 블록수
   $cur_page = $cur_page ? $cur_page : 1; // 현재 페이지
   $cur_block = ceil($cur_page / $block_limit); // 현재블럭 : 화면에 표시 될 페이지 리스트
@@ -230,31 +257,32 @@ function getPaging($tbl_name, $qs){
   // 블럭 이동용 쿼리스트링 만들기 - 처음
   $prev_qs = $next_qs = "?";
   foreach($arr as $i => $v){
-    if($i == "cur_page"){
-      $prev_qs .= "cur_page={$prev_block}&";  
-    }else if($i == "start"){
-      $prev_qs .= "start={$prev_start}&";  
-    }else{
-      $prev_qs .= "{$i}={$$i}&";
-    }
+      if($i == "cur_page"){
+        $prev_qs .= "cur_page={$prev_block}&";  
+      }else if($i == "start"){
+        $prev_qs .= "start={$prev_start}&";  
+      }else{
+        $prev_qs .= "{$i}={$$i}&";
+      }
   }
 
   // 블럭 이동용 쿼리스트링 만들기 - 마지막
   foreach($arr as $i => $v){
-    if($i == "cur_page"){
-      $next_qs .= "cur_page={$next_block}&";  
-    }else if($i == "start"){
-      $next_qs .= "start={$next_start}&";  
-    }else{
-      $next_qs .= "{$i}={$$i}&";
-    }
+      if($i == "cur_page"){
+        $next_qs .= "cur_page={$next_block}&";  
+      }else if($i == "start"){
+        $next_qs .= "start={$next_start}&";  
+      }else{
+        $next_qs .= "{$i}={$$i}&";
+      }
   }
-  
   
   $cur_path = $_SERVER['SCRIPT_NAME'];
   $prev_url = $cur_path.$prev_qs; 
   $next_url = $cur_path.$next_qs;
 
+  
+  
   // var_dump($prev_qs);
   // echo "<br>";
   // var_dump($next_qs);
@@ -302,7 +330,7 @@ function getPaging($tbl_name, $qs){
       $cont = "<a>{$i}</a>";
     } else {
       $act = " ";
-      // $cur_url = $cur_path . "?table={$tbl_name}&cur_page={$i}&end={$page_rows}&cate={$cate}&type={$type}&sw={$sw}&sort={$sort}&leadsort={$leadsort}";
+      
       $cur_url = $cur_path . $p_qs . "cur_page={$i}";
       $cont = "<a href='{$cur_url}'>{$i}</a>";
     }
