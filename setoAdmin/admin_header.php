@@ -47,6 +47,11 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="../js/hyper.js"></script>
+
+
 </head>
 
 <body>
@@ -127,7 +132,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="signOut.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -149,7 +154,7 @@
       <li class="nav-item">
         <a class="nav-link " href="admin_mailList.php">
           <i class="bi bi-envelope"></i>
-          <span>수집 메일 목록</span>
+          <span>구독 메일 목록</span>
         </a>
       </li><!-- End Dashboard Nav -->
       <li class="nav-item">

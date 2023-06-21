@@ -1,10 +1,14 @@
 <?
 include "./admin_header.php";
 
-// for($i=1;$i<27;$i++){
+// for($i=1;$i<35;$i++){
   
-//   $iindex = rand(1,3);
-//   $aindex = rand(2,3);
+//   $iindex = rand(1,4);
+//   if($iindex == 1 || $iindex == 2){
+//     $aindex = 2;
+//   }else{
+//     $aindex = 3;
+//   }
 //   $Strings = '0123456789abcdefghijklmnopqrstuvwxyz';  
 //   $email = substr(str_shuffle($Strings), 0, 7)."@setoworks.com";
   
@@ -36,8 +40,25 @@ if($cur_page > 1){
 $where = "WHERE 1 ";
 $limit = "LIMIT {$start},{$end}";
 
+
+// 검색에 따른 조건 추가
+if($type){
+  $start = 0;
+  $cur_page = 1;
+} 
+
+if($type == "p"){
+  $where = "as ss INNER JOIN st_item as si ON ss.s_iidx = si.i_idx ".$where;
+  $where .= "AND si.i_name like '%{$sw}%'";
+}else if($type == "b"){
+  $where = "as ss INNER JOIN st_item as si ON ss.s_iidx = si.i_idx INNER JOIN st_brand as sb ON si.i_bidx = sb.b_idx ".$where;
+  $where .= "AND sb.b_name like '%{$sw}%'";
+}else if($type == "d"){
+  $where .= "AND s_wdate like '%{$sw}%'";
+}
+
 // 관리자 고유번호와 소속을 추출
-$admin = getAdminInfo($aid);
+$admin = getAdminInfo($admin_id);
 $aidx = $admin['a_idx'];
 $agroup = $admin['a_group'];
 
@@ -46,27 +67,6 @@ if ($agroup == "MK") { // 메이커인 경우
 }else{
 }
 
-
-
-// 검색에 따른 조건 추가
-if($type){
-  $start = 0;
-  $cur_page = 1;
-} 
-
-
-if($type == "p"){
-  
-  $where = "as ss INNER JOIN st_item as si ON ss.s_iidx = si.i_idx ".$where;
-  $where .= "AND si.i_name like '%{$sw}%'";
-}else if($type == "b"){
-
-  $where = "as ss INNER JOIN st_item as si ON ss.s_iidx = si.i_idx INNER JOIN st_brand as sb ON si.i_bidx = sb.b_idx ".$where;
-  $where .= "AND sb.b_name like '%{$sw}%'";
-  
-}else if($type == "d"){
-  $where .= "AND s_wdate like '%{$sw}%'";
-}
 
 $sql = "SELECT * FROM st_smail {$where} ORDER BY s_wdate DESC {$limit}";
 $mail_box = sql_query($sql);
@@ -87,6 +87,17 @@ $nopt = array("sw","type","total_cnt");
 ?>
 
 
+<script>
+  $( function(){
+    $(".subbtn").on("keyup",function(key){
+      if(key.keyCode==13) {
+          console.log($(':focus').attr('name'));
+      }
+    });
+  })
+</script>
+
+
 <div class="container maillist">
   <div class="pagetitle">
     <h1>General Tables</h1>
@@ -105,7 +116,7 @@ $nopt = array("sw","type","total_cnt");
     </div>
 
     <div class="middle_div card-body d-flex align-items-center">
-      <form action="<?=$PHP_SELF?>" method="GET" >
+      <form action="<?=$PHP_SELF?>" method="GET" onsubmit="return chgCurPage();" >
       <? echo qsChgForminput($pqs,$nopt); ?>
         <!-- <input type="hidden" name="pqs" value="<?=$pqs?>" />       -->
         <div class="search_div d-flex">
@@ -117,7 +128,8 @@ $nopt = array("sw","type","total_cnt");
               <option value="d" <? if($type == "d") echo "selected"; ?>>등록일</option>
             </select>
             <input type="text" class="form-control swinput" name="sw" value="<?=$sw?>" />
-            <button type="button" class="btn btn-primary" onclick="chgCurPage()">검색</button>
+            <!-- <input type="button" class="btn btn-primary subbtn" onclick="chgCurPage()" value="검색" /> -->
+            <input type="submit" class="btn btn-primary subbtn" value="검색" />
           </div>
           <div class="d-flex">
             <img src="../img/exel.png" onclick="downExcel(1,'<?=$admin_idx?>')" />
