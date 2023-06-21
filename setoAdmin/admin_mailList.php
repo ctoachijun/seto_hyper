@@ -87,17 +87,6 @@ $nopt = array("sw","type","total_cnt");
 ?>
 
 
-<script>
-  $( function(){
-    $(".subbtn").on("keyup",function(key){
-      if(key.keyCode==13) {
-          console.log($(':focus').attr('name'));
-      }
-    });
-  })
-</script>
-
-
 <div class="container maillist">
   <div class="pagetitle">
     <h1>General Tables</h1>
