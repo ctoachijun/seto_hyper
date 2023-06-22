@@ -18,7 +18,8 @@ switch ($w_mode) {
       if ($jud == 1) {
         $output['state'] = "Y"; 
         $_SESSION['admin_id'] = $id;
-        $_SESSION['admin_idx'] = $re['a_idx'];   
+        $_SESSION['admin_idx'] = $re['a_idx'];
+        $_SESSION['admin_group'] = $re['a_group'];
       } else {
         $output['state'] = "N";
       }

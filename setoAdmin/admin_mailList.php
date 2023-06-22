@@ -57,13 +57,9 @@ if($type == "p"){
   $where .= "AND s_wdate like '%{$sw}%'";
 }
 
-// 관리자 고유번호와 소속을 추출
-$admin = getAdminInfo($admin_id);
-$aidx = $admin['a_idx'];
-$agroup = $admin['a_group'];
-
-if ($agroup == "MK") { // 메이커인 경우
-  $where .= "AND s_aidx = {$aidx} ";
+// 메이커인 경우
+if ($admin_group == "MK") {
+  $where .= "AND s_aidx = {$admin_idx} ";
 }else{
 }
 
@@ -89,18 +85,18 @@ $nopt = array("sw","type","total_cnt");
 
 <div class="container maillist">
   <div class="pagetitle">
-    <h1>General Tables</h1>
+    <h1>구독 신청 메일 목록</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="main.php">Home</a></li>
-        <li class="breadcrumb-item active">General</li>
+        <li class="breadcrumb-item active">구독 신청 메일 목록</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
 
   <div class="cont col-lg-12 card">
     <div class="top_div card-body">
-      <h5 class="card-title">수집 된 메일 목록</h5>
+      <h5 class="card-title">구독 신청 메일</h5>
 
     </div>
 

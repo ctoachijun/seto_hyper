@@ -22,3 +22,24 @@ function downExcel(code,admin){
     // $("#exceldown").remove();
   }
 }  
+
+function setBrandList(obj){
+  let val = obj.value;
+  $(".top_div").append("<form method='post' id='bform'></form>");
+  $("#bform").append("<input type='hidden' name='maker_idx' value='"+val+"' />");
+  // $("#bform").append("</form>");
+  $("#bform").submit();
+  
+  
+}
+
+function searchBrand(){
+  let brand = $("input[name=sw").val();
+  let aidx = $("#maker_select").val();
+
+  $(".top_div").append("<form method='post' id='bform'></form>");
+  $("#bform").append("<input type='hidden' name='maker_idx' value='"+aidx+"' />");
+  $("#bform").append("<input type='hidden' name='sw' value='"+brand+"' />");
+  $("#bform").submit();
+
+}

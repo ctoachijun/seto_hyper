@@ -4,6 +4,7 @@
   // 접속한 계정 체크
   $admin_id = $_SESSION['admin_id'];
   $admin_idx = $_SESSION['admin_idx'];
+  $admin_group = $_SESSION['admin_group'];
     
   // 로그인 체크
   chkLoginAdmin($admin_id,$admin_idx);

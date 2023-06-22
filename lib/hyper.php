@@ -69,7 +69,6 @@ for ($i = 0; $i < $ext_cnt; $i++) {
 function getAdminInfo($id)
 {
   $sql = "SELECT * FROM st_admin WHERE a_id = '{$id}'";
-
   return sql_fetch($sql);
 }
 
@@ -103,17 +102,45 @@ function getMailListAll($id,$whr)
 function getItemInfo($idx)
 {
   $sql = "SELECT * FROM st_item WHERE i_idx = {$idx}";
-
   return sql_fetch($sql);
 }
 function getBrandInfo($idx)
 {
   $sql = "SELECT * FROM st_brand WHERE b_idx = {$idx}";
-
   return sql_fetch($sql);
 }
-
-
+function getBrandList($idx,$sw){
+  if($idx != "ALL"){
+    $where = "WHERE b_aidx = {$idx}";  
+  }else{
+    $where = "WHERE 1";
+  }
+  
+  if($sw){
+    $where .= " AND b_name like '%{$sw}%'";
+  }
+  
+  $sql = "SELECT * FROM st_brand {$where} ORDER BY b_wdate DESC";
+  // echo "$sql <br>";
+  return sql_query($sql);
+}
+function getMakerSelect($idx){
+  $sql = "SELECT * FROM st_admin WHERE a_group = 'MK' AND a_open = 'Y'";
+  $mbox = sql_query($sql);
+  
+  $html = "<select id='maker_select' class='form-select mselect ' onchange='setBrandList(this)'>";  
+  $html .= "<option value='ALL'>전체</option>";
+  foreach($mbox as $v){
+    $mname = $v['a_comp'];
+    $midx = $v['a_idx'];
+    $idx == $midx ? $tsel = "selected" : $tsel = "";
+    
+    $html .= "<option value='{$midx}' {$tsel}>{$mname}</option>";
+  }
+  $html .= "</select>";
+  
+  return $html;
+}
 
 
 
