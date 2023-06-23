@@ -142,6 +142,22 @@ function getMakerSelect($idx){
   return $html;
 }
 
+// 브랜드 디렉토리 경로를 return 하면서 없으면 생성한다.
+function chkBrandDir($bname){
+  $aid = $_SESSION['admin_id'];
+  $aidx = $_SESSION['admin_idx'];
+  $comp_dir = $aidx."_".$aid;
+  
+  $brand_dir_path = "../img/maker/{$comp_dir}/brand/{$bname}";
+  
+  if(!is_dir($brand_dir_path)){
+    mkdir($brand_dir_path,0777);
+  }
+  return $brand_dir_path;
+}
+
+
+
 
 
 /*

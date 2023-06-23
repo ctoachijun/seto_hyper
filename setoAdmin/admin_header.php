@@ -76,7 +76,7 @@
 </head>
 
 <body>
-
+  <div id="backblack"></div>
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
@@ -184,7 +184,14 @@
           <span>구독 메일 목록</span>
         </a>
       </li><!-- End Maillist Nav -->
+      <li class="nav-item">
+        <a class="nav-link <?=$smail_col?>" href="admin_brandList.php">
+          <i class="bi bi-bootstrap"></i>
+          <span>브랜드 목록</span>
+        </a>
+      </li><!-- End Maillist Nav -->
 
+      
       
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">

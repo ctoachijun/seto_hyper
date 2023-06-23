@@ -1241,6 +1241,7 @@ h6 {
 /* ###공통### */
 .middle_div{width:100%}
 .cpointer{cursor:pointer;}
+#backblack{width:100%;height:100%;background:#000;opacity:0.3;z-index:1000;position:absolute;display:none;}
 
 /*
   # 메일 페이지
@@ -1277,14 +1278,27 @@ h6 {
 
 .brandlist .middle_div{padding:0 1rem 1rem 0;min-height:300px;}
 .brandlist .mcont{width:90%;padding:1rem;}
-.brandlist .mcont .wrap_box{display:inline-block;width:250px;height:250px;margin-right:15px;margin-bottom:15px;}
+.brandlist .mcont .wrap_box{display:inline-block;width:220px;height:220px;margin-right:15px;margin-bottom:15px;}
 .brandlist .brand_box{border:1px solid #ACACAC;font-size:.9rem;padding:.5rem;border-radius:10px;width:100%;height:100%}
-.brandlist .brand_box .brand_logo{width:120px;margin-bottom:10px;}
+.brandlist .brand_box .brand_logo{width:100px;margin-bottom:10px;}
 .brandlist .brand_box .brand_logo img{width:100%}
 .brandlist .brand_box .brand_name{margin-bottom:10px;}
 .brandlist .brand_box .brand_desc{padding:0 .7rem;font-size:.8rem;text-align:center;}
 .brandlist .nosearch{width:100%;margin-top:20px;padding:2rem;text-align:center;}
 
+.brandlist .regpop{width:400px;height:350px;border: 1px solid #8A8A8A;padding:2rem;position:fixed;left:30%;top:50%;margin-top:-200px;box-shadow: 0 0 6px 1px rgb(0 0 0 / 30%);background:#fff;z-index:1100;display:none;}
+.brandlist .regpop input{color:#666}
+.brandlist .regpop textarea{color:#666}
+.brandlist .regpop .pop_input1{margin-top:30px;}
+.brandlist .regpop .pop_input1 input{height:fit-content;width:64%;font-size:.8rem;}
+.brandlist .regpop .pop_input1 input::placeholder{color:#ACACAC;font-size:.8rem;}
+.brandlist .regpop .regimg{width:100px;height:80px;border:1px solid #BEBEBE;font-size:.8rem;color:#ACACAC;text-align:center;}
+.brandlist .regpop .pop_input2{margin:20px 0;}
+.brandlist .regpop .pop_input2 textarea{resize:none;font-size:.8rem;padding:.7rem;}
+.brandlist .regpop .pop_input2 textarea::placeholder{color:#ACACAC;font-size:.8rem;}
+.brandlist .regpop .pop_btn input{width:100px;color:#fff;}
+.brandlist .regpop i{position:absolute;right:3%;top:3%}
+.brandlist .regpop #logo_file{width:1px;height:1px;position:absolute;top:0;left:0}
 
 
 /*

@@ -73,8 +73,8 @@
     "js": {
       "hyper.js": {
         "type": "-",
-        "size": 904,
-        "lmtime": 1687337134282.3186,
+        "size": 1553,
+        "lmtime": 1687425305923.7307,
         "modified": false
       }
     },
@@ -3751,12 +3751,18 @@
       },
       "hyper.php": {
         "type": "-",
-        "size": 10127,
-        "lmtime": 1687329629169.5269,
+        "size": 10996,
+        "lmtime": 1687425680542.1465,
         "modified": false
       }
     },
     "setoAdmin": {
+      "admin_brandList.php": {
+        "type": "-",
+        "size": 2562,
+        "lmtime": 1687426020948.8125,
+        "modified": false
+      },
       "admin_footer.php": {
         "type": "-",
         "size": 1631,
@@ -3765,28 +3771,28 @@
       },
       "admin_header.php": {
         "type": "-",
-        "size": 14516,
-        "lmtime": 1687393586949.2964,
+        "size": 14560,
+        "lmtime": 1687421364446.9712,
         "modified": false
       },
       "admin_mailList.php": {
         "type": "-",
-        "size": 5022,
-        "lmtime": 1687338419888.3162,
+        "size": 4922,
+        "lmtime": 1687421344448.7195,
         "modified": false
       },
       "ajax_admin.php": {
         "type": "-",
-        "size": 703,
-        "lmtime": 1687160720756.5444,
+        "size": 752,
+        "lmtime": 1687421288385.1548,
         "modified": false
       },
       "assets": {
         "css": {
           "style.css": {
             "type": "-",
-            "size": 24309,
-            "lmtime": 1687331516671.8657,
+            "size": 25333,
+            "lmtime": 1687426042920.1067,
             "modified": false
           }
         },
@@ -6497,7 +6503,7 @@
       "main.php": {
         "type": "-",
         "size": 28714,
-        "lmtime": 1687413391889.14,
+        "lmtime": 1687415461052.2046,
         "modified": false
       },
       "main.php.bac": {
@@ -24883,6 +24889,14 @@
               "modified": false
             }
           },
+          "3d": {
+            "3d4d0cc65ecb3f611f36b5d2b53d21714761cc547a07f9b69eb7468f58cf36c4.php": {
+              "type": "-",
+              "size": 1743,
+              "lmtime": 1687391937740.8757,
+              "modified": false
+            }
+          },
           "3f": {
             "3fa18deb27f37e214a8b748b898354f8610894feb4e16ac28d884cb92c8cb737.php": {
               "type": "-",
@@ -24946,6 +24960,12 @@
             }
           },
           "9a": {
+            "9a2c431eaef0bc6a1aabcd3c98d57b7621d676c7f0a206f6eea00f1fcbc76abd.php": {
+              "type": "-",
+              "size": 2957,
+              "lmtime": 1687413763550.9136,
+              "modified": false
+            },
             "9a8d8b83764345caebaa79434965bb7836397f857bbc84dbbbc6ae170916ccb6.php": {
               "type": "-",
               "size": 1493,
