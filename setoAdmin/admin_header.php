@@ -24,8 +24,8 @@
     $smail_col = "";
   }
   
-
   
+  $noimg = "<img src='/img/no_img2.jpg' />";  
   
   
 ?>

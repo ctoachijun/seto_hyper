@@ -41,12 +41,28 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
 
+  case "chkBrandNameEdit" :
+    if($org == $bname){
+      $output['state'] = "N";      
+    }else{
+      $sql = "SELECT * FROM st_brand WHERE b_aidx = {$aidx} AND b_name='{$bname}'";
+      $re = sql_fetch($sql);
+      
+      if($re){
+        $output['state'] = "Y";
+      }else{
+        $output['state'] = "N";
+      }
+    }
+    
+    echo json_encode($output);
+  break;
+  
   case "regBrand" :
     $lfile = $_FILES['logo'];
     $lftmp = $lfile['tmp_name'];
     $lname = $lfile['name'];
 
-    $output['post'] = $_POST;
     if(!empty($lname)){
       // 디렉토리 확인 후 없으면 생성
       $path = chkBrandDir($bname);
@@ -80,6 +96,56 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
 
+  case "editBrand" :
+    $lfile = $_FILES['logo'];
+    $lftmp = $lfile['tmp_name'];
+    $lname = $lfile['name'];
+
+    $path = chkBrandDir($org_bname);
+    if(!empty($lname)){
+      
+      // 파일이름 설정
+      $lname_box = explode(".",$lname);
+      $whak = end($lname_box);
+      $logo = "logo_{$bname}.{$whak}";
+      
+      // 업로드
+      $res = move_uploaded_file($lftmp, $path."/".$logo);
+      if($res){
+        $bname = addslashes($bname);
+        $bdesc = addslashes($bdesc);
+        
+        $sql = "UPDATE st_brand SET b_name = '{$bname}', b_logo = '{$logo}', b_intro = '{$bdesc}' WHERE b_idx = {$brand_index}";
+        $re = sql_exec($sql);
+        $output['sql'] = $sql;
+        
+        if($re){
+          $output['state'] = "Y";
+          $output['cmd'] = chgBrandDirName($org_bname,$bname);
+        }else{
+          $output['state'] = "N";
+        }
+      }else{
+        $output['state'] = "FN";  // 업로드 실패
+      }
+    }else{
+      $sql = "UPDATE st_brand SET b_name = '{$bname}', b_intro = '{$bdesc}' WHERE b_idx = {$brand_index}";
+      $re = sql_exec($sql);
+      $output['sql'] = $sql;
+      
+      if($re){
+        $output['state'] = "Y";
+        $output['chg'] = chgBrandDirName($org_bname,$bname);
+      }else{
+        $output['state'] = "N";
+      }
+    }
+    $output['bname'] = $bname;
+    
+    echo json_encode($output);
+  break;
+
+  
   default:
     $output['error'] = "error!! switch error!!!!";
     echo json_encode($output);

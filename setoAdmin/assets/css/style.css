@@ -1280,8 +1280,8 @@ h6 {
 .brandlist .mcont{width:90%;padding:1rem;}
 .brandlist .mcont .wrap_box{display:inline-block;width:220px;height:220px;margin-right:15px;margin-bottom:15px;}
 .brandlist .brand_box{border:1px solid #ACACAC;font-size:.9rem;padding:.5rem;border-radius:10px;width:100%;height:100%}
-.brandlist .brand_box .brand_logo{width:100px;margin-bottom:10px;}
-.brandlist .brand_box .brand_logo img{width:100%}
+.brandlist .brand_box .brand_logo{width:100px;height:100px;margin-bottom:10px;}
+.brandlist .brand_box .brand_logo img{width:100%;height:100px;object-fit: contain;}
 .brandlist .brand_box .brand_name{margin-bottom:10px;}
 .brandlist .brand_box .brand_desc{padding:0 .7rem;font-size:.8rem;text-align:center;}
 .brandlist .nosearch{width:100%;margin-top:20px;padding:2rem;text-align:center;}
@@ -1297,8 +1297,47 @@ h6 {
 .brandlist .regpop .pop_input2 textarea{resize:none;font-size:.8rem;padding:.7rem;}
 .brandlist .regpop .pop_input2 textarea::placeholder{color:#ACACAC;font-size:.8rem;}
 .brandlist .regpop .pop_btn input{width:100px;color:#fff;}
-.brandlist .regpop i{position:absolute;right:3%;top:3%}
+.brandlist .regpop i{position:absolute;right:3%;top:3%;z-index:1100}
 .brandlist .regpop #logo_file{width:1px;height:1px;position:absolute;top:0;left:0}
+
+
+
+/*
+  # 브랜드 상세 페이지
+*/
+.branddetail input{color:#666}
+.branddetail textarea{color:#666}
+.branddetail .top_div{width:100%;}
+.branddetail .brand_div{border-bottom:2px solid #444;padding:0 0 2rem 2rem;}
+.branddetail .brand_div .brand1{width:70%;margin-bottom:10px;}
+.branddetail .brand_div .blogo{width:180px;height:140px;border:1px solid #BEBEBE;font-size:.8rem;color:#ACACAC;text-align:center;margin-right:26px;}
+.branddetail .brand_div img{width:100%;height:100px;object-fit: contain;}
+.branddetail .brand_div #logo_file{width:1px;height:1px;position:absolute;top:0;left:0}
+.branddetail .brand_div .binfo{width:100%;height:100%;}
+.branddetail .brand_div .binfo .brand_title{margin-bottom:30px;font-size:2rem;}
+.branddetail .brand_div .binfo input{font-size:.8rem;}
+.branddetail .brand_div .binfo input::placeholder{color:#ACACAC;font-size:.8rem;}
+.branddetail .brand_div .brand2{width:100%}
+.branddetail .brand_div .brand2 .brand2_textarea{width:70%;margin-right:5px;}
+.branddetail .brand_div textarea{resize:none;font-size:.8rem;padding:.7rem;min-height:80px;}
+.branddetail .brand_div textarea::placeholder{color:#ACACAC;font-size:.8rem;}
+.branddetail .brand_div .brand2 .brand_btn{width:20%;}
+.branddetail .brand_div .brand2 .brand_btn input{width:50%;}
+
+.branddetail .middle_div{width:100%;order:1px solid;padding:2rem}
+.branddetail .middle_div .msearch_div{order:1px solid;}
+.branddetail .middle_div .msearch_div .msearch{width:60%;}
+.branddetail .middle_div .msearch_div .msearch .sw{width:50%;}
+.branddetail .middle_div .msearch_div .btn{color:#fff;margin-left:10px;}
+.branddetail .middle_div .mtable_div{brder:1px solid;padding-top:20px;}
+.branddetail .middle_div .mtable_div .mtable{text-align:center;}
+.branddetail .middle_div .mtable_div .mtable img{width:60px;height:60px;}
+.branddetail .middle_div .mtable_div .mtable td{vertical-align: middle;}
+.branddetail .middle_div .mpaging_div{border:1px solid;}
+
+
+
+
 
 
 /*

@@ -16,14 +16,13 @@ if(!$maker_idx){
 $maker_select = getMakerSelect($maker_idx);
 
 
-
 // 해당 메이커의 브랜드 데이터를 추출
 $brand = getBrandList($maker_idx,$sw);
 
 
 // 총 건수
 $total_cnt = count($brand);
-$noimg = "<img src='/img/no_img2.jpg' />";
+
 
 
 ?>
@@ -63,8 +62,9 @@ $noimg = "<img src='/img/no_img2.jpg' />";
           <?=$maker_select?>
           <input type="text" class="form-control" name="sw" value="<?=$sw?>" placeholder="브랜드 이름을 검색 해 주세요."/>
           <input type="button" class="btn btn-outline-primary swBtn" value="검색" onclick="searchBrand()" />
-<?      endif; ?>        
+<?      elseif($admin_group == "MK") : ?>
           <input type="button" class="btn btn-outline-success regBtn" value="등록" onclick="showRegPopup()"/>
+<?      endif; ?>          
         </div>
       </div>
     </div> <!-- end of top_div -->
@@ -77,6 +77,7 @@ $noimg = "<img src='/img/no_img2.jpg' />";
           foreach($brand as $bv) : 
             $logo = $bv['b_logo'];
             $bname = $bv['b_name'];
+            $bidx = $bv['b_idx'];
             $bdesc = mb_strimwidth($bv['b_intro'],0,90,"...","utf-8");
             if(empty($logo)){
               $logo_img = $noimg;
@@ -85,7 +86,7 @@ $noimg = "<img src='/img/no_img2.jpg' />";
               $logo_img = "<img src='{$img_path}/{$logo}'>";
             }
 ?>
-              <div class="wrap_box">
+              <div class="wrap_box" onclick="goBrandDetail(<?=$bidx?>)">
                   <div class="brand_box d-flex flex-column align-items-center cpointer">
                     <div class="brand_logo"><?=$logo_img?></div>
                     <div class="brand_name"><?=$bname?></div>
@@ -103,12 +104,12 @@ $noimg = "<img src='/img/no_img2.jpg' />";
 
     <div class="regpop">
       <form method="post" id="regForm">
-        <div class="pop_title"><h6><b>브랜드 등록</b></h6><i class="bi bi-x-lg cpointer"></i></div>
+        <div class="pop_title"><h6><b>브랜드 등록</b></h6><i class="bi bi-x-lg cpointer" onclick="closeModal('regpop')"></i></div>
         <div class="pop_input1 d-flex align-items-end justify-content-between">
           <div id="regimg" class="regimg d-flex justify-content-center align-items-center cpointer" onclick="clickFile()";>
             로고<br>클릭 후 등록
           </div>
-          <input type="file" id="logo_file" name="logo" onchange="setThumbnail(event);" />
+          <input type="file" id="logo_file" name="logo" onchange="setThumbnail(event,'regimg');" />
           <input type="text" class="form-control" id="bname" name="bname" placeholder="브랜드명을 입력 해 주세요." onchange="chkSpaceFe(this);chkBrandName(this)"/>
         </div>
         <div class="pop_input2">

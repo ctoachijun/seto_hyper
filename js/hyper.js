@@ -62,6 +62,23 @@ function chkBrandName(obj){
   })
 }
 
+function chkBrandNameEdit(obj,org){
+  $.ajax({
+    url: "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"chkBrandNameEdit","bname":obj.value, "org":org},
+    success: function(result){
+      let json = JSON.parse(result);
+      if(json.state == "Y"){
+        alert("이미 등록되어 있는 브랜드명 입니다.");
+        // $("#bname").val("");
+        $("#bname").focus();
+      }
+    }
+  })
+}
+
+
 function regBrand(){
   console.log();
   if(!$("#logo_file")[0].files[0]){
@@ -117,11 +134,62 @@ function regBrand(){
       }
     })
   }
-
-
-
 }
 
+function editBrand(){
+  if(!$("input[name=bname").val() || $("#bname").val() == ""){
+    alert("브랜드명을 입력 해 주세요.");
+    $("#bname").focus();
+    return false;
+  }
+  if(!$("#bdesc" || $("#bdesc").val() == "").val()){
+    alert("간단 소개를 입력 해 주세요.");
+    $("#bdesc").focus();
+    return false;
+  }
+  
+  
+  if(confirm("브랜드 정보를 수정 하시겠습니까?")){
+    let f = new FormData($("#brandForm")[0]);
+    f.append("w_mode","editBrand");
+    $.ajax({
+      url : "ajax_admin.php",
+      type : "post",
+      processData: false,
+      contentType: false,
+      data : f,
+      success : function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "FN"){
+          alert("파일 업로드에 실패했습니다.\n지속 될 경우 문의주세요.");
+          return false;
+        }else if(json.state == "N"){
+          alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
+        }else{
+          alert("수정 되었습니다.");
+          $(".brand_title").html(json.bname);
+          // $("#bname").val(json.bname);
+          // $("#bdesc").val(json.bdesc);
+          $("#logo_file").remove();
+          $("#brandForm").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event);' />");
+        }
+      },
+      error : function(err){
+        console.log(err);
+      }
+    })
+  }
+}
+
+
+function goBrandDetail(bidx){
+  let bdform = $("#regForm");
+  bdform.append("<input type='hidden' name='bidx' value='"+bidx+"'>");
+  bdform.attr("action","admin_itemList.php");
+  bdform.submit();
+}
 
 
 
@@ -134,7 +202,8 @@ function regBrand(){
 */
 
 // 이미지 업로드시 파일 업로드 없이 바로 미리보기
-function setThumbnail(event) {
+function setThumbnail(event,did) {
+  console.log(did);
   for (var image of event.target.files) {
     var reader = new FileReader();
 
@@ -143,13 +212,19 @@ function setThumbnail(event) {
       img.setAttribute("src", event.target.result);
       img.setAttribute("width","95%");
       img.setAttribute("height","90%");
-      document.querySelector("div#regimg").innerHTML="";
-      document.querySelector("div#regimg").appendChild(img);
+      $("#"+did).css("background","");
+      document.querySelector("div#"+did).innerHTML="";
+      document.querySelector("div#"+did).appendChild(img);
     };
 
     console.log(image);
     reader.readAsDataURL(image);
   }
+}
+
+function closeModal(cname){
+  $("."+cname).hide();
+  $("#backblack").hide();
 }
 
 function onlyNum(obj){

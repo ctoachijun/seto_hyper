@@ -72,6 +72,12 @@ function getAdminInfo($id)
   return sql_fetch($sql);
 }
 
+function getAdminInfoIdx($idx)
+{
+  $sql = "SELECT * FROM st_admin WHERE a_idx = '{$idx}'";
+  return sql_fetch($sql);
+}
+
 function chkLoginAdmin($aid, $aidx)
 {
   if (!$aid || !$aidx) {
@@ -108,6 +114,11 @@ function getBrandInfo($idx)
 {
   $sql = "SELECT * FROM st_brand WHERE b_idx = {$idx}";
   return sql_fetch($sql);
+}
+
+function getBrandItem($bidx){
+  $sql = "SELECT * FROM st_item WHERE i_bidx = {$bidx}";
+  return sql_query($sql);
 }
 function getBrandList($idx,$sw){
   if($idx != "ALL"){
@@ -146,16 +157,56 @@ function getMakerSelect($idx){
 function chkBrandDir($bname){
   $aid = $_SESSION['admin_id'];
   $aidx = $_SESSION['admin_idx'];
+  $agroup = $_SESSION['admin_group'];
+
+  if($agroup != "MK"){
+    $abox = explode("|",brandnameToAdmin($bname));
+    $aidx = $abox[0];
+    $aid = $abox[1];
+  }
+  
   $comp_dir = $aidx."_".$aid;
   
   $brand_dir_path = "../img/maker/{$comp_dir}/brand/{$bname}";
   
   if(!is_dir($brand_dir_path)){
     mkdir($brand_dir_path,0777);
+    // exec("mkdir {$brand_dir_path}");
   }
   return $brand_dir_path;
 }
 
+function chgBrandDirName($org,$bname){
+  $aid = $_SESSION['admin_id'];
+  $aidx = $_SESSION['admin_idx'];
+  $agroup = $_SESSION['admin_group'];
+
+  if($agroup != "MK"){
+    $abox = explode("|",brandnameToAdmin($bname));
+    $aidx = $abox[0];
+    $aid = $abox[1];
+  }
+  
+  $comp_dir = $aidx."_".$aid;
+  
+  $org_dir_path = "../img/maker/{$comp_dir}/brand/{$org}";
+  $new_dir_path = "../img/maker/{$comp_dir}/brand/{$bname}";
+  $cmd = "mv {$org_dir_path} {$new_dir_path}";
+  exec($cmd);
+  
+  return $cmd;
+  
+}
+
+function brandnameToAdmin($bname){
+  $sql = "SELECT * FROM st_brand WHERE b_name = '{$bname}'";
+  $re = sql_fetch($sql);
+  $aidx = $re['b_aidx'];
+  $admin = getAdminInfoIdx($aidx);
+  $aid = $admin['a_id'];
+  
+  return "{$aidx}|{$aid}";
+}
 
 
 
