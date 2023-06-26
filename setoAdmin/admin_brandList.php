@@ -2,7 +2,6 @@
 include "./admin_header.php";
 
 
-
 if(!$maker_idx){
   // 메이커가 아닌경우 메이커 선택 가능하게 함
   if($admin_group != "MK"){
@@ -81,12 +80,14 @@ $total_cnt = count($brand);
             $bdesc = mb_strimwidth($bv['b_intro'],0,85,"...","utf-8");
             $img_path = chkBrandDir($bname);
             
-            if(empty($logo) || !file_exists('{$img_path}/{$logo}')){
+            if(empty($logo) || !file_exists($img_path."/".$logo)){
               $logo_img = $noimg;
             }else{
               $logo_img = "<img src='{$img_path}/{$logo}'>";
             }
-            $logo_img = "<img src='{$img_path}/{$logo}'>";
+            
+              
+            
 ?>
               <div class="wrap_box" onclick="goBrandDetail(<?=$bidx?>)">
                   <div class="brand_box d-flex flex-column align-items-center cpointer">

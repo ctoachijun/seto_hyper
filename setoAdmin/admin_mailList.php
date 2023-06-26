@@ -1,24 +1,6 @@
 <?
 include "./admin_header.php";
 
-// for($i=1;$i<35;$i++){
-  
-//   $iindex = rand(1,4);
-//   if($iindex == 1 || $iindex == 2){
-//     $aindex = 2;
-//   }else{
-//     $aindex = 3;
-//   }
-//   $Strings = '0123456789abcdefghijklmnopqrstuvwxyz';  
-//   $email = substr(str_shuffle($Strings), 0, 7)."@setoworks.com";
-  
-//   $sql = "INSERT INTO st_smail SET s_aidx = {$aindex}, s_iidx = {$iindex}, s_email = '{$email}', s_wdate = now()";
-//   sql_exec($sql);
-//   sleep(1);
-// }
-
-
-
 // 페이징을 위한 쿼리스트링
 $pqs = $_SERVER['QUERY_STRING'];
 
@@ -159,7 +141,7 @@ $nopt = array("sw","type","total_cnt");
       </div>
       <div class="paging_div">
         <div class='pagin'>
-          <? getPaging($tbl_name,$pqs,$where); ?>
+          <? getPaging('seto_mailing',$pqs,$where); ?>
         </div>
       </div>
 

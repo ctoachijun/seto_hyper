@@ -191,6 +191,14 @@ function goBrandDetail(bidx){
   bdform.submit();
 }
 
+function goItemSearch(){
+  let f = new FormData($("#ilist")[0]);
+  f.append("w_mode","goItemSearch");
+  f.append("sw",$("input[name=sw").val());
+  f.submit();
+}
+
+
 
 
 
@@ -324,4 +332,8 @@ function onlyEnKi(obj){
   val = val.replace(/[^a-zA-Z0-9!@#$%^&*()\'\"-_.,\s]/gi,"");
 
   $("#"+id).val(val);
+}
+
+function goList(target){
+  location.href="./"+target;
 }

@@ -116,8 +116,8 @@ function getBrandInfo($idx)
   return sql_fetch($sql);
 }
 
-function getBrandItem($bidx){
-  $sql = "SELECT * FROM st_item WHERE i_bidx = {$bidx}";
+function getBrandItem($bidx,$where,$limit){
+  $sql = "SELECT * FROM st_item {$where} {$limit}";
   return sql_query($sql);
 }
 function getBrandList($idx,$sw){
@@ -198,6 +198,7 @@ function chgBrandDirName($org,$bname){
   
 }
 
+// 브랜드 이름을 이용해 관리자 id, idx를 추출
 function brandnameToAdmin($bname){
   $sql = "SELECT * FROM st_brand WHERE b_name = '{$bname}'";
   $re = sql_fetch($sql);
@@ -207,6 +208,19 @@ function brandnameToAdmin($bname){
   
   return "{$aidx}|{$aid}";
 }
+
+// 제품 검색에 따른 총 개수 
+function getItemTotalCnt($bidx,$where){
+  $sql = "SELECT count(*) as total FROM st_item {$where}";
+  $re = sql_fetch($sql);
+  
+  return $re['total'];
+}
+
+
+
+
+
 
 
 
@@ -232,9 +246,14 @@ function qsChgForminput($qs,$nopt){
     
   return $html;
 }
-function getPaging($tbl_name, $qs, $where){
+function getPaging($tbl, $qs, $where){
 
-  $tbl_name = "st_smail";
+  
+  if($tbl == "seto_mailing"){
+    $tbl_name = "st_smail";
+  }else if($tbl == "seto_product"){
+    $tbl_name = "st_item";
+  }
   
   // 쿼리스트링에서 변수 및 값 대입
   $box = explode("&",$qs);

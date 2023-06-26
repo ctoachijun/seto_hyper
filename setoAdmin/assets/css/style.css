@@ -1309,6 +1309,8 @@ h6 {
 .branddetail textarea{color:#666}
 .branddetail .top_div{width:100%;}
 .branddetail .brand_div{border-bottom:2px solid #444;padding:0 0 2rem 2rem;}
+.branddetail .brand_div .listbtn_div{width:100%}
+.branddetail .brand_div .listbtn_div input{width:80px;}
 .branddetail .brand_div .brand1{width:70%;margin-bottom:10px;}
 .branddetail .brand_div .blogo{width:180px;height:140px;border:1px solid #BEBEBE;font-size:.8rem;color:#ACACAC;text-align:center;margin-right:26px;}
 .branddetail .brand_div img{width:100%;height:100px;object-fit: contain;}
@@ -1324,16 +1326,20 @@ h6 {
 .branddetail .brand_div .brand2 .brand_btn{width:20%;}
 .branddetail .brand_div .brand2 .brand_btn input{width:50%;}
 
-.branddetail .middle_div{width:100%;order:1px solid;padding:2rem}
+.branddetail .middle_div{width:100%;order:1px solid;padding:2rem; padding-bottom:0;}
 .branddetail .middle_div .msearch_div{order:1px solid;}
+.branddetail .middle_div .msearch_div form{width:100%}
 .branddetail .middle_div .msearch_div .msearch{width:60%;}
 .branddetail .middle_div .msearch_div .msearch .sw{width:50%;}
 .branddetail .middle_div .msearch_div .btn{color:#fff;margin-left:10px;}
-.branddetail .middle_div .mtable_div{brder:1px solid;padding-top:20px;}
+.branddetail .middle_div .mtable_div{brder:1px solid;padding-top:20px;padding-bottom:0;}
 .branddetail .middle_div .mtable_div .mtable{text-align:center;}
+.branddetail .middle_div .mtable_div .mtable .total_div{width:100%;text-align:left;}
 .branddetail .middle_div .mtable_div .mtable img{width:60px;height:60px;}
 .branddetail .middle_div .mtable_div .mtable td{vertical-align: middle;}
-.branddetail .middle_div .mpaging_div{border:1px solid;}
+.branddetail .middle_div .mtable_div .mtable .nosearch{height:100px;text-align:center;border:0}
+.branddetail .middle_div .mtable_div .mtable .nosearch td{border:0}
+.branddetail .middle_div .paging_div{width:100%;text-align:center;}
 
 
 
