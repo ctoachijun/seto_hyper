@@ -1242,6 +1242,11 @@ h6 {
 .middle_div{width:100%}
 .cpointer{cursor:pointer;}
 #backblack{width:100%;height:100%;background:#000;opacity:0.3;z-index:1000;position:absolute;display:none;}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
 /*
   # 메일 페이지
@@ -1340,6 +1345,33 @@ h6 {
 .branddetail .middle_div .mtable_div .mtable .nosearch{height:100px;text-align:center;border:0}
 .branddetail .middle_div .mtable_div .mtable .nosearch td{border:0}
 .branddetail .middle_div .paging_div{width:100%;text-align:center;}
+
+
+/*
+  # 제품 등록 페이지
+*/
+.itemdetail {font-size:0.8rem;}
+.itemdetail .middle_div {padding:1rem;}
+.itemdetail .middle_div .row{width:100%;}
+.itemdetail .middle_div input{font-size:0.8rem;}
+.itemdetail .middle_div select{font-size:0.8rem}
+.itemdetail .middle_div .thumbsnail{width:100%;height:200px;border:1px solid #CECECE;}
+.itemdetail .middle_div .chg_page{width:100%;height:200px;border:1px solid #CECECE;}
+.itemdetail .middle_div .chg_page .pt-2{margin-top:20px;}
+.itemdetail .middle_div .chg_page li{position:relative;}
+.itemdetail .middle_div .chg_page .nowcheck-icon{position:absolute;top:50%;right:30%;transform:translate(65%, -50%);color:#198754;font-weight:800;display:none;}
+.itemdetail .middle_div .key_div{padding:0.5rem 1rem 1rem 1rem;}
+.itemdetail .middle_div .key_box{width:100%;min-height:140px;border:1px solid #CECECE;border-radius:10px;}
+.itemdetail .middle_div .radio_div #radioCp{margin-left:20px;}
+.itemdetail .middle_div .nocheck{color:#198754}
+.itemdetail .middle_div .setdate_div #setDate1{width:70px;height:60px;}
+.itemdetail .middle_div .now_div{padding-left:20px}
+.itemdetail .middle_div .now_div button{width:80px;height:80px}
+.itemdetail .middle_div .nowval{width:1px; position:absolute;top:0;right:0;}
+.itemdetail .middle_div .setbtn{margin-top:10px;}
+.itemdetail .middle_div .setbtn input{width:100%;}
+.itemdetail .middle_div .key_box{padding:1.3rem}
+.itemdetail .middle_div .key_box .kw_block{display:inline-block;margin-right:10px;}
 
 
 

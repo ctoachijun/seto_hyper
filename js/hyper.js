@@ -198,6 +198,41 @@ function goItemSearch(){
   f.submit();
 }
 
+function setKeyWord(){
+  let org_kw = $("input[name=keyword_txt").val();
+  let new_kw = $("input[name=keyword").val();
+  
+  if(!new_kw){
+    alert("키워드를 입력 해 주세요");
+    return false;
+  }
+  org_kw = "가나|나다|다라|바바바|라라라";
+
+  let karr = org_kw.split("|");
+  
+  if(karr.length == 20){
+    alert("키워드는 20개까지 등록 가능합니다.");
+    return false;
+  }
+
+  console.log($.inArray(new_kw,karr));
+  if($.inArray(new_kw,karr) > -1){
+    alert("중복 된 키워드 입니다.");
+    return false;
+  }
+    
+  karr.push(new_kw);
+  let kw_txt = karr.join("|");
+
+  $("input[name=keyword_txt").val(kw_txt);
+  
+  
+  
+  
+}
+
+
+
 
 
 
@@ -336,4 +371,10 @@ function onlyEnKi(obj){
 
 function goList(target){
   location.href="./"+target;
+}
+
+function maxLengthCheck(object){
+  if (object.value.length > object.maxLength){
+    object.value = object.value.slice(0, object.maxLength);
+  }    
 }

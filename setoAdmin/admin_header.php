@@ -133,9 +133,9 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="admin_account.php">
                 <i class="bi bi-gear"></i>
-                <span>Account Settings</span>
+                <span>Adimn Account Settings</span>
               </a>
             </li>
             <li>
