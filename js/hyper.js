@@ -101,7 +101,7 @@ function regBrand(){
   if(confirm("브랜드를 등록 하시겠습니까?")){
     let f = new FormData($("#regForm")[0]);
     f.append("w_mode","regBrand");
-    console.log(f);
+
     $.ajax({
       url : "ajax_admin.php",
       type : "post",
@@ -114,19 +114,19 @@ function regBrand(){
         
         if(json.state == "FN"){
           alert("파일 업로드에 실패했습니다.\n지속 될 경우 문의주세요.");
+          $(".regpop").hide();
+          $("#backblack").hide();
+          $("#bname").val("");
+          $("#bdesc").val("");
+          $("#regimg").html("로고<br>클릭 후 등록");
+          $("#logo_file").remove();
+          $(".pop_input1").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event,'regimg');' />");
           return false;
         }else if(json.state == "N"){
           alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
         }else{
           alert("정상 등록 되었습니다.");
           history.go(0);
-          // $(".regpop").hide();
-          // $("#backblack").hide();
-          // $("#bname").val("");
-          // $("#bdesc").val("");
-          // $("#regimg").html("로고<br>클릭 후 등록");
-          // $("#logo_file").remove();
-          // $(".pop_input1").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event);' />");
         }
       },
       error : function(err){
