@@ -27,13 +27,12 @@ $total_cnt = count($brand);
 ?>
 
 <script>
-  // $(document).ready(function(){
-  //   $('.clogo').css({"background": "url('<?=$logo_path?>') 50% 50%"});
-  //   $('.clogo').css({'background-repeat': 'no-repeat'});
-  //   $('.clogo').css({'background-size': 'contain'});
-
-  //   $('#clogo').on('change', preview_fpic);
-  // });  
+  $(function(){
+    // 대표 이미지 세팅
+    $('#regimg').css({"background": "url('<?=$noimg_url?>') 50% 50%"});
+    $('#regimg').css({'background-repeat': 'no-repeat'});
+    $('#regimg').css({'background-size': 'contain'});
+  })
   function clickFile(){
     $("#logo_file").click();
   }
@@ -110,7 +109,7 @@ $total_cnt = count($brand);
         <div class="pop_title"><h6><b>브랜드 등록</b></h6><i class="bi bi-x-lg cpointer" onclick="closeModal('regpop')"></i></div>
         <div class="pop_input1 d-flex align-items-end justify-content-between">
           <div id="regimg" class="regimg d-flex justify-content-center align-items-center cpointer" onclick="clickFile()";>
-            로고<br>클릭 후 등록
+          
           </div>
           <input type="file" id="logo_file" name="logo" onchange="setThumbnail(event,'regimg');" />
           <input type="text" class="form-control" id="bname" name="bname" placeholder="브랜드명을 입력 해 주세요." onchange="chkSpaceFe(this);chkBrandName(this)"/>

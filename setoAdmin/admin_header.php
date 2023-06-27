@@ -15,18 +15,20 @@
   $current_file = end($script_box);
     
   // 초기화
-  $smail_col = $main_col = "collapsed";
+  $smail_col = $main_col = $sbrand_col = "collapsed";
   
   // 파일에 따라 메뉴 선택 css 활성화
   if($current_file == "main.php"){
     $main_col = ""; 
   }else if($current_file == "admin_mailList.php"){
     $smail_col = "";
+  }else if($current_file == "admin_brandList.php"){
+    $sbrand_col = "";
   }
   
   
   $noimg = "<img src='/img/no_img2.jpg' />";  
-  
+  $noimg_url = "../img/no_img2.jpg";
   
 ?>
 
@@ -185,7 +187,7 @@
         </a>
       </li><!-- End Maillist Nav -->
       <li class="nav-item">
-        <a class="nav-link <?=$smail_col?>" href="admin_brandList.php">
+        <a class="nav-link <?=$sbrand_col?>" href="admin_brandList.php">
           <i class="bi bi-bootstrap"></i>
           <span>브랜드 목록</span>
         </a>

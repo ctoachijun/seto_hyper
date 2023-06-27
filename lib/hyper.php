@@ -58,6 +58,14 @@ for ($i = 0; $i < $ext_cnt; $i++) {
 @extract($_SERVER);
 
 
+/*
+  공통적으로 사용되는 함수들
+*/
+function alert($txt){
+  echo "<script>alert('{$txt}');</script>";
+}
+
+
 
 // 찾기
 // 관리자 관련 / 랜딩 관련 / 공통 관련
@@ -292,12 +300,48 @@ function getDeliveryCompany(){
     딜리박스
     이스트라";
     
-    $arr = explode("\n",$txt);
+    $arr = explode("\r\n",$txt);
+    
+    // 각 글자앞에 공백 삭제
+    for($i=0; $i<count($arr); $i++){
+      $arr[$i] = preg_replace("/\s/","",$arr[$i]);
+    }
     return $arr;   
 }
 
 
+// 키워드 html 세팅
+function setKeywordHtml($key){
 
+  if($key){
+    
+    $kbox = explode("|",$key);
+    
+    $cnt = $cnum = 1;
+    $html = "<div class='row'>";
+    foreach($kbox as $v){
+      if($v){
+        $v = htmlspecialchars($v);
+        if($cnt > 1 && $cnt % 2 == 1){
+          $html .= "</div>";
+          $html .= "<div class='row'>";
+        }
+        
+        $html .= "<div class='d-flex justify-content-between col-sm-6'>";
+        $html .= "<div class='kw_block'>#{$v}</div>";
+        $html .= "<div class='kw_delbox' onclick='keywordDel({$cnum})'><i class='bi bi-x-square cpointer'></i></div>";
+        $html .= "</div>";
+        
+        $cnt++;    
+        $cnum++;
+        
+      }
+    }
+    $html .= "</div>"; // row 닫음
+    
+    return $html;
+  }
+}
 
 
 
@@ -320,6 +364,9 @@ function qsChgForminput($qs,$nopt){
       if(array_search($name,$nopt) === 0 || array_search($name,$nopt)){
       }else{
         $html .= "<input type='hidden' name='{$name}' value='{$value}' />";
+        if($name == "cur_page"){
+          $html .= "<input type='hidden' name='return_cur' value='{$value}' />";
+        }
       }
     }
   }
@@ -341,10 +388,12 @@ function getPaging($tbl, $qs, $where){
     if($v1){
       $box2 = explode("=",$v1);
       $arr[$box2[0]] = $box2[1];
+      
+      // if($box2[0] == "return_cur"){
+      //   $box2['cur_page'] = $box2[1];
+      // }
     }
   }
-
-  
   // if(empty($arr['pqs'])){
   //   $arr['pqs'] = $qs;
   // }
@@ -533,6 +582,32 @@ function getPaging($tbl, $qs, $where){
   echo "</ul>";
 }
 
+// 파일 이름 중복피하기
+function getFilename($fname,$dir){
+  for($d=1; $d<21; $d++){
+    $fjud = file_exists($dir."/".$fname);
+    // $output['fjud'] = $fjud;
+    if($fjud){
+      $box = explode(".",$fname);
+      $f = $box[0]."({$d}).".$box[1];
+
+      // 바꾼이름으로 한번 더 체크
+      $fjud2 = file_exists($dir."/".$f);
+      if($fjud2){
+        continue;
+      }else{
+        break;
+      }
+
+    }else{
+      $f = $fname;
+      // $output['b'] = "break";
+      break;
+    }
+  }
+  
+  return $f;
+}
 
 
 

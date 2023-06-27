@@ -123,7 +123,8 @@ function regBrand(){
           $(".pop_input1").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event,'regimg');' />");
           return false;
         }else if(json.state == "N"){
-          alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
+          // alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
+          errorAlert();
         }else{
           alert("정상 등록 되었습니다.");
           history.go(0);
@@ -166,7 +167,8 @@ function editBrand(){
           alert("파일 업로드에 실패했습니다.\n지속 될 경우 문의주세요.");
           return false;
         }else if(json.state == "N"){
-          alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
+          // alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
+          errorAlert();
         }else{
           alert("수정 되었습니다.");
           $(".brand_title").html(json.bname);
@@ -183,6 +185,31 @@ function editBrand(){
   }
 }
 
+function delBrand(){
+  let bidx = $("input[name=brand_index").val();
+  let bname = $("input[name=org_bname").val();
+ 
+  if(confirm(bname+" 브랜드를 삭제 하시려면 확인 버튼을 눌러주세요.\n등록된 상품도 모두 삭제됩니다.\n삭제 후 복구는 불가하니 주의 해 주세요.")){
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"delBrand","bidx":bidx,"bname":bname},
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          alert("정상 처리되었습니다.");
+          location.replace("./admin_brandList.php");
+        }else{
+          errorAlert();
+          return false;
+        }
+      }
+    })
+  }
+  
+}
 
 function goBrandDetail(bidx){
   let bdform = $("#regForm");
@@ -191,46 +218,172 @@ function goBrandDetail(bidx){
   bdform.submit();
 }
 
-function goItemSearch(){
-  let f = new FormData($("#ilist")[0]);
-  f.append("w_mode","goItemSearch");
-  f.append("sw",$("input[name=sw").val());
-  f.submit();
+function goRegItem(bidx){
+  let itform = $("#ilist");
+  itform.attr("action","admin_itemDetail.php");
+  itform.submit();
 }
 
 function setKeyWord(){
   let org_kw = $("input[name=keyword_txt").val();
-  let new_kw = $("input[name=keyword").val();
+  let new_kw = $("input[name=kw").val();
+  let kw_txt = "";
   
   if(!new_kw){
     alert("키워드를 입력 해 주세요");
     return false;
   }
-  org_kw = "가나|나다|다라|바바바|라라라";
-
-  let karr = org_kw.split("|");
   
-  if(karr.length == 20){
-    alert("키워드는 20개까지 등록 가능합니다.");
-    return false;
+  if(!org_kw){
+    console.log("키워드 없었던거임");
+    kw_txt = new_kw;
+  }else{
+    let karr = org_kw.split("|");
+  
+    if(karr.length == 10){
+      alert("키워드는 10개까지 등록 가능합니다.");
+      $("#kw").val("");
+      return false;
+    }
+  
+    // console.log($.inArray(new_kw,karr));
+    // console.log(karr);
+    if($.inArray(new_kw,karr) > -1){
+      alert("중복 된 키워드 입니다.");
+      $("#kw").val("");
+      return false;
+    }
+      
+    karr.push(new_kw);
+    kw_txt = karr.join("|");
   }
-
-  console.log($.inArray(new_kw,karr));
-  if($.inArray(new_kw,karr) > -1){
-    alert("중복 된 키워드 입니다.");
-    return false;
-  }
-    
-  karr.push(new_kw);
-  let kw_txt = karr.join("|");
 
   $("input[name=keyword_txt").val(kw_txt);
   
+  // 키워드 html 처리
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"setKeyWord","keyword":kw_txt},
+    success : function(result){
+      let json = JSON.parse(result);
+      $(".key_box").html(json.html);      
+      $("#kw").val("");
+      $("#kw").focus();
+    }
+  })
+}
+
+function keywordDel(num){
+  let org_kw = $("input[name=keyword_txt").val();
+  console.log("num : "+num);
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"keywordDel","cnum":num,"keyword":org_kw},
+    success: function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+      
+      $(".key_box").html(json.html);
+      $("input[name=keyword_txt").val(json.new_kw);
+    }
+  })
+}
+
+function cancelReturn(){
+  let rp = $("input[name=return_page").val();
+  location.href=rp;
+}
+
+function regItem(type){
+
+  if(!$("#pname").val()){
+    alert("상품명을 입력 해 주세요.");
+    $("#pname").focus();
+    return false;
+  }
+  if(!$(".thumbimg")[0].files[0]){
+    alert("대표 이미지를 등록 해 주세요.");
+    $(".thumbimg").click();
+    return false;
+  }
   
+  // 기간에 대해서는 별도 독자적으로 체크. 
+  // 기본값은 랜딩 즉시 적용
+  
+  if(!$("#price").val()){
+    alert("가격을 입력 해 주세요.");
+    $("#price").focus();
+    return false;
+  }
+  if(!$("#odate").val().trim()){
+    alert("주문 시작일을 입력 해 주세요.");
+    $("#odate").focus();
+    return false;
+  }
+  if(!$("#edate").val().trim()){
+    alert("주문 종료일을 입력 해 주세요.");
+    $("#edate").focus();
+    return false;
+  }
+  if(!$("#quan").val()){
+    alert("수량을 입력 해 주세요");
+    $("#quan").focus();
+    return false;
+  }
+  // if(!$("#moq").val()){
+  //   alert("최소 수량을 입력 해 주세요");
+  //   $("#moq").focus();
+  //   return false;
+  // }
+  if($("#dcomp").val() == "ALL"){
+    alert("배송업체를 선택 해 주세요");
+    return false;
+  }
+  if(!$("#dydate").val().trim()){
+    alert("배송 예정일을 입력 해 주세요.");
+    $("#dydate").focus();
+    return false;
+  }    
+  if(!$("#dval").val()){
+    alert("배송비를 선택 해 주세요");
+    $("#dval").focus();
+    return false;
+  }  
+  
+  
+  
+  if(confirm("상품을 등록 하시겠습니까?")){
+    let f = new FormData($("#itemForm")[0]);
+    f.append("w_mode","regItem");
+    f.append("reg_type",type);
+    
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      processData: false,
+      contentType: false,
+      data: f,
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          alert('등록 되었습니다.');
+          location.href = json.returnurl;
+        }else if(json.state == "NI"){
+          alert("대표 이미지가 누락되었습니다.\n재등록 부탁드립니다.\n지속될 경우 고객센터로 문의 주세요.");
+          return false;
+        }else{
+          errorAlert();
+        }
+      }
+    })
+  }
   
   
 }
-
 
 
 
@@ -246,24 +399,19 @@ function setKeyWord(){
 
 // 이미지 업로드시 파일 업로드 없이 바로 미리보기
 function setThumbnail(event,did) {
-  console.log(did);
-  for (var image of event.target.files) {
-    var reader = new FileReader();
+  let file = event.target.files[0];
+  var reader = new FileReader();
 
-    reader.onload = function(event) {
-      var img = document.createElement("img");
-      img.setAttribute("src", event.target.result);
-      img.setAttribute("width","95%");
-      img.setAttribute("height","90%");
-      $("#"+did).css("background","");
-      document.querySelector("div#"+did).innerHTML="";
-      document.querySelector("div#"+did).appendChild(img);
+    reader.onload = function(e) {
+      // $('#'+did).html("");
+      $('#'+did).css({"background": "url('"+e.target.result+"') 50% 50%"});
+      $('#'+did).css({'background-repeat': 'no-repeat'});
+      $('#'+did).css({'background-size': 'contain'});
     };
 
-    console.log(image);
-    reader.readAsDataURL(image);
-  }
+    reader.readAsDataURL(file);
 }
+
 
 function closeModal(cname){
   $("."+cname).hide();
@@ -377,4 +525,8 @@ function maxLengthCheck(object){
   if (object.value.length > object.maxLength){
     object.value = object.value.slice(0, object.maxLength);
   }    
+}
+
+function errorAlert(){
+  alert("시스템 오류입니다.\n반복 될 경우 고객센터로 문의 주세요.");
 }

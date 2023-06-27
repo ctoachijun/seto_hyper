@@ -5,12 +5,42 @@ if (!$reg_type)
    $reg_type = "I";
 $reg_type == "I" ? $type_name = "등록" : $type_name = "수정";
 
+$bidx = $brand_index;
 
+
+// 배송회사 셀렉트 만들기위한 데이터
 $deli_arr = getDeliveryCompany();
+
+// 키워드 html 
+$key_html = setKeywordHtml($keyword);
+
+$return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
+
 ?>
 
 <script>
    $(function () {
+      
+      // 기본값 세팅
+      $("#now1").css("background","#198754");
+      $(".btn-now1").css("color","#fff");
+      
+      
+      // 대표 이미지 세팅
+      $('.thumbsnail').css({"background": "url('<?=$noimg_url?>') 50% 50%"});
+      $('.thumbsnail').css({'background-repeat': 'no-repeat'});
+      $('.thumbsnail').css({'background-size': 'contain'});
+      
+      $(".iupload").click(function(){
+         $(".thumbimg").click();
+      })
+      
+      $(".idelete").click(function(){
+         $('.thumbsnail').css({"background": "url('<?=$noimg_url?>') 50% 50%"});
+         $('.thumbsnail').css({'background-repeat': 'no-repeat'});
+         $('.thumbsnail').css({'background-size': 'contain'});
+         $(".thumbimg").val("");
+      })
       
       // 호버시 아이콘 색상 정상작동 되도록 처리
       $(".btn-outline-success").hover(function () {
@@ -26,46 +56,48 @@ $deli_arr = getDeliveryCompany();
                $(".btn-now"+i).css("color","#198754");
             }
          }         
-
-         
       });
 
       // 즉시적용 라디오버튼 처리
       $(".btn-outline-success").click(function () {
          let btnid = this.id;
-         let radid = ciid = "";
+         let radid = ciid = btnid = "";
          
-         // 탭 옆의 아이콘 표시 초기화.
          for(let i=1; i<=3; i++){
-            $(".cicon"+i).hide();
+            
+            // 버튼과 라디오버튼 선택자 세팅
+            radid = "writeNow"+i;
+            ciid = "cicon"+i;
+            btnid = "now"+i;
+            
+            // 탭 옆의 아이콘 초기화
+            $("."+ciid).hide(); 
+            
+            // 클릭한 버튼의 id와 일치할때
+            if(btnid == this.id){
+               
+               // 체크 되어있으면 해제, 색상도 초기화.
+               if( $("#"+radid).attr("checked") ){
+                  $("#"+radid).attr("checked",false);
+                  $("#"+btnid).css("background","");
+                  $("#"+btnid).css("color","#198754");
+                  $("."+ciid).hide();
+               }else{
+                  // 체크 되어있지않으면 체크 후 색상 세팅.
+                  $("#"+radid).attr("checked",true);
+                  $("#"+btnid).css("background","#198754");
+                  $("#"+btnid).css("color","#fff");
+                  $("."+ciid).show();
+               }
+            }else{
+               // 클릭한 버튼 이외에는 체크 해제 및 색상 초기화
+               $("#"+radid).attr("checked",false);
+               $("#"+btnid).css("background","#fff");
+               $("#"+btnid).css("color","#198754");
+               // console.log(btnid+" "+$("#"+btnid).css("background"));
+            }
          }
-         
-         
-         // 체크박스와 버튼표시 처리
-         if(btnid == "now1"){
-            radid = "writeNow1";
-            ciid = "cicon1";
-         }else if(btnid == "now2"){
-            radid = "writeNow2";
-            ciid = "cicon2";
-         }else if(btnid == "now3"){
-            radid = "writeNow3";
-            ciid = "cicon3";
-         }
-         
-         if( $("#"+radid).attr("checked") ){
-            $("#"+radid).attr("checked",false);
-            $("#"+btnid).css("background","");
-            $("#"+btnid).css("color","#198754");
-            $("."+ciid).hide();
-         }else{
-            $("#"+radid).attr("checked",true);
-            $("#"+btnid).css("background","#198754");
-            $("#"+btnid).css("color","#fff");
-            $("."+ciid).show();
-         }
-         
-
+       
       });
    });
 
@@ -91,19 +123,25 @@ $deli_arr = getDeliveryCompany();
    <div class="cont col-lg-12">
       <div class="middle_div card">
          <div class="card-body">
-            <h5 class="card-title">상품
-               <?= $type_name ?> 폼
-            </h5>
+            <h5 class="card-title">상품 <?= $type_name ?> 폼</h5>
 
             <!-- Multi Columns Form -->
-            <form class="row g-3" method="post">
-               <input type="hidden" name="keyword_txt" />
+            <form class="row g-3" method="post" id="itemForm">
+               <input type='hidden' name="return_page" value="<?=$return_page?>" />
+               <input type="hidden" name="keyword_txt" value="<?=$keyword?>" />
+               <input type='hidden' name='brand_index' value="<?=$bidx?>" />
                <div class="col-md-12">
                   <label for="pname" class="form-label">상품명</label>
-                  <input type="text" class="form-control" id="pname">
+                  <input type="text" class="form-control" id="pname" name="product_name" onchange="chkSpaceFe(this)">
                </div>
                <div class="col-md-3">
-                  <div class="thumbsnail"></div>
+                  <div class="thumbsnail" id="thumbsimg">
+                     <div class="thumbbtn_div">
+                        <a class="btn btn-primary btn-sm iupload" title="대표 이미지 업로드"><i class="bi bi-upload"></i></a>
+                        <a class="btn btn-danger btn-sm idelete" title="삭제"><i class="bi bi-trash"></i></a>
+                        <input type="file" name="thumbsnail_img" class="thumbimg" onchange="setThumbnail(event,'thumbsimg')" />
+                     </div>
+                  </div>
                </div>
                <div class="col-md-9">
                   <div class="chg_page">
@@ -138,11 +176,11 @@ $deli_arr = getDeliveryCompany();
                                        <label for="orderStart" class="form-label">표시 기간</label>
                                        <div class="d-flex">
                                           <div class="col-sm-6">
-                                             <input type="date" name="order_start" class="form-control " id="orderStart" />
+                                             <input type="date" name="land_start" class="form-control " id="orderStartLand" />
                                           </div>
                                           <div class="col-sm-1"><span>~</span></div>
                                           <div class="col-sm-5">
-                                             <input type="date" name="order_end" class="form-control " />
+                                             <input type="date" name="land_end" class="form-control " />
                                           </div>
                                        </div>
                                     </div>
@@ -154,7 +192,7 @@ $deli_arr = getDeliveryCompany();
                                  <div class="col-md-4 col-sm-4 now_div">
                                     <label for="writeNow" class="form-label">즉시 적용</label>
                                     <div class="col-sm-6">
-                                       <input type="radio" name="write_now" class="nowval" id="writeNow1" value="Y1" />
+                                       <input type="radio" name="write_now" class="nowval" id="writeNow1" value="Y1" checked/>
                                        <button type="button" class="btn btn-outline-success" id="now1"><i
                                              class="bi bi-check-circle nocheck btn-now1"></i></button>
                                     </div>
@@ -171,11 +209,11 @@ $deli_arr = getDeliveryCompany();
                                           <label for="orderStart" class="form-label">표시 기간</label>
                                           <div class="d-flex">
                                              <div class="col-sm-6">
-                                                <input type="date" name="order_start" class="form-control " id="orderStart" />
+                                                <input type="date" name="open_start" class="form-control " id="orderStartO" />
                                              </div>
                                              <div class="col-sm-1"><span>~</span></div>
                                              <div class="col-sm-5">
-                                                <input type="date" name="order_end" class="form-control " />
+                                                <input type="date" name="open_end" class="form-control " />
                                              </div>
                                           </div>
                                     </div>
@@ -204,11 +242,11 @@ $deli_arr = getDeliveryCompany();
                                           <label for="orderStart" class="form-label">표시 기간</label>
                                           <div class="d-flex">
                                              <div class="col-sm-6">
-                                                <input type="date" name="order_start" class="form-control " id="orderStart" />
+                                                <input type="date" name="pre_start" class="form-control " id="orderStartP" />
                                              </div>
                                              <div class="col-sm-1"><span>~</span></div>
                                              <div class="col-sm-5">
-                                                <input type="date" name="order_end" class="form-control " />
+                                                <input type="date" name="pre_end" class="form-control " />
                                              </div>
                                           </div>
                                     </div>
@@ -239,7 +277,7 @@ $deli_arr = getDeliveryCompany();
                      <label for="price" class="form-label">가격</label>
                      <div class="col-sm-11 d-flex">
                         <input type="number" id="price" name="product_price" class="form-control " maxlength="12"
-                           oninput="maxLengthCheck(this)" />
+                           oninput="maxLengthCheck(this)"  onchange="chkSpaceFe(this)"/>
                      </div>
                   </div>
                   <div class="col-md-6 col-sm-6">
@@ -250,7 +288,7 @@ $deli_arr = getDeliveryCompany();
                         </div>
                         <div class="col-sm-1"><span>~</span></div>
                         <div class="col-sm-5">
-                           <input type="date" name="order_end" class="form-control " />
+                           <input id="edate" type="date" name="order_end" class="form-control " />
                         </div>
                      </div>
                   </div>
@@ -259,13 +297,13 @@ $deli_arr = getDeliveryCompany();
                   <div class="col-md-6 col-sm-6">
                      <label for="quan" class="form-label">수량</label>
                      <div class="col-sm-11 d-flex">
-                        <input type="text" id="quan" name="product_quantity" class="form-control " />
+                        <input type="number" id="quan" name="product_quantity" class="form-control " onchange="chkSpaceFe(this)"/>
                      </div>
                   </div>
                   <div class="col-md-6 col-sm-6">
-                     <label for="moq" class="form-label">최소 수량</label>
+                     <label for="moq" class="form-label">최소 수량(미입력시 1 )</label>
                      <div class="col-sm-11 d-flex">
-                        <input type="text" id="moq" name="product_moq" class="form-control " />
+                        <input type="number" id="moq" name="product_moq" class="form-control " onchange="chkSpaceFe(this)"/>
                      </div>
                   </div>
                </div>
@@ -273,7 +311,7 @@ $deli_arr = getDeliveryCompany();
                   <div class="col-md-6 col-sm-6">
                      <label for="dcomp" class="form-label">배송업체</label>
                      <div class="col-sm-11 d-flex">
-                        <select class="form-select" name="delicomp" id="dcomp">
+                        <select class="form-select" name="delivery_comp" id="dcomp">
                            <option value="ALL">업체를 선택 해 주세요.</option>
                            <? foreach ($deli_arr as $v): ?>
                               <option value="<?= $v ?>"><?= $v ?></option>
@@ -282,39 +320,34 @@ $deli_arr = getDeliveryCompany();
                      </div>
                   </div>
                   <div class="col-md-6 col-sm-6">
-                     <label for="dnum" class="form-label">송장번호</label>
+                     <label for="dydate" class="form-label">배송예정일</label>
                      <div class="col-sm-11 d-flex">
-                        <input type="number" id="dnum" name="delivery_number" class="form-control" maxlength="20"
-                           oninput="maxLengthCheck(this)" /><span>
+                        <input type="date" id="dydate" name="delivery_maybe" class="form-control " maxlength="12"
+                           oninput="maxLengthCheck(this)" />
                      </div>
                   </div>
                </div>
                <div class="col-12 d-flex">
                   <div class="col-md-6 col-sm-6">
-                     <label for="dydate" class="form-label">배송예정일</label>
-                     <div class="col-sm-11 d-flex">
-                        <input type="date" id="dydate" name="product_price" class="form-control " maxlength="12"
-                           oninput="maxLengthCheck(this)" />
-                     </div>
-                  </div>
-                  <div class="col-md-6 col-sm-6">
                      <label for="dval" class="form-label">배송비</label>
                      <div class="col-sm-11 d-flex">
                         <input type="number" id="dval" name="delivery_coast" class="form-control " maxlength="12"
-                           oninput="maxLengthCheck(this)" />
+                           oninput="maxLengthCheck(this)" onchange="chkSpaceFe(this)" />
                      </div>
                   </div>
                </div>
                <div class="col-12 d-flex">
                   <div class="col-sm-1 d-flex align-items-center justify-content-center">키워드 : <br>(10개 까지)</div>
                   <div class="col-sm-4 d-flex align-items-center">
-                     <input type="text" name="keyword" id="keyword" class="form-control " onchange="chkSpaceFe(this)" />
+                     <input type="text" name="kw" id="kw" class="form-control " onchange="chkSpaceFe(this)" />
                   </div>
                   <div class="col-sm-1 d-flex align-items-center justify-content-center">
                      <input type="button" class="btn btn-outline-primary" value="추가" onclick="setKeyWord(this)" />
                   </div>
                   <div class="col-sm-6 key_div">
-                     <div class="key_box"><div class='kw_block'>#키워드1</div><div class='kw_block'>#키워드2</div></div>
+                     <div class="key_box d-flex flex-column">
+                        <?=$key_html?>
+                     </div>
                   </div>
                </div>
 
@@ -333,13 +366,15 @@ $deli_arr = getDeliveryCompany();
                   </div>
 
                </div>
-               <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="reset" class="btn btn-secondary">Reset</button>
+               <div class="text-center regbtn_div">
+                  <button type="button" class="btn btn-primary" onclick="regItem('<?=$reg_type?>')"><?=$type_name?></button>
+                  <button type="button" class="btn btn-secondary" onclick="cancelReturn()">취소</button>
                </div>
          </form><!-- End Multi Columns Form -->
-         </div>         
-      </div>
+         
+         </div>   <!-- end of card-body -->
+      </div>   <!-- end of middle_div -->
+      
    </div>
 </div>
 

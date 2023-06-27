@@ -8,7 +8,7 @@
     },
     ".bash_history": {
       "type": "-",
-      "size": 2387,
+      "size": 3385,
       "lmtime": 0,
       "modified": true
     },
@@ -63,6 +63,36 @@
         "lmtime": 1687327805192.7798,
         "modified": false
       },
+      "maker": {
+        "2_choo": {
+          "brand": {
+            "Ka cal": {
+              "logo_Ka cal.png": {
+                "type": "-",
+                "size": 51232,
+                "lmtime": 1687739228975.4812,
+                "modified": false
+              }
+            },
+            "어흥": {
+              "logo_어흥.png": {
+                "type": "-",
+                "size": 10048,
+                "lmtime": 1687739228999.4763,
+                "modified": false
+              }
+            },
+            "조옴비": {
+              "logo_조옴비.jpg": {
+                "type": "-",
+                "size": 40153,
+                "lmtime": 1687739229022.504,
+                "modified": false
+              }
+            }
+          }
+        }
+      },
       "no_img1.jpg": {
         "type": "-",
         "size": 14651,
@@ -85,8 +115,8 @@
     "js": {
       "hyper.js": {
         "type": "-",
-        "size": 8670,
-        "lmtime": 1687506706788.8838,
+        "size": 9730,
+        "lmtime": 1687771765820.961,
         "modified": false
       }
     },
@@ -3763,22 +3793,22 @@
       },
       "hyper.php": {
         "type": "-",
-        "size": 12618,
-        "lmtime": 1687509148210.576,
+        "size": 14572,
+        "lmtime": 1687756150358.9294,
         "modified": false
       }
     },
     "setoAdmin": {
-      "2_logo.jpg": {
+      "admin_account.php": {
         "type": "-",
-        "size": 40153,
-        "lmtime": 0,
+        "size": 4467,
+        "lmtime": 1687745447242.7002,
         "modified": false
       },
       "admin_brandList.php": {
         "type": "-",
-        "size": 4457,
-        "lmtime": 1687511838602.2556,
+        "size": 4548,
+        "lmtime": 1687743940885.474,
         "modified": false
       },
       "admin_footer.php": {
@@ -3789,20 +3819,26 @@
       },
       "admin_header.php": {
         "type": "-",
-        "size": 14880,
-        "lmtime": 1687509276895.3772,
+        "size": 14885,
+        "lmtime": 1687744791321.338,
+        "modified": false
+      },
+      "admin_itemDetail.php": {
+        "type": "-",
+        "size": 17813,
+        "lmtime": 1687771563970.2273,
         "modified": false
       },
       "admin_itemList.php": {
         "type": "-",
-        "size": 5626,
-        "lmtime": 1687511735784.3171,
+        "size": 7435,
+        "lmtime": 1687743962277.4736,
         "modified": false
       },
       "admin_mailList.php": {
         "type": "-",
-        "size": 4922,
-        "lmtime": 1687421344448.7195,
+        "size": 4466,
+        "lmtime": 1687740292837.0452,
         "modified": false
       },
       "ajax_admin.php": {
@@ -3815,8 +3851,8 @@
         "css": {
           "style.css": {
             "type": "-",
-            "size": 28487,
-            "lmtime": 1687510588902.3389,
+            "size": 30567,
+            "lmtime": 1687771634905.7031,
             "modified": false
           }
         },

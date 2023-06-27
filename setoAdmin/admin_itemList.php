@@ -31,6 +31,7 @@ if(!$pqs){
   $pqs = "&end={$end}&brand_index={$bidx}&start={$start}&cur_page={$cur_page}";
 }
 
+
 if($cur_page > 1){
   $start = $end * ($cur_page - 1);
   $number = $total_cnt - $start;
@@ -129,8 +130,9 @@ $total_cnt = getItemTotalCnt($bidx,$where);
             <div class="brand2_textarea">
               <textarea id="bdesc" name="bdesc" class="form-control" placeholder="간단소개를 입력 해 주세요." maxlength="250" onchange="chkSpaceFe(this);"><?=$bdesc?></textarea>
             </div>
-            <div class="brand_btn d-flex justify-content-start">
+            <div class="brand_btn d-flex justify-content-start align-items-end">
               <input type="button" class="btn btn-outline-primary" value="수정" onclick="editBrand()" />
+              <input type="button" class="btn btn-danger delbtn" value="삭제" onclick="delBrand()" />
             </div>
           </div>
         </form>
@@ -143,13 +145,12 @@ $total_cnt = getItemTotalCnt($bidx,$where);
         
         <div class="msearch ">
           <form action="<?=$PHP_SELF?>" method="GET" onsubmit="return chgCurPage();" class="d-flex align-items-center" id='ilist'>
-              <!-- <input type="hidden" name="brand_index" value="<?=$bidx?>" /> -->
               <? echo qsChgForminput($pqs,$nopt); ?>
             <input type="text" class="form-control sw" name="sw" value="<?=$sw?>" />
             <input type="button" class="btn btn-primary" value="검색" />
           </form>
         </div>
-        <div class="regbtn"><input type="button" class="btn btn-success" value="상품 등록" onclick="goItemSearch()"></div>
+        <div class="regbtn"><input type="button" class="btn btn-success" value="상품 등록" onclick="goRegItem(<?=$bidx?>)"></div>
       </div>
       
       <div class="mtable_div card-body">
