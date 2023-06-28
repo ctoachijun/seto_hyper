@@ -1247,6 +1247,7 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
+.div_line{width:80%;margin:20px;border-bottom:1px solid #AAA;}
 
 /*
   # 메일 페이지
@@ -1375,8 +1376,18 @@ input[type="number"]::-webkit-inner-spin-button {
 .itemdetail .middle_div .key_box{width:100%;min-height:140px;border:1px solid #CECECE;border-radius:10px;padding:1.3rem}
 .itemdetail .middle_div .key_box .kw_block{display:inline-block;}
 .itemdetail .middle_div .regbtn_div button:first-child{width:150px;margin-right:20px;}
-
-
+.itemdetail .middle_div .opt_row{margin-bottom:10px}
+.itemdetail .middle_div .opt_row div{margin-right:10px;}
+.itemdetail .middle_div .opt_row .opt_value .btn_div{margin-left:20px;}
+.itemdetail .middle_div .opt_row .opt_value .btn_div i{font-size:22px;}
+.itemdetail .middle_div .opt_row .opt_value .btn_div .bi-x-square-fill{margin-right:20px;}
+.itemdetail .middle_div .row_div .showbtn_div input{width:100%;margin-top:10px;}
+.itemdetail .middle_div .row_div .table_div{margin-top:30px;margin-bottom:30px;text-align:center;overflow-y: auto;max-height:600px;}
+.itemdetail .middle_div .row_div .table_div th{vertical-align:middle;}
+.itemdetail .middle_div .row_div .table_div td{vertical-align:middle;}
+.itemdetail .middle_div .row_div .table_div tbody td:nth-child(5){width:16%}
+.itemdetail .middle_div .row_div .table_div tbody td:nth-child(6){width:16%}
+.itemdetail .middle_div .row_div .table_div tbody td input{text-align:right}
 
 
 

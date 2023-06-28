@@ -130,6 +130,8 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                <input type='hidden' name="return_page" value="<?=$return_page?>" />
                <input type="hidden" name="keyword_txt" value="<?=$keyword?>" />
                <input type='hidden' name='brand_index' value="<?=$bidx?>" />
+               <input type='hidden' name='opt_cnt' value="1" />
+               
                <div class="col-md-12">
                   <label for="pname" class="form-label">상품명</label>
                   <input type="text" class="form-control" id="pname" name="product_name" onchange="chkSpaceFe(this)">
@@ -271,6 +273,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                      </div> <!-- end of card_body -->
                   </div> <!-- end of chg_page -->
                </div>
+               
 
                <div class="col-12 d-flex">
                   <div class="col-md-6 col-sm-6">
@@ -364,8 +367,49 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                         총판형
                      </label>
                   </div>
-
                </div>
+
+               <div class="col-12">
+                  <div class="opt_row col-lg-12 d-flex">
+                     <div class="col-lg-12 opt_title d-flex">
+                        <div class="col-md-3">
+                           <label class="form-label">옵션명</label>
+                        </div>
+                        <div class="col-md-8">
+                           <label class="form-label">옵션값</label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="opt_show_div col-lg-12">
+                     <div class="opt_row d-flex opt_div1">
+                        <div class="opt_name col-md-3">
+                           <input type="text" class="form-control" id="optname1" name="optname1" placeholder="ex) 색상, 종류, 사이즈"/>
+                        </div>
+                        <div class="opt_value col-md-8 d-flex">
+                           <div class="input_div col-md-8">
+                              <input type="text" class="form-control" id="optvalue1" name="optvalue1" placeholder="ex) XS,S,M,L - ,로 구분" onchange="chkSpaceFe(this)"; />
+                           </div>
+                           <div class="btn_div bd1 col-md-2 d-flex align-items-center">
+                              <i class="bi bi-plus-square cpointer" onclick="addOpt()"></i>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row_div col-lg-12">
+                     <div class="showbtn_div col-md-3"><input type="button" class="btn btn-secondary" value="옵션 세팅" onclick="setOptTable()" />
+                  </div>
+               
+                  <div class="row_div col-lg-12">
+                     <div class="table_div">
+                        <table class="table table-bordered">
+                        </table>
+
+                     </div>
+                  </div>   
+                  
+               </div>
+
+
                <div class="text-center regbtn_div">
                   <button type="button" class="btn btn-primary" onclick="regItem('<?=$reg_type?>')"><?=$type_name?></button>
                   <button type="button" class="btn btn-secondary" onclick="cancelReturn()">취소</button>

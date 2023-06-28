@@ -211,13 +211,12 @@ switch ($w_mode) {
       $bname = $brand['b_name'];
       $path = chkBrandDir($bname);
 
-      
       // 파일이름 중복 확인
       $file_name = getFilename($iname,$path);
       
-            
       // 업로드
       $res = move_uploaded_file($iftmp, $path."/".$file_name);
+      // $res = true;
       if($res){
         $pname = addslashes($product_name);
         $period = $order_start."|".$order_end;
@@ -228,7 +227,43 @@ switch ($w_mode) {
                 i_delicomp = '{$delivery_comp}', i_period = '{$period}', i_quantity = {$product_quantity}, i_moq = {$product_moq}, i_price = {$product_price}, i_sell_type = '{$sale_type}',
                 i_wdate = now();";
         $re = sql_exec($sql);
-        $output['sql'] = $sql;
+        // $output['sql'] = $sql;
+
+        
+        // 일단 상품 idx 확보
+        $sql1 = "SELECT * FROM st_item ORDER BY i_idx DESC LIMIT 0,1";
+        $re1 = sql_fetch($sql1);
+        $iidx = $re1['i_idx'];
+        
+        
+        // 
+        // 단계별 오픈정보 등록 추가하기
+        // 
+        
+        
+        // 옵션 등록
+        for($i=1; $i<=$opt_cnt; $i++){
+          $title = ${"optname".$i};
+          $opt_name = ${"optvalue".$i};
+          
+          if($i == 1){
+            $sql_o1 = "INSERT INTO st_item_opt1 SET io1_iidx = {$iidx}, io1_title = '{$title}', io1_name = '{$opt_name}', io1_wdate = now();";
+          }else if($i == 2){
+            $o1idx_sql = "SELECT * FROM st_item_opt1 ORDER BY io1_idx DESC LIMIT 0,1";
+            $o1idx_re = sql_fetch($o1idx_sql);
+            $o1_idx = $o1idx_re['io1_idx'];
+            $sql_o2 = "INSERT INTO st_item_opt2 SET io2_io1idx = {$o1_idx}, io2_title = '{$title}', io2_name = '{$opt_name}', io2_wdate = now();";
+          }else if($i == 3){
+            $o2idx_sql = "SELECT * FROM st_item_opt2 ORDER BY io2_idx DESC LIMIT 0,1";
+            $o2idx_re = sql_fetch($o2idx_sql);
+            $o2_idx = $o2idx_re['io2_idx'];
+            $sql_o3 = "INSERT INTO st_item_opt3 SET io3_io2idx = {$o2_idx}, io3_title = '{$title}', io3_name = '{$opt_name}', io3_wdate = now();";
+          }
+          
+          $output['sql'.$i] = ${"sql_o".$i};
+          sql_exec(${"sql_o".$i});
+        }
+        
         
         if($re){
           $output['state'] = "Y";
@@ -247,6 +282,35 @@ switch ($w_mode) {
     
     echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
+    
+  case "addOpt":
+    $output['name'] = $name;
+    $output['value'] = $value;
+    $output['html'] = getOptInputHtml($cnt,$name,$value);
+    $output['cnt'] = $cnt+1;
+        
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
+  
+  case "setOptTable":
+    
+    $output['opt_name'] = $opt_name;
+    $output['opt_value'] = $opt_value;
+    $output['html'] = getOptTableHtml($opt_name,$opt_value,$cnt);
+    
+    
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
+  
+  case "delOpt":
+    $output['name'] = $name;
+    $output['value'] = $value;
+    $output['html'] = getOptInputHtmlDel($cnt,$name,$value);
+    $output['cnt'] = $cnt-1;
+        
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
+  
   
   
   

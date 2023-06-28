@@ -332,11 +332,6 @@ function regItem(type){
     $("#quan").focus();
     return false;
   }
-  // if(!$("#moq").val()){
-  //   alert("최소 수량을 입력 해 주세요");
-  //   $("#moq").focus();
-  //   return false;
-  // }
   if($("#dcomp").val() == "ALL"){
     alert("배송업체를 선택 해 주세요");
     return false;
@@ -351,7 +346,16 @@ function regItem(type){
     $("#dval").focus();
     return false;
   }  
-  
+  if(!$("#optname1").val()){
+    alert("옵션명을 입력 해 주세요");
+    $("#optname1").focus();
+    return false;
+  }
+  if(!$("#optvalue1").val()){
+    alert("옵션값을 입력 해 주세요");
+    $("#optvalue1").focus();
+    return false;
+  }
   
   
   if(confirm("상품을 등록 하시겠습니까?")){
@@ -381,6 +385,154 @@ function regItem(type){
       }
     })
   }
+}
+
+function addOpt(){
+  let cnt = $("input[name=opt_cnt").val();
+  let name = value = "";
+  
+  // 옵션 3개까지 허용이므로 3개 전부 돌려서 값을 뽑아낸다.
+  for(i=1; i<=3; i++){
+    if($("#optname"+i).val()){
+      name += $("#optname"+i).val();
+    }else{
+      name += "";  // 이 처리가 없으면 undefind 뜸.
+    }
+    if($("#optvalue"+i).val()){
+      value += $("#optvalue"+i).val(); 
+    }else{
+      value += "";
+    }
+    
+    // 구분은 | 로
+    if(i<cnt){
+      name += "|";
+      value += "|";
+    }
+  }
+
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"addOpt","cnt":cnt,"name":name,"value":value},
+    success: function(result){
+      let json = JSON.parse(result);
+      // console.log(json);
+      
+      $(".opt_show_div").html(json.html)
+      $("input[name=opt_cnt").val(json.cnt);
+      
+    }
+  })
+}
+
+function delOpt(num){
+  if(confirm("옵션을 삭제 하시겠습니까?")){
+    let cnt = $("input[name=opt_cnt").val();
+    
+    $(".opt_div"+num).remove();
+    let name = value = "";
+  
+    // 옵션 3개까지 허용이므로 3개 전부 돌려서 값을 뽑아낸다.
+    for(i=1; i<=3; i++){
+      if($("#optname"+i).val()){
+        name += $("#optname"+i).val();
+        // 구분은 | 로
+        if(i<cnt){
+          name += "|";
+        }
+
+      }else{
+        name += "";  // 이 처리가 없으면 undefind 뜸.
+      }
+
+      if($("#optvalue"+i).val()){
+        value += $("#optvalue"+i).val(); 
+        // 구분은 | 로
+        if(i<cnt){
+          value += "|";
+        }
+
+      }else{
+        value += "";
+      }
+
+    }
+  
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"delOpt","cnt":cnt,"name":name,"value":value},
+      success: function(result){
+        let json = JSON.parse(result);
+        // console.log(json);
+        
+        $(".opt_show_div").html(json.html)
+        $("input[name=opt_cnt").val(json.cnt);
+        
+      }
+    })
+  
+
+
+    // if(cnt == 3){
+    //   $(".btn_div").last().append("<i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>");
+    // }else if(cnt == 2){
+    //   $(".btn_div").append("<i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>");
+    // }
+    
+  }
+}
+
+function setOptTable(){
+  let cnt = $("input[name=opt_cnt").val();
+  let name = value = "";
+  
+  // 옵션 3개까지 허용이므로 3개 전부 돌려서 값을 뽑아낸다.
+  for(i=1; i<=3; i++){
+    if($("#optname"+i).val()){
+      name += $("#optname"+i).val();
+    }else{
+      // name += "";  // 이 처리가 없으면 undefind 뜸.
+      console.log(i);
+      console.log(cnt);
+      if(i == cnt){
+        alert("옵션명 입력을 해 주세요.");
+        $("#optname"+i).focus();
+        return false;
+      }
+    }
+    if($("#optvalue"+i).val()){
+      value += $("#optvalue"+i).val(); 
+    }else{
+      if(i == cnt){
+        alert("옵션값을 입력 해 주세요.");
+        $("#optname"+i).focus();
+        return false;
+      }
+
+      // value += "";
+    }
+    
+    // 구분은 | 로
+    if(i<cnt){
+      name += "|";
+      value += "|";
+    }  
+  }
+  
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"setOptTable","opt_name":name,"opt_value":value,"cnt":cnt},
+    success : function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+      $(".table").html(json.html);
+      
+    }
+  })
+  
   
   
 }
