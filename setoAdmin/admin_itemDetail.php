@@ -186,9 +186,11 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                                           </div>
                                        </div>
                                     </div>
+                                    <? if($reg_type == "E"): ?>
                                     <div class="colwrap setbtn">
                                        <input type="button" id="setDate1" class="btn btn-primary" value="지정" />
                                     </div>
+                                    <? endif; ?>
                                  </div>
                                  <div class="col-md-1 col-sm-1"></div>
                                  <div class="col-md-4 col-sm-4 now_div">
@@ -219,9 +221,11 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                                              </div>
                                           </div>
                                     </div>
+                                    <? if($reg_type == "E"): ?>
                                     <div class="colwrap setbtn">
                                        <input type="button" id="setDate1" class="btn btn-primary" value="지정" />
                                     </div>
+                                    <? endif; ?>
                                  </div>
                                  <div class="col-md-1 col-sm-1"></div>
                                  <div class="col-md-4 col-sm-4 now_div">
@@ -252,9 +256,11 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                                              </div>
                                           </div>
                                     </div>
+                                    <? if($reg_type == "E"): ?>
                                     <div class="colwrap setbtn">
                                        <input type="button" id="setDate1" class="btn btn-primary" value="지정" />
                                     </div>
+                                    <? endif; ?>
                                  </div>
                                  <div class="col-md-1 col-sm-1"></div>
                                  <div class="col-md-4 col-sm-4 now_div">

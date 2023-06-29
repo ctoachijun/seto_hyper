@@ -77,6 +77,9 @@ if(!$blogo){
 $item_box = getBrandItem($bidx,$where,$limit);
 $total_cnt = getItemTotalCnt($bidx,$where);
 
+
+// input 생성중에 제외하고싶은 input name을 배열로.
+$nopt = array("sw","return_cur");
 ?>
 
 <script>
@@ -147,7 +150,7 @@ $total_cnt = getItemTotalCnt($bidx,$where);
           <form action="<?=$PHP_SELF?>" method="GET" onsubmit="return chgCurPage();" class="d-flex align-items-center" id='ilist'>
               <? echo qsChgForminput($pqs,$nopt); ?>
             <input type="text" class="form-control sw" name="sw" value="<?=$sw?>" />
-            <input type="button" class="btn btn-primary" value="검색" />
+            <input type="button" class="btn btn-primary" value="검색" onclick="searchItem()" />
           </form>
         </div>
         <div class="regbtn"><input type="button" class="btn btn-success" value="상품 등록" onclick="goRegItem(<?=$bidx?>)"></div>

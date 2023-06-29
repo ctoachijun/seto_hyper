@@ -197,16 +197,15 @@ switch ($w_mode) {
   break;
   
   case "regItem":
-    $output['file'] = $_FILES;
-    $output['post'] = $_POST;
     
     $ifile = $_FILES['thumbsnail_img'];
     $iftmp = $ifile['tmp_name'];
     $iname = $ifile['name'];
     
+    // $iname = "dd";
     if(!empty($iname)){
       
-      // 디렉토리 확인 후 없으면 생성
+      // 디렉토리 확인 후 없으면 생성 및 경로 확보
       $brand = getBrandInfo($brand_index);
       $bname = $brand['b_name'];
       $path = chkBrandDir($bname);
@@ -214,7 +213,7 @@ switch ($w_mode) {
       // 파일이름 중복 확인
       $file_name = getFilename($iname,$path);
       
-      // 업로드
+      //업로드
       $res = move_uploaded_file($iftmp, $path."/".$file_name);
       // $res = true;
       if($res){
@@ -229,44 +228,79 @@ switch ($w_mode) {
         $re = sql_exec($sql);
         // $output['sql'] = $sql;
 
+     
         
-        // 일단 상품 idx 확보
+        // 상품 idx 확보
         $sql1 = "SELECT * FROM st_item ORDER BY i_idx DESC LIMIT 0,1";
         $re1 = sql_fetch($sql1);
         $iidx = $re1['i_idx'];
         
-        
-        // 
-        // 단계별 오픈정보 등록 추가하기
-        // 
-        
-        
-        // 옵션 등록
-        for($i=1; $i<=$opt_cnt; $i++){
+        // 옵션 개수별로 column 세팅
+        for($i=1,$a=0; $i<=$opt_cnt; $i++){
           $title = ${"optname".$i};
           $opt_name = ${"optvalue".$i};
           
-          if($i == 1){
-            $sql_o1 = "INSERT INTO st_item_opt1 SET io1_iidx = {$iidx}, io1_title = '{$title}', io1_name = '{$opt_name}', io1_wdate = now();";
-          }else if($i == 2){
-            $o1idx_sql = "SELECT * FROM st_item_opt1 ORDER BY io1_idx DESC LIMIT 0,1";
-            $o1idx_re = sql_fetch($o1idx_sql);
-            $o1_idx = $o1idx_re['io1_idx'];
-            $sql_o2 = "INSERT INTO st_item_opt2 SET io2_io1idx = {$o1_idx}, io2_title = '{$title}', io2_name = '{$opt_name}', io2_wdate = now();";
-          }else if($i == 3){
-            $o2idx_sql = "SELECT * FROM st_item_opt2 ORDER BY io2_idx DESC LIMIT 0,1";
-            $o2idx_re = sql_fetch($o2idx_sql);
-            $o2_idx = $o2idx_re['io2_idx'];
-            $sql_o3 = "INSERT INTO st_item_opt3 SET io3_io2idx = {$o2_idx}, io3_title = '{$title}', io3_name = '{$opt_name}', io3_wdate = now();";
-          }
+          $io_col .= "io{$i}_name = '{$title}', io{$i}_value = '{$opt_name}', ";
+        }
+        
+        $io_sql = "INSERT INTO st_item_opt SET io_iidx = {$iidx}, {$io_col} io_wdate = now()";
+        $io_re = sql_exec($io_sql);
+        
+        // 옵션 idx 확보
+        $io_idx_sql = "SELECT * FROM st_item_opt ORDER BY io_idx DESC LIMIT 0,1";
+        $io_idx_re = sql_fetch($io_idx_sql);
+        $ioidx = $io_idx_re['io_idx'];
+        
+        // 재고수량, 추가금액 입력 - 부분적으로 지워진 옵션에 대응하기위해 전부 다 입력
+        // $keep = implode(",",$addquan);
+        // $add_val = implode(",",$addval);
+        for($i=0; $i<count($addquan); $i++){
+          $ioe_value = $opt_v1[$i].",".$opt_v2[$i].",".$opt_v3[$i];
+          $ioe_keep = $addquan[$i];
+          $ioe_add_value = $addval[$i];
           
-          $output['sql'.$i] = ${"sql_o".$i};
-          sql_exec(${"sql_o".$i});
+          $ioe_sql = "INSERT INTO st_item_opt_etc SET ioe_ioidx = {$ioidx}, ioe_value = '{$ioe_value}', ioe_keep = '{$ioe_keep}', ioe_add_value = '{$ioe_add_value}', ioe_wdate = now()";
+          $ioe_re = sql_exec($ioe_sql);
         }
         
         
+        
+        
+        
+        // $output['io_sql'] = $io_sql;
+        
+        
+        
+        
+        // 기간설정 입력
+        // $write_now == "Y1" ? $now_page = "L" : $write_now == "Y2" ? $now_page = "O" : $write_now == "Y3" ? $now_page = "P" : $now_page = "L";
+        if($write_now == "Y1"){
+          $now_page = "L";
+        }else if($write_now == "Y2"){
+          $now_page = "O";
+        }else if($write_now == "Y3"){
+          $now_page = "P";
+        }else{
+          $now_page = "N";          
+        }
+        // if($write_now == "Y1"){
+          
+        // }
+        $landing_date = $land_start."|".$land_end;
+        $open_date = $open_start."|".$open_end;
+        $pre_date = $pre_start."|".$pre_end;
+        
+        $trans_sql = "INSERT INTO st_item_step SET is_iidx = {$iidx}, is_landing_date = '{$landing_date}', is_open_date = '{$open_date}', is_pre_date = '{$pre_date}', is_now_page = '{$now_page}', is_wdate = now()";
+        $trans_re = sql_exec($trans_sql);
+        $output['trans_sql'] = $trans_sql;
+        
+
         if($re){
           $output['state'] = "Y";
+          
+          if(!$io_re) $output['state'] = "ION";
+          if(!$trans_re) $output['state'] = "TN";
+          
         }else{
           $output['state'] = "N";
         }
@@ -277,7 +311,6 @@ switch ($w_mode) {
     }else{
       $output['state'] = "NI"; // 이미지 없음
     }
-
     $output['returnurl'] = $return_page;
     
     echo json_encode($output,JSON_UNESCAPED_UNICODE);

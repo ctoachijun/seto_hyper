@@ -1333,7 +1333,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .branddetail .brand_div .brand2 .brand_btn input{width:100px;height:100%;}
 .branddetail .brand_div .brand2 .brand_btn .delbtn{width:60px;height:40px;color:#fff;margin-left:20px;}
 
-.branddetail .middle_div{width:100%;order:1px solid;padding:2rem; padding-bottom:0;}
+.branddetail .middle_div{width:100%;order:1px solid;padding:2rem; padding-bottom:0;font-size:0.8rem;}
 .branddetail .middle_div .msearch_div{order:1px solid;}
 .branddetail .middle_div .msearch_div form{width:100%}
 .branddetail .middle_div .msearch_div .msearch{width:60%;}
@@ -1382,7 +1382,11 @@ input[type="number"]::-webkit-inner-spin-button {
 .itemdetail .middle_div .opt_row .opt_value .btn_div i{font-size:22px;}
 .itemdetail .middle_div .opt_row .opt_value .btn_div .bi-x-square-fill{margin-right:20px;}
 .itemdetail .middle_div .row_div .showbtn_div input{width:100%;margin-top:10px;}
+.itemdetail .middle_div .row_div .all_div input[type="number"]{width:20%;margin-right:10px;margin-left:10px}
+.itemdetail .middle_div .row_div .all_div input[type="button"]{width:80px;}
+.itemdetail .middle_div .row_div .all_div select{width:8%;margin-left:10px;}
 .itemdetail .middle_div .row_div .table_div{margin-top:30px;margin-bottom:30px;text-align:center;overflow-y: auto;max-height:600px;}
+.itemdetail .middle_div .row_div .table_div tr:hover{background:#BFBFBF;}
 .itemdetail .middle_div .row_div .table_div th{vertical-align:middle;}
 .itemdetail .middle_div .row_div .table_div td{vertical-align:middle;}
 .itemdetail .middle_div .row_div .table_div tbody td:nth-child(5){width:16%}

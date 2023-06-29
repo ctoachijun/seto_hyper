@@ -224,6 +224,10 @@ function goRegItem(bidx){
   itform.submit();
 }
 
+function searchItem(){
+  $("#ilist").submit();
+}
+
 function setKeyWord(){
   let org_kw = $("input[name=keyword_txt").val();
   let new_kw = $("input[name=kw").val();
@@ -487,6 +491,7 @@ function delOpt(num){
 function setOptTable(){
   let cnt = $("input[name=opt_cnt").val();
   let name = value = "";
+  $("table").show();
   
   // 옵션 3개까지 허용이므로 3개 전부 돌려서 값을 뽑아낸다.
   for(i=1; i<=3; i++){
@@ -527,15 +532,57 @@ function setOptTable(){
     data: {"w_mode":"setOptTable","opt_name":name,"opt_value":value,"cnt":cnt},
     success : function(result){
       let json = JSON.parse(result);
-      console.log(json);
+      // console.log(json);
       $(".table").html(json.html);
       
     }
   })
-  
-  
-  
 }
+
+function allExec(){
+  let quan = $("#allQuan").val();
+  let val = $("#allPrice").val();
+  let pm = $("#allPricePm").val();
+  
+  
+  if(pm == "-"){
+    if(val === 0){
+      val = "";
+    }else{
+      val = pm+val;
+    }
+  } 
+  
+  $("input[name='addval[]']").val(val);
+  $("input[name='addquan[]']").val(quan);
+}
+
+function lineDel(num){
+  let ocnt = $("input[name=opt_cnt").val();
+  let opt1 = opt2 = opt3 = opt_box = target = "";
+  
+  // 옵션이 하나만 있을때
+  if(ocnt == 1){
+    opt1 = $("#optvalue1").val();
+    if(!opt1) $(".table_div").hide();
+    
+    opt_box = opt1.split(",");
+    target = $(".tr_"+num+" td").eq(1).html();
+    opt_box.splice(opt_box.indexOf(target),1);
+    $("#optvalue1").val(opt_box.join(","));
+
+    // 다 삭제되었을 경우 테이블 hidden
+    opt1 = $("#optvalue1").val();
+    if(!opt1) $("table").hide();
+  }
+
+  
+  
+  
+  
+  $(".tr_"+num).remove();
+}
+
 
 
 
