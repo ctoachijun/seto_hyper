@@ -1,20 +1,88 @@
 <?
 include "./admin_header.php";
 
-if (!$reg_type)
-   $reg_type = "I";
+if(!$reg_type) $reg_type = "I";
 $reg_type == "I" ? $type_name = "등록" : $type_name = "수정";
-
 $bidx = $brand_index;
-
 
 // 배송회사 셀렉트 만들기위한 데이터
 $deli_arr = getDeliveryCompany();
-
-// 키워드 html 
-$key_html = setKeywordHtml($keyword);
-
 $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
+
+$opt_input_html = setOptInputHtml("","","",$reg_type);
+$opt_cnt = 1;
+
+
+if($reg_type == "E"){
+   $iidx = $itemNumber;
+   $item = getItemInfo($iidx);
+   
+   // 대표이미지 세팅
+   $item_name = $item['i_name'];
+   $item_img = $item['i_img'];
+   if(empty($item_img)){
+      $img_path = $noimg_url;
+   }else{
+      $brand = getBrandInfo($bidx);
+      $brand_name = $brand['b_name'];
+      $path = chkBrandDir($brand_name);
+      $img_path = $path."/".$item_img;
+   }
+   
+   $item_price = $item['i_price'];
+   
+   // 주문기간 세팅
+   $period_box = explode("|",$item['i_period']);
+   $pstart = $period_box[0];
+   $pend = $period_box[1];
+   
+   $item_quantity = $item['i_quantity'];
+   $item_moq = $item['i_moq'];
+   $delivery = $item['i_delicomp'];
+   $delivery_day = $item['i_deliday'];
+   $delivery_price = $item['i_delival'];
+   
+   $keyword = $item['i_keyword'];
+   // 키워드 html 
+   $key_html = setKeywordHtml($keyword);
+   
+   
+   // 옵션 개수 세팅 & 옵션 input 세팅
+   $io_idx = $item['io_idx'];
+   if(empty($item['io3_name'])){
+      if(empty($item['io2_name'])){
+         $opt_cnt = 1;
+         $opt_names = $item['io1_name'];
+         $opt_values = $item['io1_value'];
+      }else{
+         $opt_cnt = 2;
+         $opt_names = $item['io1_name']."|".$item['io2_name'];
+         $opt_values = $item['io1_value']."|".$item['io2_value'];
+      }
+   }else{
+      $opt_cnt = 3;
+      $opt_names = $item['io1_name']."|".$item['io2_name']."|".$item['io3_name'];
+      $opt_values = $item['io1_value']."|".$item['io2_value']."|".$item['io3_value'];
+   }
+   $opt_input_html = setOptInputHtml($opt_cnt,$opt_names,$opt_values,$reg_type);
+   $opt_table_html = setDataOptTable($io_idx,$opt_cnt,$opt_names);
+ 
+   
+   // 진행 기간 
+   $step = getItemStep($iidx);
+   
+   $ldate = explode("|",$step['is_landing_date']);
+   $landing_start = $ldate[0];
+   $landing_end = $ldate[1];
+   $odate = explode("|",$step['is_open_date']);
+   $open_start = $odate[0];
+   $open_end = $odate[1];
+   $pdate = explode("|",$step['is_pre_date']);
+   $pre_start = $pdate[0];
+   $pre_end = $pdate[1];
+   $nowp = $step['is_now_page'];
+   
+}
 
 ?>
 
@@ -27,7 +95,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
       
       
       // 대표 이미지 세팅
-      $('.thumbsnail').css({"background": "url('<?=$noimg_url?>') 50% 50%"});
+      $('.thumbsnail').css({"background": "url('<?=$img_path?>') 50% 50%"});
       $('.thumbsnail').css({'background-repeat': 'no-repeat'});
       $('.thumbsnail').css({'background-size': 'contain'});
       
@@ -128,13 +196,17 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
             <!-- Multi Columns Form -->
             <form class="row g-3" method="post" id="itemForm">
                <input type='hidden' name="return_page" value="<?=$return_page?>" />
+               <input type="hidden" name="reg_type" value="<?=$reg_type?>" />
                <input type="hidden" name="keyword_txt" value="<?=$keyword?>" />
+               <input type="hidden" name="datetime_jud" value="<?=$iidx?>" />
                <input type='hidden' name='brand_index' value="<?=$bidx?>" />
-               <input type='hidden' name='opt_cnt' value="1" />
+               <input type='hidden' name='opt_cnt' value="<?=$opt_cnt?>" />
+               <input type='hidden' name='cur_page' value="<?=$return_cur?>" />
+               <input type='hidden' name='item_img' value="<?=$item_img?>" />
                
                <div class="col-md-12">
                   <label for="pname" class="form-label">상품명</label>
-                  <input type="text" class="form-control" id="pname" name="product_name" onchange="chkSpaceFe(this)">
+                  <input type="text" class="form-control" id="pname" name="product_name" onchange="chkSpaceFe(this)" value="<?=$item_name?>">
                </div>
                <div class="col-md-3">
                   <div class="thumbsnail" id="thumbsimg">
@@ -178,11 +250,11 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                                        <label for="orderStart" class="form-label">표시 기간</label>
                                        <div class="d-flex">
                                           <div class="col-sm-6">
-                                             <input type="date" name="land_start" class="form-control " id="orderStartLand" />
+                                             <input type="date" name="land_start" class="form-control " id="orderStartLand" value="<?=$landing_start?>" />
                                           </div>
                                           <div class="col-sm-1"><span>~</span></div>
                                           <div class="col-sm-5">
-                                             <input type="date" name="land_end" class="form-control " />
+                                             <input type="date" name="land_end" class="form-control" value="<?=$landing_start?>" />
                                           </div>
                                        </div>
                                     </div>
@@ -213,11 +285,11 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                                           <label for="orderStart" class="form-label">표시 기간</label>
                                           <div class="d-flex">
                                              <div class="col-sm-6">
-                                                <input type="date" name="open_start" class="form-control " id="orderStartO" />
+                                                <input type="date" name="open_start" class="form-control " id="orderStartO" value="<?=$open_start?>"/>
                                              </div>
                                              <div class="col-sm-1"><span>~</span></div>
                                              <div class="col-sm-5">
-                                                <input type="date" name="open_end" class="form-control " />
+                                                <input type="date" name="open_end" class="form-control" value="<?=$open_start?> "/>
                                              </div>
                                           </div>
                                     </div>
@@ -248,11 +320,11 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                                           <label for="orderStart" class="form-label">표시 기간</label>
                                           <div class="d-flex">
                                              <div class="col-sm-6">
-                                                <input type="date" name="pre_start" class="form-control " id="orderStartP" />
+                                                <input type="date" name="pre_start" class="form-control " id="orderStartP" value="<?=$pre_start?>" />
                                              </div>
                                              <div class="col-sm-1"><span>~</span></div>
                                              <div class="col-sm-5">
-                                                <input type="date" name="pre_end" class="form-control " />
+                                                <input type="date" name="pre_end" class="form-control " value="<?=$pre_end?>" />
                                              </div>
                                           </div>
                                     </div>
@@ -286,18 +358,18 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                      <label for="price" class="form-label">가격</label>
                      <div class="col-sm-11 d-flex">
                         <input type="number" id="price" name="product_price" class="form-control " maxlength="12"
-                           oninput="maxLengthCheck(this)"  onchange="chkSpaceFe(this)"/>
+                           oninput="maxLengthCheck(this)"  onchange="chkSpaceFe(this)" value="<?=$item_price?>" />
                      </div>
                   </div>
                   <div class="col-md-6 col-sm-6">
                      <label for="odate" class="form-label">주문 기간</label>
                      <div class="d-flex">
                         <div class="col-sm-6 d-flex">
-                           <input id="odate" type="date" name="order_start" class="form-control " />
+                           <input id="odate" type="date" name="order_start" class="form-control " value="<?=$pstart?>" />
                         </div>
                         <div class="col-sm-1"><span>~</span></div>
                         <div class="col-sm-5">
-                           <input id="edate" type="date" name="order_end" class="form-control " />
+                           <input id="edate" type="date" name="order_end" class="form-control " value="<?=$pend?>" />
                         </div>
                      </div>
                   </div>
@@ -306,13 +378,13 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                   <div class="col-md-6 col-sm-6">
                      <label for="quan" class="form-label">수량</label>
                      <div class="col-sm-11 d-flex">
-                        <input type="number" id="quan" name="product_quantity" class="form-control " onchange="chkSpaceFe(this)"/>
+                        <input type="number" id="quan" name="product_quantity" class="form-control " onchange="chkSpaceFe(this)" value="<?=$item_quantity?>" />
                      </div>
                   </div>
                   <div class="col-md-6 col-sm-6">
                      <label for="moq" class="form-label">최소 수량(미입력시 1 )</label>
                      <div class="col-sm-11 d-flex">
-                        <input type="number" id="moq" name="product_moq" class="form-control " onchange="chkSpaceFe(this)"/>
+                        <input type="number" id="moq" name="product_moq" class="form-control " onchange="chkSpaceFe(this)" value="<?=$item_moq?>" />
                      </div>
                   </div>
                </div>
@@ -323,7 +395,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                         <select class="form-select" name="delivery_comp" id="dcomp">
                            <option value="ALL">업체를 선택 해 주세요.</option>
                            <? foreach ($deli_arr as $v): ?>
-                              <option value="<?= $v ?>"><?= $v ?></option>
+                              <option value="<?= $v ?>" <? if($v == $delivery) echo "selected"; ?>><?= $v ?></option>
                            <? endforeach; ?>
                         </select>
                      </div>
@@ -332,7 +404,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                      <label for="dydate" class="form-label">배송예정일</label>
                      <div class="col-sm-11 d-flex">
                         <input type="date" id="dydate" name="delivery_maybe" class="form-control " maxlength="12"
-                           oninput="maxLengthCheck(this)" />
+                           oninput="maxLengthCheck(this)" value="<?=$delivery_day?>" />
                      </div>
                   </div>
                </div>
@@ -341,7 +413,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                      <label for="dval" class="form-label">배송비</label>
                      <div class="col-sm-11 d-flex">
                         <input type="number" id="dval" name="delivery_coast" class="form-control " maxlength="12"
-                           oninput="maxLengthCheck(this)" onchange="chkSpaceFe(this)" />
+                           oninput="maxLengthCheck(this)" onchange="chkSpaceFe(this)" value="<?=$delivery_price?>" />
                      </div>
                   </div>
                </div>
@@ -387,19 +459,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                      </div>
                   </div>
                   <div class="opt_show_div col-lg-12">
-                     <div class="opt_row d-flex opt_div1">
-                        <div class="opt_name col-md-3">
-                           <input type="text" class="form-control" id="optname1" name="optname1" placeholder="ex) 색상, 종류, 사이즈"/>
-                        </div>
-                        <div class="opt_value col-md-8 d-flex">
-                           <div class="input_div col-md-8">
-                              <input type="text" class="form-control" id="optvalue1" name="optvalue1" placeholder="ex) XS,S,M,L - ,로 구분" onchange="chkSpaceFe(this)"; />
-                           </div>
-                           <div class="btn_div bd1 col-md-2 d-flex align-items-center">
-                              <i class="bi bi-plus-square cpointer" onclick="addOpt()"></i>
-                           </div>
-                        </div>
-                     </div>
+                     <?=$opt_input_html?>
                   </div>
                   <div class="row_div col-lg-12">
                      <div class="showbtn_div col-md-3"><input type="button" class="btn btn-secondary" value="옵션 세팅" onclick="setOptTable()" />
@@ -408,6 +468,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
                   <div class="row_div col-lg-12">
                      <div class="table_div">
                         <table class="table table-bordered">
+                           <?=$opt_table_html?>
                         </table>
 
                      </div>
@@ -418,6 +479,9 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
 
                <div class="text-center regbtn_div">
                   <button type="button" class="btn btn-primary" onclick="regItem('<?=$reg_type?>')"><?=$type_name?></button>
+                  <? if($reg_type == "E"): ?>
+                     <button type="button" class="btn btn-danger" onclick="delItem(<?=$iidx?>)">삭제</button>
+                  <? endif; ?>
                   <button type="button" class="btn btn-secondary" onclick="cancelReturn()">취소</button>
                </div>
          </form><!-- End Multi Columns Form -->

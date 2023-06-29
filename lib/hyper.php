@@ -115,7 +115,17 @@ function getMailListAll($id,$whr)
 
 function getItemInfo($idx)
 {
-  $sql = "SELECT * FROM st_item WHERE i_idx = {$idx}";
+  $sql = "SELECT * FROM st_item as i 
+    LEFT OUTER JOIN st_item_opt as io ON i.i_idx = io.io_iidx 
+    WHERE i.i_idx = {$idx}";
+  return sql_fetch($sql);
+}
+function getItemOptEtcInfo($io_idx){
+  $sql = "SELECT * FROM st_item_opt_etc WHERE ioe_ioidx = {$io_idx}";
+  return sql_query($sql);
+}
+function getItemStep($iidx){
+  $sql = "SELECT * FROM st_item_step WHERE is_iidx = {$iidx}";
   return sql_fetch($sql);
 }
 function getBrandInfo($idx)
@@ -223,6 +233,12 @@ function getItemTotalCnt($bidx,$where){
   
   return $re['total'];
 }
+
+// 아이템 옵션
+function getItemOptInfo($iidx){
+  
+}
+
 
 function getDeliveryCompany(){
   $txt = 
@@ -342,7 +358,70 @@ function setKeywordHtml($key){
   }
 }
 
-// 옵션 html 세팅
+// 기본값으로 옵션 input 세팅
+function setOptInputHtml($num,$names,$values,$reg_type){
+
+  if($reg_type == "E"){
+    
+    $nbox = explode("|",$names);
+    $vbox = explode("|",$values);
+  
+    for($i=1,$a=0; $i<=$num; $i++,$a++){
+      
+      $oname = $nbox[$a];
+      $oval = $vbox[$a];
+    
+      $html .= "
+        <div class='opt_row col-lg-12 d-flex opt_div{$i}'>
+            <div class='opt_name col-md-3'>
+              <input type='text' class='form-control' id='optname{$i}' name='optname{$i}' placeholder='ex) 색상, 종류, 사이즈' value='{$oname}' />
+            </div>
+            <div class='opt_value col-md-8 d-flex'>
+              <div class='input_div col-md-8'>
+                  <input type='text' class='form-control' id='optvalue{$i}' name='optvalue{$i}' placeholder='ex) XS,S,M,L - ,로 구분' onchange='chkSpaceFe(this)'; value='{$oval}' />
+              </div>
+              <div class='btn_div bd1 col-md-2 d-flex align-items-center'>
+      ";            
+      if($num == 3 && $i > 1){
+      // 옵션이 3개, 2,3번째 생성시에는 삭제만
+      $html .= "<i class='bi bi-x-square-fill cpointer' onclick='delOpt({$i})'></i>";
+      }else if($num == 2 && $i == 2){
+      // 옵션이 2개, 2번째 생성시에는 둘 다
+      $html .= "<i class='bi bi-x-square-fill cpointer' onclick='delOpt({$i})'></i>";
+      $html .= "<i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>";
+      }else if($num == 1){
+      // 옵션이 하나일때는 추가만
+      $html .= "<i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>";
+      }
+                
+      $html .= "
+            </div>
+          </div>
+      </div>
+      ";
+    }
+  }else{
+    $html = "
+      <div class='opt_row d-flex opt_div1'>
+          <div class='opt_name col-md-3'>
+            <input type='text' class='form-control' id='optname1' name='optname1' placeholder='ex) 색상, 종류, 사이즈'/>
+          </div>
+          <div class='opt_value col-md-8 d-flex'>
+            <div class='input_div col-md-8'>
+                <input type='text' class='form-control' id='optvalue1' name='optvalue1' placeholder='ex) XS,S,M,L - ,로 구분' onchange='chkSpaceFe(this)'; />
+            </div>
+            <div class='btn_div bd1 col-md-2 d-flex align-items-center'>
+                <i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>
+            </div>
+          </div>
+      </div>
+    ";
+  }
+    return $html;
+}
+
+
+// 옵션 input 추가 html 세팅
 function getOptInputHtml($num,$name,$value){
   $num++;
 
@@ -433,33 +512,50 @@ function getOptInputHtmlDel($num,$name,$value){
   return $html;
 }
 
-function getOptTableHtml($oname,$oval,$cnt){
+// 같은 함수를 써야 데이터가 꼬이지 않으니, 기존 함수에 맞게 값을 만들어준다.
+// 옵션1,2는 배열로 옵션3은 , 구분의 텍스트로.
+// 최종적으로 옵션2는 두번째배열의 키값으로 들어가야한다. ex) arr[옵션2] = 옵션3텍스트
+function setDataOptTable($io_idx,$opt_cnt,$opt_title){
+  $opt_etc = getItemOptEtcInfo($io_idx);
+  $opt_etc_arr = array();
+  
+  foreach($opt_etc as $v){
+    $oe_txt = $v['ioe_value'].",".$v['ioe_keep'].",".$v['ioe_add_value'];
+    array_push($opt_etc_arr,$oe_txt);
+  }
+  
+  return getOptTableHtml($opt_title,"",$opt_cnt,$opt_etc_arr);
+  
+}
+
+function getOptTableHtml($oname,$oval,$cnt,$edit_data){
   $obox = explode("|",$oname);
   $vbox = explode("|",$oval);
   $box_cnt = count($vbox);
   
   $btn_col = $cnt + 4;
-    
+
+
   $html = "
-    <thead>
-      <tr>
-        <th colspan='{$btn_col}'>
-          <div class='all_div d-flex justify-content-end align-items-center'>
-            옵션가 : 
-            <select id='allPricePm' class='form-select'><option value='+'>+</option><option value='-'>-</option></select>
-            <input class='form-control' type='number' id='allPrice' />
-            수량 : <input class='form-control' type='number' id='allQuan' />
-            <input type='button' class='btn btn-secondary' value='일괄적용' onclick='allExec()' />
-            </div>
-        </th>
-      </tr>
-      <tr>
-        <th scope='col' rowspan='2' >#</th>
-        <th scope='col' colspan='{$cnt}'>옵션명</th>
-        <th scope='col' rowspan='2'>옵션가</th>
-        <th scope='col' rowspan='2'>수량</th>
-        <th scope='col' rowspan='2'></th>
-      </tr>
+  <thead>
+    <tr>
+      <th colspan='{$btn_col}'>
+        <div class='all_div d-flex justify-content-end align-items-center'>
+          옵션가 : 
+          <select id='allPricePm' class='form-select'><option value='+'>+</option><option value='-'>-</option></select>
+          <input class='form-control' type='number' id='allPrice' />
+          수량 : <input class='form-control' type='number' id='allQuan' />
+          <input type='button' class='btn btn-secondary' value='일괄적용' onclick='allExec()' />
+          </div>
+      </th>
+    </tr>
+    <tr>
+      <th scope='col' rowspan='2' >#</th>
+      <th scope='col' colspan='{$cnt}'>옵션명</th>
+      <th scope='col' rowspan='2'>옵션가</th>
+      <th scope='col' rowspan='2'>수량</th>
+      <th scope='col' rowspan='2'></th>
+    </tr>
   ";
 
   // th 부분에 옵션명 표시
@@ -475,112 +571,304 @@ function getOptTableHtml($oname,$oval,$cnt){
   ";
   
   
-  $v1box = explode(",",$vbox[0]);
-  $v2box = explode(",",$vbox[1]);
-
-  $lcnt = 1;
-  if($box_cnt == 3){
-
-    // 2,3차 옵션을 2차 배열로 합침.
-    foreach($v2box as $v){
-      $arr[$v] = $vbox[2];
-    }
   
-    // 1차 옵션 고정값
-    for($i=0; $i<count($v1box); $i++){
-      
-      $opt_name1 = $v1box[$i];
+  if($edit_data){
+    
+    $lcnt = 1;
+    foreach($edit_data as $v){
+      $box = explode(",",$v);
+
+      $opt_name1 = $box[0];
       $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name1}' />";
+      $opt_name2 = $box[1];
+      $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$opt_name2}' />";
+      $opt_name3 = $box[2];
+      $opt_input3 = "<input type='hidden' name='opt_v3[]' value='{$opt_name3}' />";
+      $opt_quan = $box[3];
+      $opt_addval = $box[4];
+      
+      
+      
+      $html .= "
+      <tr class='tr_{$lcnt}'>
+        <td></td>
+        <td>{$opt_name1}{$opt_input1}</td>
+        <td>{$opt_name2}{$opt_input2}</td>
+        <td>{$opt_name3}{$opt_input3}</td>
+        <td><input type='number' class='form-control' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' value={$opt_addval} /></td>
+        <td><input type='number' class='form-control' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' value={$opt_quan} /></td>
+        <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
+      </tr>
+      ";
+      $lcnt++;
+    }
+    
 
-      // 2차배열 키,값을 나눔
-      foreach($arr as $key => $val){
-        $opt_name2 = $key;      // 2차옵션 고정값.
-        $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$opt_name2}' />";
-        
-        if(!empty($opt_name2)){
-          $opt_value3 = explode(",",$val);
-          
-          // 3차옵션 출력
-          // 1차 - 2차 - 3차 설정한 개수만큼 출력됨.
-          // 반복문 겹치는거 말고 이걸 출력할 방법이 생각이 안남.
-          foreach($opt_value3 as $v){
-              $opt_input3 = "<input type='hidden' name='opt_v3[]' value='{$v}' />";
-              
-              // 옵션 , 전후로 값이 없어 빈값일때 미출력 처리 ## 3차까지 있을때만 작동함.
-              if(empty($opt_name1) || empty($opt_name2) || empty($v)){
-              }else{
-                  $html .= "
-                      <tr class='tr_{$lcnt}'>
-                        <td></td>
-                        <td>{$opt_name1}{$opt_input1}</td>
-                        <td>{$opt_name2}{$opt_input2}</td>
-                        <td>{$v}{$opt_input3}</td>
-                        <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
-                        <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
-                        <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
-                      </tr>
-                      ";
-                  $lcnt++;
-                }
-            }
-        }
-      
-      }
-    }
-    
-    
   }else{
-    for($i=0; $i<count($v1box); $i++){
-      
-      $opt_name = $v1box[$i];
-      $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name}' />";
+    
+
+    
+    
+    $v1box = explode(",",$vbox[0]);
+    $v2box = explode(",",$vbox[1]);
+  
+    $lcnt = 1;
+    if($box_cnt == 3){
+  
+      // 2,3차 옵션을 2차 배열로 합침.
       foreach($v2box as $v){
-        // 1,2차까지만 입력되었을때 , 전후로 빈값 처리 
-        // 2차 안걸러내면 1차뒤로 2차는 input이 옴. td가 하나씩 땡겨짐.
+        $arr[$v] = $vbox[2];
+      }
+    
+      // 1차 옵션 고정값
+      for($i=0; $i<count($v1box); $i++){
         
-        if($box_cnt == 1){
-          if(!empty($opt_name)){
-            $html .= "
-                <tr class='tr_{$lcnt}'>
-                  <td></td>
-                  <td>{$opt_name}{$opt_input1}</td>
-                  <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-                  <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-                  <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel($lcnt)' /></td>
-                </tr>
-            ";
-            $lcnt++;
+        $opt_name1 = $v1box[$i];
+        $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name1}' />";
+  
+        // 2차배열 키,값을 나눔
+        foreach($arr as $key => $val){
+          $opt_name2 = $key;      // 2차옵션 고정값.
+          $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$opt_name2}' />";
+          
+          if(!empty($opt_name2)){
+            $opt_value3 = explode(",",$val);
+            
+            // 3차옵션 출력
+            // 1차 - 2차 - 3차 설정한 개수만큼 출력됨.
+            // 반복문 겹치는거 말고 이걸 출력할 방법이 생각이 안남.
+            foreach($opt_value3 as $v){
+                $opt_input3 = "<input type='hidden' name='opt_v3[]' value='{$v}' />";
+                
+                // 옵션 , 전후로 값이 없어 빈값일때 미출력 처리 ## 3차까지 있을때만 작동함.
+                if(empty($opt_name1) || empty($opt_name2) || empty($v)){
+                }else{
+                    $html .= "
+                        <tr class='tr_{$lcnt}'>
+                          <td></td>
+                          <td>{$opt_name1}{$opt_input1}</td>
+                          <td>{$opt_name2}{$opt_input2}</td>
+                          <td>{$v}{$opt_input3}</td>
+                          <td><input type='number' class='form-control' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
+                          <td><input type='number' class='form-control' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
+                          <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
+                        </tr>
+                        ";
+                    $lcnt++;
+                  }
+              }
           }
-        }else if($box_cnt == 2){
-          if(!empty($opt_name) && !empty($v)){
-            $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$v}' />";
-            $html .= "
-                <tr class='tr_{$lcnt}'>
-                  <td></td>
-                  <td>{$opt_name}{$opt_input1}</td>
-                  <td>{$v}{$opt_input2}</td>
-                  <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-                  <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-                  <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
-                </tr>
-            ";
-            $lcnt++;
-          }
+        
         }
+      }
+      
+      
+    }else{
+      for($i=0; $i<count($v1box); $i++){
         
-        
+        $opt_name = $v1box[$i];
+        $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name}' />";
+        foreach($v2box as $v){
+          // 1,2차까지만 입력되었을때 , 전후로 빈값 처리 
+          // 2차 안걸러내면 1차뒤로 2차는 input이 옴. td가 하나씩 땡겨짐.
+          
+          if($box_cnt == 1){
+            if(!empty($opt_name)){
+              $html .= "
+                  <tr class='tr_{$lcnt}'>
+                    <td></td>
+                    <td>{$opt_name}{$opt_input1}</td>
+                    <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+                    <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+                    <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel($lcnt)' /></td>
+                  </tr>
+              ";
+              $lcnt++;
+            }
+          }else if($box_cnt == 2){
+            if(!empty($opt_name) && !empty($v)){
+              $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$v}' />";
+              $html .= "
+                  <tr class='tr_{$lcnt}'>
+                    <td></td>
+                    <td>{$opt_name}{$opt_input1}</td>
+                    <td>{$v}{$opt_input2}</td>
+                    <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+                    <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+                    <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
+                  </tr>
+              ";
+              $lcnt++;
+            }
+          }
+          
+          
+        }
       }
     }
-  }
+      
     
+    
+    $html .= "    
+      </tbody>
+    ";
+    
+  }
   
   
-  $html .= "    
-    </tbody>
-  ";
+    
   
   return $html;
 }
+
+// function getOptTableHtml($oname,$oval,$cnt,$adv,$adq){
+//   $obox = explode("|",$oname);
+//   $vbox = explode("|",$oval);
+//   $box_cnt = count($vbox);
+  
+//   $btn_col = $cnt + 4;
+    
+//   $html = "
+//     <thead>
+//       <tr>
+//         <th colspan='{$btn_col}'>
+//           <div class='all_div d-flex justify-content-end align-items-center'>
+//             옵션가 : 
+//             <select id='allPricePm' class='form-select'><option value='+'>+</option><option value='-'>-</option></select>
+//             <input class='form-control' type='number' id='allPrice' />
+//             수량 : <input class='form-control' type='number' id='allQuan' />
+//             <input type='button' class='btn btn-secondary' value='일괄적용' onclick='allExec()' />
+//             </div>
+//         </th>
+//       </tr>
+//       <tr>
+//         <th scope='col' rowspan='2' >#</th>
+//         <th scope='col' colspan='{$cnt}'>옵션명</th>
+//         <th scope='col' rowspan='2'>옵션가</th>
+//         <th scope='col' rowspan='2'>수량</th>
+//         <th scope='col' rowspan='2'></th>
+//       </tr>
+//   ";
+
+//   // th 부분에 옵션명 표시
+//   for($i=0; $i<$cnt; $i++){
+//     $html .= "<th scope='col'>".$obox[$i]."</th>";
+//   }
+    
+//   $html .= "
+//       <tr>
+        
+//     </thead>
+//     <tbody>
+//   ";
+  
+  
+//   $v1box = explode(",",$vbox[0]);
+//   $v2box = explode(",",$vbox[1]);
+
+//   $lcnt = 1;
+//   if($box_cnt == 3){
+
+//     // 2,3차 옵션을 2차 배열로 합침.
+//     foreach($v2box as $v){
+//       $arr[$v] = $vbox[2];
+//     }
+  
+//     // 1차 옵션 고정값
+//     for($i=0; $i<count($v1box); $i++){
+      
+//       $opt_name1 = $v1box[$i];
+//       $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name1}' />";
+
+//       // 2차배열 키,값을 나눔
+//       foreach($arr as $key => $val){
+//         $opt_name2 = $key;      // 2차옵션 고정값.
+//         $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$opt_name2}' />";
+        
+//         if(!empty($opt_name2)){
+//           $opt_value3 = explode(",",$val);
+          
+//           // 3차옵션 출력
+//           // 1차 - 2차 - 3차 설정한 개수만큼 출력됨.
+//           // 반복문 겹치는거 말고 이걸 출력할 방법이 생각이 안남.
+//           foreach($opt_value3 as $v){
+//               $opt_input3 = "<input type='hidden' name='opt_v3[]' value='{$v}' />";
+              
+//               // 옵션 , 전후로 값이 없어 빈값일때 미출력 처리 ## 3차까지 있을때만 작동함.
+//               if(empty($opt_name1) || empty($opt_name2) || empty($v)){
+//               }else{
+//                   $html .= "
+//                       <tr class='tr_{$lcnt}'>
+//                         <td></td>
+//                         <td>{$opt_name1}{$opt_input1}</td>
+//                         <td>{$opt_name2}{$opt_input2}</td>
+//                         <td>{$v}{$opt_input3}</td>
+//                         <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
+//                         <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
+//                         <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
+//                       </tr>
+//                       ";
+//                   $lcnt++;
+//                 }
+//             }
+//         }
+      
+//       }
+//     }
+    
+    
+//   }else{
+//     for($i=0; $i<count($v1box); $i++){
+      
+//       $opt_name = $v1box[$i];
+//       $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name}' />";
+//       foreach($v2box as $v){
+//         // 1,2차까지만 입력되었을때 , 전후로 빈값 처리 
+//         // 2차 안걸러내면 1차뒤로 2차는 input이 옴. td가 하나씩 땡겨짐.
+        
+//         if($box_cnt == 1){
+//           if(!empty($opt_name)){
+//             $html .= "
+//                 <tr class='tr_{$lcnt}'>
+//                   <td></td>
+//                   <td>{$opt_name}{$opt_input1}</td>
+//                   <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+//                   <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+//                   <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel($lcnt)' /></td>
+//                 </tr>
+//             ";
+//             $lcnt++;
+//           }
+//         }else if($box_cnt == 2){
+//           if(!empty($opt_name) && !empty($v)){
+//             $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$v}' />";
+//             $html .= "
+//                 <tr class='tr_{$lcnt}'>
+//                   <td></td>
+//                   <td>{$opt_name}{$opt_input1}</td>
+//                   <td>{$v}{$opt_input2}</td>
+//                   <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+//                   <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
+//                   <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
+//                 </tr>
+//             ";
+//             $lcnt++;
+//           }
+//         }
+        
+        
+//       }
+//     }
+//   }
+    
+  
+  
+//   $html .= "    
+//     </tbody>
+//   ";
+  
+//   return $html;
+// }
 
 
 

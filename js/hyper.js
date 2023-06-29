@@ -297,6 +297,12 @@ function keywordDel(num){
 
 function cancelReturn(){
   let rp = $("input[name=return_page").val();
+  let rt = $("input[name=reg_type").val();
+  let bidx = $("input[name=brand_index").val();
+  let cpage = $("input[name=cur_page").val();
+  if(rt == "E"){
+    rp += "brand_index="+bidx+"&end=10&cur_page="+cpage;
+  }
   location.href=rp;
 }
 
@@ -307,7 +313,7 @@ function regItem(type){
     $("#pname").focus();
     return false;
   }
-  if(!$(".thumbimg")[0].files[0]){
+  if(!$(".thumbimg")[0].files[0] && !$("input[name=item_img")){
     alert("대표 이미지를 등록 해 주세요.");
     $(".thumbimg").click();
     return false;
@@ -361,8 +367,9 @@ function regItem(type){
     return false;
   }
   
-  
-  if(confirm("상품을 등록 하시겠습니까?")){
+  let txt = "등록";
+  if(type == "E") txt = "수정";
+  if(confirm("상품을 "+txt+" 하시겠습니까?")){
     let f = new FormData($("#itemForm")[0]);
     f.append("w_mode","regItem");
     f.append("reg_type",type);
@@ -378,7 +385,7 @@ function regItem(type){
         console.log(json);
         
         if(json.state == "Y"){
-          alert('등록 되었습니다.');
+          alert(txt+' 되었습니다.');
           location.href = json.returnurl;
         }else if(json.state == "NI"){
           alert("대표 이미지가 누락되었습니다.\n재등록 부탁드립니다.\n지속될 경우 고객센터로 문의 주세요.");
@@ -386,6 +393,29 @@ function regItem(type){
         }else{
           errorAlert();
         }
+      }
+    })
+  }
+}
+
+function delItem(idx){
+  if(confirm("삭제 하시겠습니까?\n삭제 후 복구는 불가합니다.")){
+    
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"delItem","iidx":idx},
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          alert("정상적으로 삭제 되었습니다.");
+          cancelReturn();
+        }else{
+          errorAlert();
+        }
+        
       }
     })
   }
@@ -549,12 +579,15 @@ function allExec(){
     if(val === 0){
       val = "";
     }else{
-      val = pm+val;
+      if(val) val = pm+val;
     }
   } 
   
-  $("input[name='addval[]']").val(val);
-  $("input[name='addquan[]']").val(quan);
+  if(val) $("input[name='addval[]']").val(val);
+  if(quan)  $("input[name='addquan[]']").val(quan);
+  
+  $("#allQuan").val("");
+  $("#allPrice").val("");
 }
 
 function lineDel(num){
@@ -576,12 +609,17 @@ function lineDel(num){
     if(!opt1) $("table").hide();
   }
 
-  
-  
-  
-  
   $(".tr_"+num).remove();
 }
+
+function editItem(idx){
+  $("#ilist").attr("method","post");
+  $("#ilist").attr("action","admin_itemDetail.php");
+  $("#ilist").append("<input type='hidden' name='itemNumber' value='"+idx+"' />");
+  $("#ilist").append("<input type='hidden' name='reg_type' value='E' />");
+  $("#ilist").submit();
+}
+
 
 
 

@@ -177,6 +177,7 @@ $nopt = array("sw","return_cur");
             <tbody>
 <?
             foreach($item_box as $v) :
+              $iidx = $v['i_idx'];
               $imgname = $v['i_img'];
               // empty($imgname) ? $item_img = $noimg : $item_img = "<img src='{$img_path}/{$imgname}' />";
               if(empty($imgname) || !file_exists($img_path."/".$imgname)){
@@ -195,7 +196,7 @@ $nopt = array("sw","return_cur");
                 <td><?=number_format($v['i_delival'])?></td>
                 <td><?=$v['i_delicomp']?></td>
                 <td><?=$v['i_deliday']?></td>
-                <td>상세</td>
+                <td><input type='button' class='default-sm-btn' value='상세' onclick='editItem(<?=$iidx?>)' /></td>
               </tr>
 <?
             endforeach;
