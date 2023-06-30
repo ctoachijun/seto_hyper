@@ -24,6 +24,7 @@ if($brand_index) $bidx = $brand_index;
 // 페이징을 위한 쿼리스트링
 $pqs = $_SERVER['QUERY_STRING'];
 
+if(!$end) $end = 10;
 if(!$pqs){
   $end = 10;
   $start = 0;

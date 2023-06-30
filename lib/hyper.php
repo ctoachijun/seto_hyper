@@ -206,8 +206,8 @@ function chgBrandDirName($org,$bname){
   
   $comp_dir = $aidx."_".$aid;
   
-  $org_dir_path = "../img/maker/{$comp_dir}/brand/{$org}";
-  $new_dir_path = "../img/maker/{$comp_dir}/brand/{$bname}";
+  $org_dir_path = "../img/maker/{$comp_dir}/brand/\"{$org}\"";
+  $new_dir_path = "../img/maker/{$comp_dir}/brand/\"{$bname}\"";
   $cmd = "mv {$org_dir_path} {$new_dir_path}";
   exec($cmd);
   
@@ -1134,6 +1134,19 @@ function getFilename($fname,$dir){
   }
   
   return $f;
+}
+
+function setAdminLog($id,$idx,$sql,$exec){
+  $admin = getAdminInfoIdx($idx);
+  $comp = $admin['a_comp'];
+  
+  $log_sql = "INSERT INTO st_admin_log SET 
+    al_aidx = {$idx}, al_aid = '{$id}', al_comp = '{$comp}', al_exec = '{$exec}', al_sql = '{$sql}', al_wdate = now()";
+  
+  // $log_sql = addslashes($log_sql);
+  $log_re = sql_exec($log_sql);
+  
+  // return $log_sql;
 }
 
 

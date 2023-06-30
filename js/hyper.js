@@ -119,8 +119,8 @@ function regBrand(){
           $("#bname").val("");
           $("#bdesc").val("");
           $("#regimg").html("로고<br>클릭 후 등록");
-          $("#logo_file").remove();
-          $(".pop_input1").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event,'regimg');' />");
+          $("#logo_file").val("");
+          // $(".pop_input1").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event,'regimg');' />");
           return false;
         }else if(json.state == "N"){
           // alert("시스템 오류입니다.\n고객센터로 문의 부탁드립니다.");
@@ -174,8 +174,10 @@ function editBrand(){
           $(".brand_title").html(json.bname);
           // $("#bname").val(json.bname);
           // $("#bdesc").val(json.bdesc);
-          $("#logo_file").remove();
-          $("#brandForm").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event);' />");
+          $("input[name=org_bname").val(json.bname);
+          $("#logo_file").val("");
+          // $("#logo_file").remove();
+          // $("#brandForm").append("<input type='file' id='logo_file' name='logo' onchange='setThumbnail(event);' />");
         }
       },
       error : function(err){
@@ -308,6 +310,12 @@ function cancelReturn(){
 
 function regItem(type){
 
+  // 기간체크
+  if(!chkStepDate()){
+    $("html,body").scrollTop(10);
+    return false;
+  }
+    
   if(!$("#pname").val()){
     alert("상품명을 입력 해 주세요.");
     $("#pname").focus();
@@ -400,11 +408,13 @@ function regItem(type){
 
 function delItem(idx){
   if(confirm("삭제 하시겠습니까?\n삭제 후 복구는 불가합니다.")){
+    let bindex = $("input[name=brand_index").val();
+    let img = $("input[name=item_img").val();
     
     $.ajax({
       url : "ajax_admin.php",
       type: "post",
-      data: {"w_mode":"delItem","iidx":idx},
+      data: {"w_mode":"delItem","item_idx":idx,"bindex":bindex,"img":img},
       success: function(result){
         let json = JSON.parse(result);
         console.log(json);
@@ -506,15 +516,6 @@ function delOpt(num){
         
       }
     })
-  
-
-
-    // if(cnt == 3){
-    //   $(".btn_div").last().append("<i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>");
-    // }else if(cnt == 2){
-    //   $(".btn_div").append("<i class='bi bi-plus-square cpointer' onclick='addOpt()'></i>");
-    // }
-    
   }
 }
 
@@ -620,6 +621,102 @@ function editItem(idx){
   $("#ilist").submit();
 }
 
+function chkStepDate(){
+  let lsdate = $("input[name=land_start").val();
+  let ledate = $("input[name=land_end").val();
+  let osdate = $("input[name=open_start").val();
+  let oedate = $("input[name=open_end").val();
+  let psdate = $("input[name=pre_start").val();
+  let pedate = $("input[name=pre_end").val();
+  let jud = 1;
+
+  // 랜딩기간 체크  
+  if( (lsdate && ledate) && (lsdate > ledate) ){
+    alert("랜딩 종료일이 시작일보다 작습니다.");
+    jud = 2;
+    return false;
+  }
+  // 랜딩 시작일이 오픈,프리오더 설정일보다 크다. : 모든 시작일을 체크.
+  if( (osdate && lsdate >= osdate) || (psdate && lsdate >= psdate) || (oedate && lsdate >= oedate) || (pedate && lsdate >= pedate)){
+    alert("시작기간이 다른 기간과 겹칩니다.");
+    jud = 2;
+    return false;
+  }
+  // 랜딩 종료일이 오픈,프리오더 시작일과 겹치거나 크다
+  if( (osdate && ledate >= osdate) || (psdate && ledate >= psdate) ){
+    alert("랜딩 종료일이 다른 기간과 겹칩니다.");
+    jud = 2;
+    return false;
+  }
+  
+  // 오픈기간 체크
+  if( (osdate && oedate) && (osdate > oedate) ){
+    alert("오픈 종료일이 시작일보다 작습니다.");
+    jud = 2;
+    return false;
+  }
+  // 오픈 종료일이 프리오더 시작일과 겹치거나 크다.
+  if( (psdate && oedate >= psdate) ){
+    alert("오픈 종료일이 프리오더 시작일과 겹칩니다.");
+    jud = 2;
+    return false;
+  }
+  
+  // 프리오더기간 체크
+  if( (psdate && pedate) && (psdate > pedate) ){
+    alert("프리오더 종료일이 시작일보다 작습니다.");
+    jud = 2;
+    return false;
+  }
+  
+  if(jud == 2){
+    return false;
+  }else{
+    return true;
+  }
+}
+
+function setStepDate(){
+  // 기간체크
+  if(!chkStepDate()){
+    $("html,body").scrollTop(10);
+    return false;
+  }
+
+  if( confirm("기간 / 즉시 적용만 적용됩니다.\n진행하시겠습니까?") ){
+    let lsdate = $("input[name=land_start").val();
+    let ledate = $("input[name=land_end").val();
+    let osdate = $("input[name=open_start").val();
+    let oedate = $("input[name=open_end").val();
+    let psdate = $("input[name=pre_start").val();
+    let pedate = $("input[name=pre_end").val();
+    let now = $("input[name]:checked").val();
+    let dt = $("input[name=datetime_jud").val();
+    
+        
+    let land_date = lsdate+"|"+ledate;
+    let open_date = osdate+"|"+oedate;
+    let pre_date = psdate+"|"+pedate;
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"setStepDate","land_date":land_date,"open_date":open_date,"pre_date":pre_date,"now":now,"dt":dt},
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          
+        }else{
+          errorAlert();
+        }
+      }
+    })  
+  
+  }
+  
+  
+}
 
 
 

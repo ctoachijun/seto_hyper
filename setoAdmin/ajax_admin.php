@@ -1,6 +1,7 @@
 <?
 include "../lib/hyper.php";
 $aidx = $_SESSION['admin_idx'];
+$aid = $_SESSION['admin_id'];
 
 switch ($w_mode) {
   case "adminChk":
@@ -71,7 +72,7 @@ switch ($w_mode) {
       // 파일이름 설정
       $lname_box = explode(".",$lname);
       $whak = end($lname_box);
-      $logo = "logo_{$bname}.{$whak}";
+      $logo = "logo_brand.{$whak}";
       
       // 업로드
       $res = move_uploaded_file($lftmp, $path."/".$logo);
@@ -85,6 +86,11 @@ switch ($w_mode) {
         
         if($re){
           $output['state'] = "Y";
+
+          // 로그
+          $exec = "브랜드 \"{$bname}\" 등록";
+          $sql = addslashes($sql);
+          setAdminLog($aid,$aidx,$sql,$exec);
         }else{
           $output['state'] = "N";
         }
@@ -107,7 +113,7 @@ switch ($w_mode) {
       // 파일이름 설정
       $lname_box = explode(".",$lname);
       $whak = end($lname_box);
-      $logo = "logo_{$bname}.{$whak}";
+      $logo = "logo_brand.{$whak}";
       
       // 업로드
       $res = move_uploaded_file($lftmp, $path."/".$logo);
@@ -122,6 +128,12 @@ switch ($w_mode) {
         if($re){
           $output['state'] = "Y";
           $output['cmd'] = chgBrandDirName($org_bname,$bname);
+          $output['org_name'] = $bname;
+
+          // 로그
+          $exec = "브랜드 \"{$org_bname} -> {$bname}\" 정보 수정";
+          $sql = addslashes($sql);
+          setAdminLog($aid,$aidx,$sql,$exec);
         }else{
           $output['state'] = "N";
         }
@@ -136,6 +148,12 @@ switch ($w_mode) {
       if($re){
         $output['state'] = "Y";
         $output['chg'] = chgBrandDirName($org_bname,$bname);
+        $output['org_name'] = $bname;
+        
+        // 로그
+        $exec = "브랜드 \"{$org_bname} -> {$bname}\" 정보 수정";
+        $sql = addslashes($sql);
+        setAdminLog($aid,$aidx,$sql,$exec);
       }else{
         $output['state'] = "N";
       }
@@ -178,14 +196,21 @@ switch ($w_mode) {
 
     if($re){
       // 브랜드와 관련 된 상품 정보 삭제
-      $sql = "DELETE FROM st_item WHERE i_bidx = {$bidx}";
-      $re2 = sql_exec($sql);
+      $sql1 = "DELETE FROM st_item WHERE i_bidx = {$bidx}";
+      $re2 = sql_exec($sql1);
       
       if($re2){
         // 해당 브랜드 디렉토리 삭제(로고, 상품 이미지들 전부 삭제)
         $path = chkBrandDir($bname);
         exec('rm -rf "'.$path.'"');
         $output['state'] = "Y";
+        
+        // 로그
+        $sql_txt = "{$sql}\n{$sql2}";
+        $exec = "브랜드 \"{$bname}\" 및 관련 상품 정보 삭제";
+        $sql_txt = addslashes($sql_txt);
+        setAdminLog($aid,$aidx,$sql_txt,$exec);
+        
       }else{
         $output['state'] = "IN";
       }
@@ -199,7 +224,10 @@ switch ($w_mode) {
   case "regItem":
     $output['post'] = $_POST;
     if($reg_type == "E"){
+      $output['state'] = "Y";
       $iidx = $datetime_jud;
+      $return_page = $return_page."brand_index={$brand_index}&cur_page={$cur_page}";
+      
       $ifile = $_FILES['thumbsnail_img'];
       $iftmp = $ifile['tmp_name'];
       $iname = $ifile['name'];
@@ -288,16 +316,7 @@ switch ($w_mode) {
       }
 
       // 기간설정 입력
-      if($write_now == "Y1"){
-        $now_page = "L";
-      }else if($write_now == "Y2"){
-        $now_page = "O";
-      }else if($write_now == "Y3"){
-        $now_page = "P";
-      }else{
-        $now_page = "N";          
-      }
-
+      !$write_now ? $now_page = "N" : $now_page = $write_now;
       $landing_date = $land_start."|".$land_end;
       $open_date = $open_start."|".$open_end;
       $pre_date = $pre_start."|".$pre_end;
@@ -309,7 +328,12 @@ switch ($w_mode) {
       if(!$trans_re){
         $output['state'] = "TN";
       }
-            
+      
+      // 로그
+      $sql_txt = "{$sql}\n{$io_sql}\n{$ioe_sql}\n{$trans_sql}";
+      $exec = "상품 \"{$pname}\" 및 관련 정보 수정";
+      $sql_txt = addslashes($sql_txt);
+      setAdminLog($aid,$aidx,$sql_txt,$exec);
       
       
     }else{
@@ -378,17 +402,7 @@ switch ($w_mode) {
           
           
           // 기간설정 입력
-          // $write_now == "Y1" ? $now_page = "L" : $write_now == "Y2" ? $now_page = "O" : $write_now == "Y3" ? $now_page = "P" : $now_page = "L";
-          if($write_now == "Y1"){
-            $now_page = "L";
-          }else if($write_now == "Y2"){
-            $now_page = "O";
-          }else if($write_now == "Y3"){
-            $now_page = "P";
-          }else{
-            $now_page = "N";          
-          }
-  
+          !$write_now ? $now_page = "N" : $now_page = $write_now;
           $landing_date = $land_start."|".$land_end;
           $open_date = $open_start."|".$open_end;
           $pre_date = $pre_start."|".$pre_end;
@@ -403,6 +417,13 @@ switch ($w_mode) {
             
             if(!$io_re) $output['state'] = "ION";
             if(!$trans_re) $output['state'] = "TN";
+
+            // 로그
+            $sql_txt = "{$sql}\n{$io_sql}\n{$ioe_sql}\n{$trans_sql}";
+            $exec = "상품 \"{$pname}\" 및 관련 정보 등록";
+            $sql_txt = addslashes($sql_txt);
+            setAdminLog($aid,$aidx,$sql_txt,$exec);
+
             
           }else{
             $output['state'] = "N";
@@ -423,18 +444,52 @@ switch ($w_mode) {
   
   case "delItem":
     
+    $iidx = $item_idx;
+    
     $sql_optidx = "SELECT * FROM st_item_opt WHERE io_iidx = {$iidx}";
     $re_optidx = sql_fetch($sql_optidx);
     $io_idx = $re_optidx['io_idx'];
     
+    // 기간 관련 데이터 삭제
+    $sql_step = "DELETE FROM st_item_step WHERE is_iidx = {$iidx}";
+    $step_re = sql_exec($sql_step);
+    
     // 수량, 가격 테이블 연관데이터 삭제
     $sql_opt_etc = "DELETE FROM st_item_opt_etc WHERE ioe_ioidx = {$io_idx}";
+    $opt_etc_re = sql_exec($sql_opt_etc);
     
     // 옵션 테이블 연관데이터 삭제
     $sql_opt = "DELETE FROM st_item_opt WHERE io_iidx = {$iidx}";
+    $opt_re = sql_exec($sql_opt);
+    
+    // 해당 상품 대표이미지 삭제
+    $brand = getBrandInfo($bindex);
+    $bname = $brand['b_name'];
+    $path = chkBrandDir($bname);
+    $target = $path."/".$img;
+    
+    if(!unlink($target)){
+      $output['state2'] = "FN";
+    }
+    $output['target'] = $target;
+    
     
     // 상품 테이블 데이터 삭제
     $sql = "DELETE FROM st_item WHERE i_idx = {$iidx}";
+    $re = sql_exec($sql);
+    
+    if($re){
+      $output['state'] = "Y";
+      
+      // 로그
+      $sql_txt = "{$sql_step}\n{$sql_opt_etc}\n{$sql_opt}\n{$sql}";
+      $exec = "상품 \"{$pname}({$iidx})\" 및 관련 정보 삭제";
+      setAdminLog($aid,$aidx,$sql_txt,$exec);
+      
+    }else{
+      $output['state'] = "N";
+    }
+    
     
     $output['sql_etc'] = $sql_opt;
     $output['sql_opt'] = $sql_opt_etc;
@@ -469,7 +524,31 @@ switch ($w_mode) {
     echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
   
-  
+  case "setStepDate":
+    !$now ? $now_page = "N" : $now_page = $now;
+    
+    $sql = "UPDATE st_item_step SET 
+      is_landing_date = '{$land_date}', is_open_date = '{$open_date}', is_pre_date = '{$pre_date}', is_now_page = '{$now_page}'
+      WHERE is_iidx = {$dt}";
+    $re = sql_exec($sql);
+    // $output['sql'] = $sql;
+    if($re){
+      $output['state'] = "Y";
+            
+      $item = getItemInfo($dt);
+      $iname = $item['i_name'];
+      // 로그
+      $exec = "상품 \"{$iname}\" 관련 기간 수정";
+      $sql = addslashes($sql);
+      $res = setAdminLog($aid,$aidx,$sql,$exec);
+      // $output['res'] = $res;
+      
+    }else{
+      $output['state'] = "N";
+    }
+        
+    echo json_encode($output);
+  break;
   
   
   

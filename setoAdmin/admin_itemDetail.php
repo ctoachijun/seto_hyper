@@ -82,6 +82,29 @@ if($reg_type == "E"){
    $pre_end = $pdate[1];
    $nowp = $step['is_now_page'];
    
+   if($nowp == "L"){
+      $nowchk1 = "checked";
+      $divnow = "now1";
+      $btnnow = "btn-now1";
+      $iconnow = "cicon1";
+   }else if($nowp == "O"){
+      $nowchk2 = "checked";
+      $divnow = "now2";
+      $btnnow = "btn-now2";
+      $iconnow = "cicon2";
+   }else if($nowp == "P"){
+      $nowchk3 = "checked";
+      $divnow = "now3";
+      $btnnow = "btn-now3";
+      $iconnow = "cicon3";
+   }
+   
+}else{
+   // 등록시 체크박스 기본값 설정
+   $nowchk1 = "checked";
+   $divnow = "now1";
+   $btnnow = "btn-now1";
+   $iconnow = "cicon1";
 }
 
 ?>
@@ -90,8 +113,11 @@ if($reg_type == "E"){
    $(function () {
       
       // 기본값 세팅
-      $("#now1").css("background","#198754");
-      $(".btn-now1").css("color","#fff");
+      <? if($nowp != "N"): ?>
+      $("#<?=$divnow?>").css("background","#198754");
+      $(".<?=$btnnow?>").css("color","#fff");
+      $(".<?=$iconnow?>").show();
+      <? endif; ?>
       
       
       // 대표 이미지 세팅
@@ -212,7 +238,7 @@ if($reg_type == "E"){
                   <div class="thumbsnail" id="thumbsimg">
                      <div class="thumbbtn_div">
                         <a class="btn btn-primary btn-sm iupload" title="대표 이미지 업로드"><i class="bi bi-upload"></i></a>
-                        <a class="btn btn-danger btn-sm idelete" title="삭제"><i class="bi bi-trash"></i></a>
+                        <!-- <a class="btn btn-danger btn-sm idelete" title="삭제"><i class="bi bi-trash"></i></a> -->
                         <input type="file" name="thumbsnail_img" class="thumbimg" onchange="setThumbnail(event,'thumbsimg')" />
                      </div>
                   </div>
@@ -254,13 +280,13 @@ if($reg_type == "E"){
                                           </div>
                                           <div class="col-sm-1"><span>~</span></div>
                                           <div class="col-sm-5">
-                                             <input type="date" name="land_end" class="form-control" value="<?=$landing_start?>" />
+                                             <input type="date" name="land_end" class="form-control" value="<?=$landing_end?>" />
                                           </div>
                                        </div>
                                     </div>
                                     <? if($reg_type == "E"): ?>
                                     <div class="colwrap setbtn">
-                                       <input type="button" id="setDate1" class="btn btn-primary" value="지정" />
+                                       <input type="button" class="btn btn-primary" value="지정" onclick="setStepDate()"/>
                                     </div>
                                     <? endif; ?>
                                  </div>
@@ -268,7 +294,7 @@ if($reg_type == "E"){
                                  <div class="col-md-4 col-sm-4 now_div">
                                     <label for="writeNow" class="form-label">즉시 적용</label>
                                     <div class="col-sm-6">
-                                       <input type="radio" name="write_now" class="nowval" id="writeNow1" value="Y1" checked/>
+                                       <input type="radio" name="write_now" class="nowval" id="writeNow1" value="L" <?=$nowchk1?> />
                                        <button type="button" class="btn btn-outline-success" id="now1"><i
                                              class="bi bi-check-circle nocheck btn-now1"></i></button>
                                     </div>
@@ -289,13 +315,13 @@ if($reg_type == "E"){
                                              </div>
                                              <div class="col-sm-1"><span>~</span></div>
                                              <div class="col-sm-5">
-                                                <input type="date" name="open_end" class="form-control" value="<?=$open_start?> "/>
+                                                <input type="date" name="open_end" class="form-control" value="<?=$open_end?>"/>
                                              </div>
                                           </div>
                                     </div>
                                     <? if($reg_type == "E"): ?>
                                     <div class="colwrap setbtn">
-                                       <input type="button" id="setDate1" class="btn btn-primary" value="지정" />
+                                       <input type="button" class="btn btn-primary" value="지정" onclick="setStepDate()" />
                                     </div>
                                     <? endif; ?>
                                  </div>
@@ -303,7 +329,7 @@ if($reg_type == "E"){
                                  <div class="col-md-4 col-sm-4 now_div">
                                        <label for="writeNow" class="form-label">즉시 적용</label>
                                        <div class="col-sm-6">
-                                          <input type="radio" name="write_now" class="nowval" id="writeNow2" value="Y2" />
+                                          <input type="radio" name="write_now" class="nowval" id="writeNow2" value="O" <?=$nowchk2?>/>
                                           <button type="button" class="btn btn-outline-success" id="now2"><i
                                                 class="bi bi-check-circle nocheck btn-now2"></i></button>
                                        </div>
@@ -330,7 +356,7 @@ if($reg_type == "E"){
                                     </div>
                                     <? if($reg_type == "E"): ?>
                                     <div class="colwrap setbtn">
-                                       <input type="button" id="setDate1" class="btn btn-primary" value="지정" />
+                                       <input type="button" class="btn btn-primary" value="지정" onclick="setStepDate()" />
                                     </div>
                                     <? endif; ?>
                                  </div>
@@ -338,7 +364,7 @@ if($reg_type == "E"){
                                  <div class="col-md-4 col-sm-4 now_div">
                                        <label for="writeNow" class="form-label">즉시 적용</label>
                                        <div class="col-sm-6">
-                                          <input type="radio" name="write_now" class="nowval" id="writeNow3" value="Y3" />
+                                          <input type="radio" name="write_now" class="nowval" id="writeNow3" value="P" <?=$nowchk3?>/>
                                           <button type="button" class="btn btn-outline-success" id="now3"><i
                                                 class="bi bi-check-circle nocheck btn-now3"></i></button>
                                        </div>
