@@ -15,15 +15,17 @@
   $current_file = end($script_box);
     
   // 초기화
-  $smail_col = $main_col = $sbrand_col = "collapsed";
+  $smail_col = $main_col = $sbrand_col = $sorder_col = "collapsed";
   
   // 파일에 따라 메뉴 선택 css 활성화
   if($current_file == "main.php"){
     $main_col = ""; 
   }else if($current_file == "admin_mailList.php"){
     $smail_col = "";
-  }else if($current_file == "admin_brandList.php"){
+  }else if($current_file == "admin_brandList.php || $current_file == admin_itemList.php || $current_file == itemDetail.php "){
     $sbrand_col = "";
+  }else if($current_file == "admin_orderList.php"){
+    $sorder_col = "";
   }
   
   
@@ -192,7 +194,12 @@
           <span>브랜드 목록</span>
         </a>
       </li><!-- End Maillist Nav -->
-
+      <li class="nav-item">
+        <a class="nav-link <?=$sorder_col?>" href="admin_orderList.php">
+          <i class="bi bi-cart-check"></i>
+          <span>주문 목록</span>
+        </a>
+      </li><!-- End Maillist Nav -->
       
       
       <li class="nav-item">
