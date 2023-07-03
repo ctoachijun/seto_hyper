@@ -1272,6 +1272,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .maillist .middle_div .paging_div{margin-top:20px;}
 
 
+
+
 /*
   # 브랜드 리스트 페이지
 */
@@ -1393,6 +1395,81 @@ input[type="number"]::-webkit-inner-spin-button {
 .itemdetail .middle_div .row_div .table_div tbody td:nth-child(5){width:16%}
 .itemdetail .middle_div .row_div .table_div tbody td:nth-child(6){width:16%}
 .itemdetail .middle_div .row_div .table_div tbody td input{text-align:right}
+
+
+
+/*
+  주문 리스트
+*/
+.orderlist .middle_div{flex-direction:column;}
+.orderlist .middle_div form{width:100%}
+.orderlist .search_div{justify-content:space-between;height:2.5rem;width:100%;margin-bottom:15px;}
+.orderlist .search_div .typeselect{height:2.5rem;width:20%;margin-right:10px;}
+.orderlist .search_div .sortselect{height:2.5rem;width:14%;margin-right:10px;}
+.orderlist .search_div .swinput{height:2.5rem;width:50%;margin-right:10px;}
+.orderlist .search_div .btn{height:2.5rem;}
+.orderlist .search_div div:first-child{width:60%}
+.orderlist .search_div div:last-child{width:10%; justify-content: flex-end;}
+.orderlist .search_div img{cursor:pointer;width:50px;height:auto;}
+.orderlist .table_div{width:100%;padding:.3rem;}
+.orderlist table{width:100%;text-align:center;}
+.orderlist table th{border:1px solid #ACACAC;font-size:.8rem;background:#f1f5f3}
+.orderlist table th:first-child{max-width:5%}
+.orderlist table td{height:20px;font-size:.8rem;border: 1px solid #ACACAC;padding:.5rem;}
+.orderlist table tr{height:35px;}
+.orderlist table tbody tr:nth-child(odd){background:#EFEFEF;}
+.orderlist table tbody tr:hover{background:#f4f5e0}
+.orderlist .deli_td{width:100%;}
+.orderlist .deli_td input{font-size:.8rem}
+.orderlist .deli_td .default_btn{margin-left:10px; height:30px;}
+.orderlist .middle_div .paging_div{margin-top:20px;}
+
+.orderlist table td:first-child{width:10%}
+.orderlist table td:nth-child(2){width:5%}
+.orderlist table td:nth-child(3){width:5%}
+.orderlist table td:nth-child(4){width:15%}
+.orderlist table td:nth-child(5){width:5%}
+.orderlist table td:nth-child(6){width:8%}
+.orderlist table td:nth-child(7){width:10%}
+.orderlist table td:nth-child(8){width:10%}
+.orderlist table td:nth-child(9){width:5%}
+.orderlist table td:last-child{width:15%}
+.orderlist .cancel_tr{background:#918d8d !important}
+
+
+
+/*
+  # 주문 상세
+*/
+.orderDetail .canyes_txt{font-weight:700;color:red;}
+.orderDetail .canno_txt{font-weight:700;color:blue;}
+.orderDetail{font-size:0.8rem}
+.orderDetail .middle_div{padding:1rem;}
+.orderDetail .middle_div section{margin-bottom:20px;padding-top:50px;}
+.orderDetail .middle_div .order_row{border-top:3px solid #444;border-bottom:1px solid #AAA;padding-left:.8rem;}
+.orderDetail .middle_div .od1{width:20%;padding:.8rem;}
+.orderDetail .middle_div .od1 .item_img_div{width:100%;height:100%;max-height:150px;}
+.orderDetail .middle_div .od1 img{width:100%;height:100%;object-fit: contain;}
+.orderDetail .middle_div .od2{width:30%;border:1px solid #CECECE;justify-content:space-between;}
+.orderDetail .middle_div .od2 .od_row{padding:.5rem;width:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content: center;}
+.orderDetail .middle_div .od2 .head_txt{margin-right:20px;font-weight:700}
+.orderDetail .middle_div .od2 .cont_txt{font-size:1rem;}
+.orderDetail .middle_div .od3{width:30%;border:1px solid #CECECE;justify-content:flex-end;background:#fbfcda}
+.orderDetail .middle_div .od3 .od_row{padding:.5rem;width:100%;display:flex;align-items:flex-end;justify-content: center;}
+.orderDetail .middle_div .od3 .od_row:last-child{border-top:1px solid #CECECE;margin-top:10px;padding-top:20px}
+.orderDetail .middle_div .od3 .od_row:last-child .cont_txt{font-weight:700}
+.orderDetail .middle_div .od3 .od_row div:first-child{width:30%;display:flex;justify-content: flex-end;}
+.orderDetail .middle_div .od3 .od_row div:last-child{width:70%;display:flex;justify-content: flex-end;}
+.orderDetail .middle_div .od3 .head_txt{font-weight:700}
+.orderDetail .middle_div .od3 .cont_txt{font-size:1rem;}
+
+.orderDetail .middle_div table tr:first-child{border-top:3px solid #444;}
+.orderDetail th{background:#cecece;text-align:center;width:10%;vertical-align: middle;}
+.orderDetail td{vertical-align:middle;}
+.orderDetail td:nth-child(2){padding-left:1.5rem;width:16%;border-right:1px solid #CECECE;}
+.orderDetail td:nth-child(3){width:20%;color:#777}
+
+
 
 
 

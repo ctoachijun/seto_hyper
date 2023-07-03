@@ -714,11 +714,43 @@ function setStepDate(){
     })  
   
   }
-  
-  
 }
 
+function setCancelList(){
+  $("form").submit();  
+}
 
+function sortOdate(){
+  let so = $("input[name=sodate").val();
+  $("form").submit();
+}
+
+function setDeliNum(idx){
+  let num = $("input[name=deli_number"+idx).val();
+  
+  if(!num){
+    alert("송장 번호를 입력 해 주세요.");
+    return false;
+  }
+  
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"setDeliNum","oidx":idx,"num":num},
+    success : function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+    }
+  })
+}
+
+function detailOrder(oidx){
+  $("form").attr("action","admin_orderDetail.php");
+  $("form").append("<input type='hidden' name='oidx' value='"+oidx+"'>");
+  $("form").submit();
+    
+  
+}
 
 
 

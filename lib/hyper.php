@@ -113,6 +113,11 @@ function getMailListAll($id,$whr)
   return sql_query($sql);
 }
 
+function getMemberInfo($idx)
+{
+  $sql = "SELECT * FROM st_member WHERE m_idx = {$idx}";
+  return sql_fetch($sql);  
+}
 function getItemInfo($idx)
 {
   $sql = "SELECT * FROM st_item as i 
@@ -133,9 +138,13 @@ function getBrandInfo($idx)
   $sql = "SELECT * FROM st_brand WHERE b_idx = {$idx}";
   return sql_fetch($sql);
 }
-  function getBrandItem($bidx,$where,$limit){
+function getBrandItem($bidx,$where,$limit){
   $sql = "SELECT * FROM st_item {$where} {$limit}";
   return sql_query($sql);
+}
+function getOrderInfo($oidx){
+  $sql = "SELECT * FROM st_order as o JOIN st_payment as p ON o.o_pmidx = p.pm_idx WHERE o.o_idx = {$oidx}";
+  return sql_fetch($sql);
 }
 function getBrandList($idx,$sw){
   if($idx != "ALL"){
@@ -907,6 +916,8 @@ function getPaging($tbl, $qs, $where){
     $tbl_name = "st_smail";
   }else if($tbl == "seto_product"){
     $tbl_name = "st_item";
+  }else if($tbl == "seto_order"){
+    $tbl_name = "st_order";
   }
   
   // 쿼리스트링에서 변수 및 값 대입

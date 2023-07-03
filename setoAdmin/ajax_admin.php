@@ -550,6 +550,23 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
   
+  case "setDeliNum":
+    $sql = "UPDATE st_order SET o_deli_number = {$num} WHERE o_idx = {$oidx}";
+    $re = sql_exec($sql);
+    
+    $output['sql'] = $sql;
+    
+    if($re){
+      $output['state'] = "Y";
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output);
+  break;
+  
+  
+  
   
   
   default:
