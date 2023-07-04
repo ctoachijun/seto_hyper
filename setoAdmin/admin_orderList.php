@@ -1,10 +1,6 @@
 <?
 include "./admin_header.php";
 
-
-
-
-
 // $arr_tel = array("01041961379","01091900223","010395820339","01039482939","01058203959","01029938829","01039482230");
 // $arr_email = array("test1@gmail.com","test2@naver.com","test3@daum.net","test4@gmail.com","test5@hanmail.net","test6@kakao.com");
 // $arr_opt = array("빨강,큰거","파랑,작은거","빨강,작은거","파랑,큰거","고무,롱타입,SET1","고무,숏타입,SET1","고무,롱타입,SET2","고무,숏타입,SET2","고무,롱타입,SET3");
@@ -134,7 +130,7 @@ if($sodate == "A"){
 
 $sql = "SELECT * FROM st_order {$join} {$where} {$sodate_txt} {$limit}";
 $order_box = sql_query($sql);
-echo "$sql <br>";
+// echo "$sql <br>";
 
 
 
