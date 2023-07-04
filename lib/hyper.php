@@ -189,7 +189,11 @@ function chkBrandDir($bname){
     $abox = explode("|",brandnameToAdmin($bname));
     $aidx = $abox[0];
     $aid = $abox[1];
+    
+    if(empty($aidx)) $aidx = $_SESSION['admin_idx'];
+    if(empty($aid)) $aid = $_SESSION['admin_id'];
   }
+  
   
   $comp_dir = $aidx."_".$aid;
   

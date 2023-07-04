@@ -64,81 +64,31 @@
         "modified": false
       },
       "maker": {
-        "2_choo": {
+        "1_seto": {
           "brand": {
-            "Ka cal": {
-              "20230703_1688357787.jpg": {
+            "세토웍스": {
+              "20230704_1688457052.jpg": {
                 "type": "-",
-                "size": 162004,
-                "lmtime": 1688375715108.1223,
+                "size": 120895,
+                "lmtime": 1688459708512.7715,
                 "modified": false
               },
-              "logo_Ka cal.png": {
-                "type": "-",
-                "size": 51232,
-                "lmtime": 1687739228975.4812,
-                "modified": false
-              }
-            },
-            "어흥": {
-              "20230703_1688357824.jpg": {
-                "type": "-",
-                "size": 85895,
-                "lmtime": 1688375715140.1228,
-                "modified": false
-              },
-              "BwkW1630644016_96859928.gif": {
-                "type": "-",
-                "size": 426917,
-                "lmtime": 1688109628308.4797,
-                "modified": false
-              },
-              "logo_어흥.png": {
-                "type": "-",
-                "size": 10048,
-                "lmtime": 1687739228999.4763,
-                "modified": false
-              },
-              "다운로드.jpeg": {
-                "type": "-",
-                "size": 23151,
-                "lmtime": 1688109628333.2036,
-                "modified": false
-              }
-            },
-            "조옴비": {
-              "20201208_1607422703.jpg": {
-                "type": "-",
-                "size": 122032,
-                "lmtime": 1688375715175.8706,
-                "modified": false
-              },
-              "logo_조옴비.jpg": {
+              "logo_brand.jpg": {
                 "type": "-",
                 "size": 40153,
-                "lmtime": 1687739229022.504,
+                "lmtime": 1688459708553.2864,
                 "modified": false
               }
             }
           }
         },
-        "3_joo": {
+        "2_choo": {
           "brand": {
-            "joo 폭스": {
-              "1677120737631.png": {
-                "type": "-",
-                "size": 134933,
-                "lmtime": 1688375715213.87,
-                "modified": false
-              },
-              "logo_brand.jpg": {
-                "type": "-",
-                "size": 89980,
-                "lmtime": 1688109628392.1333,
-                "modified": false
-              }
-            }
+            "세토웍스": {}
           }
+        },
+        "3_joo": {
+          "brand": {}
         }
       },
       "no_img1.jpg": {
@@ -163,8 +113,8 @@
     "js": {
       "hyper.js": {
         "type": "-",
-        "size": 23512,
-        "lmtime": 1688375715236.8716,
+        "size": 24500,
+        "lmtime": 1688459633498.0398,
         "modified": false
       }
     },
@@ -3836,13 +3786,13 @@
       "db_config.php": {
         "type": "-",
         "size": 1872,
-        "lmtime": 1687141399441.171,
+        "lmtime": 1688459633499.04,
         "modified": false
       },
       "hyper.php": {
         "type": "-",
-        "size": 36988,
-        "lmtime": 1688375715260.8796,
+        "size": 37282,
+        "lmtime": 1688459633499.04,
         "modified": false
       }
     },
@@ -3856,7 +3806,7 @@
       "admin_brandList.php": {
         "type": "-",
         "size": 4470,
-        "lmtime": 1687840244133.8572,
+        "lmtime": 1688459633500.04,
         "modified": false
       },
       "admin_footer.php": {
@@ -3867,8 +3817,8 @@
       },
       "admin_header.php": {
         "type": "-",
-        "size": 15410,
-        "lmtime": 1688113859728.046,
+        "size": 15409,
+        "lmtime": 1688430625048.4724,
         "modified": false
       },
       "admin_itemDetail.php": {
@@ -3886,33 +3836,33 @@
       "admin_mailList.php": {
         "type": "-",
         "size": 4466,
-        "lmtime": 1687740292837.0452,
+        "lmtime": 1688459633500.04,
         "modified": false
       },
       "admin_orderDetail.php": {
         "type": "-",
-        "size": 6574,
-        "lmtime": 1688375350910.823,
+        "size": 7583,
+        "lmtime": 1688459633501.0396,
         "modified": false
       },
       "admin_orderList.php": {
         "type": "-",
-        "size": 10360,
-        "lmtime": 1688429467142.4495,
+        "size": 10344,
+        "lmtime": 1688459633501.0396,
         "modified": false
       },
       "ajax_admin.php": {
         "type": "-",
-        "size": 17907,
-        "lmtime": 1688375715347.857,
+        "size": 18552,
+        "lmtime": 1688459633502.0425,
         "modified": false
       },
       "assets": {
         "css": {
           "style.css": {
             "type": "-",
-            "size": 36280,
-            "lmtime": 1688429369672.2603,
+            "size": 38144,
+            "lmtime": 1688459633502.0425,
             "modified": false
           }
         },
@@ -6610,7 +6560,7 @@
       "excelDownload.php": {
         "type": "-",
         "size": 2205,
-        "lmtime": 1687333331534.067,
+        "lmtime": 1688459633503.043,
         "modified": false
       },
       "index.php": {
@@ -9563,7 +9513,7 @@
       "ajax_setoLand.php": {
         "type": "-",
         "size": 431,
-        "lmtime": 1687248728554.8135,
+        "lmtime": 1688459633503.043,
         "modified": false
       },
       "atoll": {

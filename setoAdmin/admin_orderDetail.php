@@ -1,9 +1,9 @@
 <?
 include "./admin_header.php";
 
+
 // 내 소유의 상품인지 체크.
 chkMyOrder($admin_idx,$oidx,$admin_group);
-
 
 $qs = $_SERVER['QUERY_STRING'];
 

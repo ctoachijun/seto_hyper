@@ -53,7 +53,7 @@ include "./admin_header.php";
 $pqs = $_SERVER['QUERY_STRING'];
 
 if(!$pqs){
-  $end = 10;
+  $end = 20;
   $start = 0;
   $cur_page = 1;
   $pqs = "&end={$end}&start={$start}&cur_page={$cur_page}";
@@ -107,12 +107,7 @@ if ($admin_group == "SK") {
 // 메이커인 경우
 }else if($admin_group == "MK"){
   $where .= "AND o.o_aidx = {$admin_idx}";
-  
-// 일반 회원인 경우
-}else{
-  $where .= "AND o.o_midx = {$member_idx}";
 }
-
 
 if(!$sodate){
   $sodate = "D";
@@ -194,7 +189,8 @@ $where = $join." ".$where;
               <input type="submit" class="btn btn-primary subbtn" value="검색" />
             </div>
             <div class="d-flex">
-              <!-- <img src="../img/exel.png" onclick="downExcel(1,'<?=$admin_idx?>')" /> -->
+              <input type='button' class='btn btn-outline-success' value='송장번호 일괄업로드' onclick='setAllDeliNum(<?=$admin_idx?>)' />
+              <img src="../img/exel.png" onclick="downExcel(2,'<?=$admin_idx?>')" />
             </div>
           </div>
         </form>

@@ -1,7 +1,6 @@
 <?
 include "./admin_header.php";
 
-
 if(!$maker_idx){
   // 메이커가 아닌경우 메이커 선택 가능하게 함
   if($admin_group != "MK"){
@@ -10,14 +9,12 @@ if(!$maker_idx){
     $maker_idx = $admin_idx;  
   }
 }
-
 // 메이커 셀렉트 생성
 $maker_select = getMakerSelect($maker_idx);
 
 
 // 해당 메이커의 브랜드 데이터를 추출
 $brand = getBrandList($maker_idx,$sw);
-
 
 // 총 건수
 $total_cnt = count($brand);
@@ -56,13 +53,12 @@ $total_cnt = count($brand);
       <div class="search_div d-flex">
         <div class="total_count d-flex align-items-end">총 <?=$total_cnt?>건</div>
         <div class="mselect_div d-flex">
-<?      if($admin_group != "MK") : ?>        
+          <? if($admin_group != "MK") : ?>
           <?=$maker_select?>
+          <? endif; ?>
           <input type="text" class="form-control" name="sw" value="<?=$sw?>" placeholder="브랜드 이름을 검색 해 주세요."/>
           <input type="button" class="btn btn-outline-primary swBtn" value="검색" onclick="searchBrand()" />
-<?      elseif($admin_group == "MK") : ?>
           <input type="button" class="btn btn-outline-success regBtn" value="등록" onclick="showRegPopup()"/>
-<?      endif; ?>          
         </div>
       </div>
     </div> <!-- end of top_div -->

@@ -1401,6 +1401,7 @@ input[type="number"]::-webkit-inner-spin-button {
 /*
   주문 리스트
 */
+.orderlist .top_div input[type=file]{display:none;}
 .orderlist .middle_div{flex-direction:column;}
 .orderlist .middle_div form{width:100%}
 .orderlist .search_div{justify-content:space-between;height:2.5rem;width:100%;margin-bottom:15px;}
@@ -1410,7 +1411,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .orderlist .search_div .btn{height:2.5rem;}
 .orderlist .search_div div:first-child{width:60%}
 .orderlist .search_div div:last-child{width:10%; justify-content: flex-end;}
-.orderlist .search_div img{cursor:pointer;width:50px;height:auto;}
+.orderlist .search_div img{cursor:pointer;width:50px;height:auto;margin-left:20px;}
 .orderlist .table_div{width:100%;padding:.3rem;}
 .orderlist table{width:100%;text-align:center;}
 .orderlist table th{border:1px solid #ACACAC;font-size:.8rem;background:#f1f5f3}

@@ -115,26 +115,30 @@ $nopt = array("sw","type","total_cnt");
             </tr>
           </thead>
           <tbody>
-<?
-          foreach($mail_box as $v) :
-            $item_box = getItemInfo($v['s_iidx']);
-            $brand_box = getBrandInfo($item_box['i_bidx']);
-            $brand_name = $brand_box['b_name'];
-            $item_name = $item_box['i_name'];
-            $mail = $v['s_email'];
-            $wdate = $v['s_wdate'];
+<?         
+          if($mail_box) :
+            foreach($mail_box as $v) :
+              $item_box = getItemInfo($v['s_iidx']);
+              $brand_box = getBrandInfo($item_box['i_bidx']);
+              $brand_name = $brand_box['b_name'];
+              $item_name = $item_box['i_name'];
+              $mail = $v['s_email'];
+              $wdate = $v['s_wdate'];
 ?>            
-            <tr>
-              <th><?=$number?></th>
-              <td><?=$brand_name?></td>
-              <td><?=$item_name?></td>
-              <td><?=$mail?></td>
-              <td><?=$wdate?></td>
-            </tr>
+              <tr>
+                <th><?=$number?></th>
+                <td><?=$brand_name?></td>
+                <td><?=$item_name?></td>
+                <td><?=$mail?></td>
+                <td><?=$wdate?></td>
+              </tr>
 <?
-            $number--;
-          endforeach;
+              $number--;
+            endforeach;
+          else :
 ?>
+            <tr><td colspan="5" style="height:100px;">검색 결과가 없습니다. </td></tr>
+<?        endif; ?>              
 
           </tbody>
         </table>

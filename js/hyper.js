@@ -16,6 +16,13 @@ function downExcel(code,admin){
     $("#exceldown").append("<input type='hidden' name='admin' value='"+admin+"' />");
     $("#exceldown").append("<input type='hidden' name='type' value='"+type+"' />");
     $("#exceldown").append("<input type='hidden' name='sw' value='"+sw+"' />");
+    
+    if(code == 2){
+      $("#exceldown").append("<input type='hidden' name='sort_cancel' value='"+ $("select[name=sort_cancel]").val() +"' />");
+      $("#exceldown").append("<input type='hidden' name='sodate' value='"+ $("input[name=sodate]").val() +"' />");
+    } 
+    
+    
     $("#exceldown").append("</form>");
     $("#exceldown").submit();
     
@@ -310,7 +317,7 @@ function cancelReturn(){
     let type = $("input[name=type").val();
     let sw = $("input[name=sw").val();
     
-    rp += "?"+"end=10&sodate="+sodate+"&sort_cancel="+sort_cancel+"&cur_page="+cpage+"&type="+type+"&sw="+sw;
+    rp += "?"+"end=20&sodate="+sodate+"&sort_cancel="+sort_cancel+"&cur_page="+cpage+"&type="+type+"&sw="+sw;
   }
   location.href=rp;
 }
@@ -785,6 +792,71 @@ function cancelOrder(oidx,pmidx){
   }
 }
 
+function setAllDeliNum(admin){
+      let type = $("select[name=type").val();
+      let sw = $("input[name=sw").val();
+      let code = 9;
+      
+      if(!$("#allnumber").val()){
+        $("#allexcel").remove();
+      }
+      
+      $(".top_div").append("<form id='allexcel' action='excelDownload.php' method='post'>");
+      $("#allexcel").append("<input type='hidden' name='code' value='"+code+"' />");
+      $("#allexcel").append("<input type='hidden' name='admin' value='"+admin+"' />");
+      $("#allexcel").append("<input type='hidden' name='type' value='"+type+"' />");
+      $("#allexcel").append("<input type='hidden' name='sw' value='"+sw+"' />");
+      $("#allexcel").append("<input type='hidden' name='sort_cancel' value='"+ $("select[name=sort_cancel]").val() +"' />");
+      $("#allexcel").append("<input type='hidden' name='sodate' value='"+ $("input[name=sodate]").val() +"' />");
+      $("#allexcel").append("<input type='file' name='allnumber' id='allnumber' onchange='chgAllDeliNum()' />");
+      $("#allexcel").append("</form>");
+
+      $("#allnumber").click();
+      
+      
+      
+      // $("#exceldown").remove();
+}
+
+// 확장자로 엑셀 파일 판단
+function chkFileType(file){
+  let whak = file[0].name.split(".");
+  if(whak.indexOf("xlsx") > -1 || whak.indexOf("xls") > -1){
+    return true;
+  }else{
+    return false;
+  }
+    
+}
+
+function chgAllDeliNum(){
+  let f = new FormData($("#allexcel")[0]);
+  if(chkFileType($("#allnumber")[0].files)){
+    
+    console.log("업로드합니당");
+    f.append("w_mode","chgAllDeliNum");
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: f,
+      async: false,
+      processData: false,
+      contentType: false,
+      success: function(result){
+        let json = JSON.parse(result);
+        
+        console.log(json);
+        $("#allexcel").remove();
+        history.go(0);
+      }
+    })
+    
+  }else{
+    alert("엑셀 파일만 업로드 가능합니다.");
+    $("#allexcel").remove();
+    return false;
+  } 
+}
 
 
 

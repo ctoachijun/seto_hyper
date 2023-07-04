@@ -1,10 +1,19 @@
 <?
+header('content-Type: text/json');
+header('Access-Control-Allow-Origin: *');
+
 include "../lib/hyper.php";
 
 
 switch ($w_mode) {
   case "regEmail":
-    $sql = "INSERT INTO st_smail SET s_iidx = {$iidx}, s_email = '{$email}', s_wdate = now()";
+    
+    if($test == 1){
+      $iidx = 1;
+      $aidx = 1;
+    }
+    
+    $sql = "INSERT INTO st_smail SET s_aidx = {$aidx}, s_iidx = {$iidx}, s_iname = '{$type}', s_email='{$email}',s_wdate = now();";
     $re = sql_exec($sql);
     
     if($re){

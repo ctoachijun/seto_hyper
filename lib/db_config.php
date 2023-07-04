@@ -1,5 +1,5 @@
 <?php
-$host = 'db.hyperlanding.net';
+$host = 'db.setodmin.gabia.io';
 $user = 'setodmin';
 $pass = 'setodb12!@';
 $db = 'dbsetodmin';

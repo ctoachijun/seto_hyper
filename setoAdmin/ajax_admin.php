@@ -1,5 +1,6 @@
 <?
 include "../lib/hyper.php";
+include_once "../lib/PHPExcel/Classes/PHPExcel.php";
 $aidx = $_SESSION['admin_idx'];
 $aid = $_SESSION['admin_id'];
 
@@ -64,11 +65,13 @@ switch ($w_mode) {
     $lftmp = $lfile['tmp_name'];
     $lname = $lfile['name'];
 
+    $output['files'] = $_FILES;
+    
     if(!empty($lname)){
       // 디렉토리 확인 후 없으면 생성
       $path = chkBrandDir($bname);
 
-      
+      $output['path'] = $path;
       // 파일이름 설정
       $lname_box = explode(".",$lname);
       $whak = end($lname_box);
@@ -590,6 +593,129 @@ switch ($w_mode) {
     
     echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
+  
+  case "chgAllDeliNum":
+    
+    // 엑셀파일 임시 업로드 
+    $file = $_FILES['allnumber'];
+    $ftmp = $file['tmp_name'];
+    $name = $file['name'];
+    
+    $box = explode(".",$name);
+    $whak = end($box);
+    $upname = time();
+    $uppath = "../img/";
+    $uname = $upname.".".$whak;
+    $efiles = $uppath.$uname;
+
+    $res = move_uploaded_file($ftmp, $efiles);
+    $output['res'] = $res;
+
+    
+    // 이전 검색한 데이터 주문인덱스 추출
+    $where = "WHERE 1 ";
+    $join = "as o LEFT OUTER JOIN st_payment as p ON o.o_pmidx = p.pm_idx";
+  
+    if($type == "mem"){
+      $join .= " INNER JOIN st_member as m ON o.o_midx = m.m_idx ";
+      $where .= "AND m_name like '%{$sw}%' ";
+    }else if($type == "prod"){
+      $join .= " INNER JOIN st_item as i ON o.o_iidx = i.i_idx ";
+      $where .= "AND i_name like '%{$sw}%' ";
+    }else if($type == "num"){
+      $where .= "AND o_number like '%{$sw}%' ";
+    }else if($type == "odate"){
+      $where .= "AND o_odate like '%{$sw}%' ";
+    }
+    
+    // 취소여부 정렬
+    if(!$sort_cancel || $sort_cancel == "A"){
+      $where .= "";
+    }else{
+      $where .= "AND o.o_cancel = '{$sort_cancel}' ";
+    }
+    
+    
+    $admin = getAdminInfoIdx($admin);
+    $admin_idx = $admin['a_idx'];
+    $admin_group = $admin['a_group'];
+    // 세토웍스인 경우
+    if ($admin_group == "SK") {
+      $where .= "";
+      
+    // 메이커인 경우
+    }else if($admin_group == "MK"){
+      $where .= "AND o.o_aidx = {$admin_idx}";
+    }
+      
+    if($sodate == "A"){
+      $sodate_txt = "ORDER BY o_odate ASC";
+    }else{
+      $sodate_txt = "ORDER BY o_odate DESC";
+    }
+    
+    $sql = "SELECT * FROM st_order {$join} {$where} {$sodate_txt}";
+    $re = sql_query($sql);
+    
+    $arr_oidx = array();
+    foreach($re as $v){
+      $o_idx = $v['o_idx'];
+      array_push($arr_oidx,$o_idx);
+    }
+    
+    $output['sql'] = $arr_oidx;
+  
+    $output['efiles'] = $efiles;
+    // 엑셀데이터 읽기.
+    $phpexcel = new PHPExcel();
+    
+    try{
+      
+      $Exreader = PHPExcel_IOFactory::createReaderForFile($efiles);
+      $Exreader->setReadDataOnly(true);
+      $objExcel = $Exreader->load($efiles);
+  
+      $objExcel->setActiveSheetIndex(0);
+      $sheet1 = $objExcel->getActiveSheet();
+      $garo = $sheet1->getRowIterator();
+  
+      foreach($garo as $row){
+        $cell = $row->getCellIterator();
+        $cell->setIterateOnlyExistingCells(false);
+      }
+  
+      $sero = $sheet1->getHighestRow();
+      $output['sero'] = $sero;
+      
+      for($i=2,$a=0; $i<=$sero; $i++,$a++){
+    
+          $cancel_txt = $sheet1->getCell('I'.$i)->getValue();
+          $deli_num = $sheet1->getCell('K'.$i)->getValue();
+          $oidx = $arr_oidx[$a];
+          
+          if(!$cancel_txt){
+            if(empty($deli_num)) $deli_num = 0;
+            
+            if(!empty($oidx)){
+              $sql = "UPDATE st_order SET o_deli_number = {$deli_num} WHERE o_idx = {$oidx}";
+              sql_exec($sql);
+              $output['sql'.$a] = $sql;
+            }
+          }
+          
+    
+      }
+      
+    }catch(exception $e){
+      $output['error'] = "엑셀 파일 읽기 에러!";
+    }
+    
+    unlink($efiles);
+    $ouput['state'] = "Y";
+    
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
+  
   
   
   
