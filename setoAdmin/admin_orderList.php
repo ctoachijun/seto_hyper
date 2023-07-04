@@ -2,6 +2,9 @@
 include "./admin_header.php";
 
 
+
+
+
 // $arr_tel = array("01041961379","01091900223","010395820339","01039482939","01058203959","01029938829","01039482230");
 // $arr_email = array("test1@gmail.com","test2@naver.com","test3@daum.net","test4@gmail.com","test5@hanmail.net","test6@kakao.com");
 // $arr_opt = array("빨강,큰거","파랑,작은거","빨강,작은거","파랑,큰거","고무,롱타입,SET1","고무,숏타입,SET1","고무,롱타입,SET2","고무,숏타입,SET2","고무,롱타입,SET3");
@@ -116,19 +119,17 @@ if ($admin_group == "SK") {
 
 
 if(!$sodate){
-  $sodate_txt = "ORDER BY o_odate DESC";
-  $od_sort = "bi-sort-down-alt";
+  $sodate = "D";
 }
 
 if($sodate == "A"){
-  $sodate = "D";
   $sodate_txt = "ORDER BY o_odate ASC";
   $od_sort = "bi-sort-down-alt";
 }else{
-  $sodate = "A";
   $sodate_txt = "ORDER BY o_odate DESC";
   $od_sort = "bi-sort-down";
 }
+
 
 
 $sql = "SELECT * FROM st_order {$join} {$where} {$sodate_txt} {$limit}";
@@ -146,7 +147,7 @@ if(!$number){
 
 
 // input 만들 때 제외 할 파라미터 이름
-$nopt = array("sodate","return_cur","sort_cancel","sort_cancle","type","sw","total_cnt");
+$nopt = array("sodate","return_cur","sort_cancel","sort_cancle","type","sw","total_cnt","gosort");
 
 // 페이징용 where
 $where = $join." ".$where;
@@ -177,6 +178,7 @@ $where = $join." ".$where;
         <form action="<?=$PHP_SELF?>" method="GET" onsubmit="return chgCurPage();" >
         <? echo qsChgForminput($pqs,$nopt); ?>
           <input type="hidden" name="sodate" value="<?=$sodate?>" />      
+          <input type="hidden" name="gosort" />      
           <div class="search_div d-flex">
             <div class="d-flex">
               <select class="form-select sortselect" aria-label="Default select example" name="sort_cancel" onchange="setCancelList()">
@@ -211,7 +213,7 @@ $where = $join." ".$where;
               <th>주문 개수</th>
               <th>주문 금액</th>
               <th>주문 수단</th>
-              <th class="cpointer" onclick="sortOdate()">주문 일시 <i class='bi <?=$od_sort?>'></i></th>
+              <th class="cpointer" onclick="sortOdate('<?=$sodate?>')">주문 일시 <i class='bi <?=$od_sort?>'></i></th>
               <th>취소</th>
               <th>송장 입력</th>
             </tr>

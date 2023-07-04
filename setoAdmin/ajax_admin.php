@@ -551,6 +551,8 @@ switch ($w_mode) {
   break;
   
   case "setDeliNum":
+    
+    if(empty($num)) $num = 0;
     $sql = "UPDATE st_order SET o_deli_number = {$num} WHERE o_idx = {$oidx}";
     $re = sql_exec($sql);
     
@@ -563,6 +565,30 @@ switch ($w_mode) {
     }
     
     echo json_encode($output);
+  break;
+  
+  case "cancelOrder":
+    // 결제 취소처리
+    
+    /*
+      실제 PG사에서 결제 취소처리
+    */
+    
+    // PG사 취소 처리 후 DB 업데이트
+    $psql = "UPDATE st_payment SET pm_cancel = 'Y' WHERE pm_idx = {$pmidx}";
+    
+    // 주문 취소 처리
+    $sql = "UPDATE st_order SET o_cancel = 'Y', o_cdate = now() WHERE o_idx = {$oidx}";
+    $re = sql_exec($sql);
+    
+    if($re){
+      $output['state'] = "Y";
+      $output['sql'] = $sql;
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
   
   

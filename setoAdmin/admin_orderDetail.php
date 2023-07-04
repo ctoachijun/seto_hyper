@@ -1,7 +1,11 @@
 <?
 include "./admin_header.php";
 
-$return_page = $_SERVER['QUERY_STRING'];
+// 내 소유의 상품인지 체크.
+chkMyOrder($admin_idx,$oidx,$admin_group);
+
+
+$qs = $_SERVER['QUERY_STRING'];
 
 $order = getOrderInfo($oidx);
 $item = getItemInfo($order['o_iidx']);
@@ -28,6 +32,7 @@ $order_price = $order['o_pval'] * $order['o_quan'];
 $deli_price = number_format($item['i_delival']);
 $amount = $order['pm_amount'];
 
+$pm_idx = $order['o_pmidx'];
 $pm_detail = $order['pm_detail'];
 $pm_type = $order['pm_type'];
 $card_part = $order['pm_card_part'];
@@ -58,19 +63,12 @@ if($disc_type == "P"){
 
 $order_price = number_format($order_price);
 $amount = number_format($amount);
-
+$deli_num = $order['o_deli_number'];
+if($deli_num == 0) $deli_num = "";
 
 
 
 ?>
-
-<script>
-   $(function () {
-   });
-
-
-</script>
-
 
 <div class="container orderDetail">
    <div class="pagetitle">
@@ -87,11 +85,21 @@ $amount = number_format($amount);
         <div class="middle_div card">
           <div class="card-body">
             <h5 class="card-title">주문 상세 내역</h5>
-            <input type='hidden' name="return_page" value="<?=$return_page?>" />
+            <div class='btn_div'>
+              <input type='button' class='btn btn-danger' value='주문 취소' onclick='cancelOrder(<?=$oidx?>,<?=$pm_idx?>)'/>
+              <input type='button' class='btn btn-secondary' value='목록' onclick='cancelReturn()' />
+            </div>
+            <input type='hidden' name="return_page" value="admin_orderList.php" />
+            <input type='hidden' name="sodate" value="<?=$sodate?>" />
+            <input type='hidden' name="sort_cancel" value="<?=$sort_cancel?>" />
+            <input type='hidden' name="type" value="<?=$type?>" />
+            <input type='hidden' name="sw" value="<?=$sw?>" />
+            <input type='hidden' name="reg_type" value="O" />
+            <input type='hidden' name="cur_page" value="<?=$return_cur?>" />
             
             
                 <section class="box">
-                  <div class="box_row"><h4>주문 정보</h4></div>
+                  <div class="box_row d-flex justify-content-between"><h4>주문 정보</h4></div>
                   <div class="box_row order_row d-flex">
                     <div class="order_div od1">
                       <div class='item_img_div'><img src='<?=$item_img?>' /></div>                      
@@ -162,7 +170,7 @@ $amount = number_format($amount);
                         <tr>
                           <th>주소</th>
                           <td>[<?=$order['o_zipcode']?>] <?=$order['o_addr']?> <?=$order['o_daddr']?></td>
-                          <td><?=$item['i_delicomp']?> <?=$order['o_deli_number']?></td>
+                          <td><?=$item['i_delicomp']?> <input type='text' name='deli_number<?=$oidx?>' value='<?=$deli_num?>' /><input type='button' class='default_btn' value='변경' onclick='setDeliNum(<?=$oidx?>)' /></td>
                         </tr>
                         <tr>
                           <th>요청사항</th>

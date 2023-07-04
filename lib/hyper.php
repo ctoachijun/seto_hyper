@@ -58,13 +58,6 @@ for ($i = 0; $i < $ext_cnt; $i++) {
 @extract($_SERVER);
 
 
-/*
-  공통적으로 사용되는 함수들
-*/
-function alert($txt){
-  echo "<script>alert('{$txt}');</script>";
-}
-
 
 
 // 찾기
@@ -145,6 +138,13 @@ function getBrandItem($bidx,$where,$limit){
 function getOrderInfo($oidx){
   $sql = "SELECT * FROM st_order as o JOIN st_payment as p ON o.o_pmidx = p.pm_idx WHERE o.o_idx = {$oidx}";
   return sql_fetch($sql);
+}
+function chkMyOrder($aidx,$oidx,$agroup){
+  $sql = "SELECT * FROM st_order WHERE o_aidx = {$aidx} AND o_idx = {$oidx}";
+  
+  if( $agroup == "MK" && !sql_fetch($sql) ){
+    alert_back("접근 권한이 없습니다.");
+  };
 }
 function getBrandList($idx,$sw){
   if($idx != "ALL"){
@@ -885,10 +885,15 @@ function getOptTableHtml($oname,$oval,$cnt,$edit_data){
 
 
 
-
 /*
-  공통 관련
+  공통적으로 사용되는 함수들
 */
+function alert($txt){
+  echo "<script>alert('{$txt}');</script>";
+}
+function alert_back($txt){
+  echo "<script>alert('{$txt}');history.go(-1);</script>";
+}
 
 function qsChgForminput($qs,$nopt){
   $box = explode("&",$qs);

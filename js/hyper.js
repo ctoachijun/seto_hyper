@@ -304,6 +304,13 @@ function cancelReturn(){
   let cpage = $("input[name=cur_page").val();
   if(rt == "E"){
     rp += "brand_index="+bidx+"&end=10&cur_page="+cpage;
+  }else if(rt == "O"){
+    let sodate = $("input[name=sodate").val();
+    let sort_cancel = $("input[name=sort_cancel").val();
+    let type = $("input[name=type").val();
+    let sw = $("input[name=sw").val();
+    
+    rp += "?"+"end=10&sodate="+sodate+"&sort_cancel="+sort_cancel+"&cur_page="+cpage+"&type="+type+"&sw="+sw;
   }
   location.href=rp;
 }
@@ -720,18 +727,24 @@ function setCancelList(){
   $("form").submit();  
 }
 
-function sortOdate(){
-  let so = $("input[name=sodate").val();
+function sortOdate(so){
+  if(so == "D"){
+    so = "A";
+  }else{
+    so = "D";
+  }
+  $("input[name=sodate").val(so);
+  // $("input[name=gosort").val("Y");
   $("form").submit();
 }
 
 function setDeliNum(idx){
   let num = $("input[name=deli_number"+idx).val();
   
-  if(!num){
-    alert("송장 번호를 입력 해 주세요.");
-    return false;
-  }
+  // if(!num){
+  //   alert("송장 번호를 입력 해 주세요.");
+  //   return false;
+  // }
   
   $.ajax({
     url : "ajax_admin.php",
@@ -739,17 +752,37 @@ function setDeliNum(idx){
     data: {"w_mode":"setDeliNum","oidx":idx,"num":num},
     success : function(result){
       let json = JSON.parse(result);
-      console.log(json);
+      // console.log(json);
     }
   })
 }
 
 function detailOrder(oidx){
   $("form").attr("action","admin_orderDetail.php");
-  $("form").append("<input type='hidden' name='oidx' value='"+oidx+"'>");
+  $("form").prepend("<input type='hidden' name='oidx' value='"+oidx+"'>");
   $("form").submit();
-    
-  
+}
+
+function cancelOrder(oidx,pmidx){
+  if( confirm("주문을 취소 하시겠습니까?") ){
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"cancelOrder","oidx":oidx,"pmidx":pmidx},
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          alert("정상적으로 취소 되었습니다.");
+          cancelReturn();         
+        }else{
+          errorAlert();
+        }
+        
+      }
+    })
+  }
 }
 
 

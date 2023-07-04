@@ -1421,7 +1421,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .orderlist table tbody tr:hover{background:#f4f5e0}
 .orderlist .deli_td{width:100%;}
 .orderlist .deli_td input{font-size:.8rem}
-.orderlist .deli_td .default_btn{margin-left:10px; height:30px;}
+.orderlist .deli_td .default_btn{margin-left:10px; height:25px; font-size:.7rem;}
 .orderlist .middle_div .paging_div{margin-top:20px;}
 
 .orderlist table td:first-child{width:10%}
@@ -1445,6 +1445,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .orderDetail .canno_txt{font-weight:700;color:blue;}
 .orderDetail{font-size:0.8rem}
 .orderDetail .middle_div{padding:1rem;}
+.orderDetail .middle_div .btn_div{position:absolute;right:0;top:100px;padding-right:35px;}
+.orderDetail .middle_div .btn_div .btn-secondary{margin-left:10px;}
 .orderDetail .middle_div section{margin-bottom:20px;padding-top:50px;}
 .orderDetail .middle_div .order_row{border-top:3px solid #444;border-bottom:1px solid #AAA;padding-left:.8rem;}
 .orderDetail .middle_div .od1{width:20%;padding:.8rem;}
@@ -1462,13 +1464,14 @@ input[type="number"]::-webkit-inner-spin-button {
 .orderDetail .middle_div .od3 .od_row div:last-child{width:70%;display:flex;justify-content: flex-end;}
 .orderDetail .middle_div .od3 .head_txt{font-weight:700}
 .orderDetail .middle_div .od3 .cont_txt{font-size:1rem;}
-
 .orderDetail .middle_div table tr:first-child{border-top:3px solid #444;}
 .orderDetail th{background:#cecece;text-align:center;width:10%;vertical-align: middle;}
 .orderDetail td{vertical-align:middle;}
 .orderDetail td:nth-child(2){padding-left:1.5rem;width:16%;border-right:1px solid #CECECE;}
 .orderDetail td:nth-child(3){width:20%;color:#777}
-
+.orderDetail td input{border:1px solid #ACACAC;color:#666;}
+.orderDetail td input[type='text']{padding-left:10px;}
+.orderDetail .default_btn{margin-left:10px; height:25px; font-size:.7rem;text-align:center;}
 
 
 
