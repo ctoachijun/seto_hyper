@@ -126,6 +126,19 @@ function getItemStep($iidx){
   $sql = "SELECT * FROM st_item_step WHERE is_iidx = {$iidx}";
   return sql_fetch($sql);
 }
+function getItemStepTxt($iidx){
+  $box = getItemStep($iidx);
+  $now = $box['is_now_page'];
+  if($now == "L"){
+    return "랜딩";
+  }else if($now == "O"){
+    return "오픈";
+  }else if($now == "P"){
+    return "프리오더";
+  }else{
+    return "";
+  }
+}
 function getBrandInfo($idx)
 {
   $sql = "SELECT * FROM st_brand WHERE b_idx = {$idx}";
@@ -162,7 +175,7 @@ function getBrandList($idx,$sw){
   return sql_query($sql);
 }
 function getMakerSelect($idx){
-  $sql = "SELECT * FROM st_admin WHERE a_group = 'MK' AND a_open = 'Y'";
+  $sql = "SELECT * FROM st_admin WHERE a_open = 'Y'";
   $mbox = sql_query($sql);
   
   $html = "<select id='maker_select' class='form-select mselect ' onchange='setBrandList(this)'>";  
@@ -719,169 +732,17 @@ function getOptTableHtml($oname,$oval,$cnt,$edit_data){
         }
       }
     }
-      
-    
     
     $html .= "    
       </tbody>
     ";
     
   }
-  
-  
-    
-  
   return $html;
 }
 
-// function getOptTableHtml($oname,$oval,$cnt,$adv,$adq){
-//   $obox = explode("|",$oname);
-//   $vbox = explode("|",$oval);
-//   $box_cnt = count($vbox);
-  
-//   $btn_col = $cnt + 4;
-    
-//   $html = "
-//     <thead>
-//       <tr>
-//         <th colspan='{$btn_col}'>
-//           <div class='all_div d-flex justify-content-end align-items-center'>
-//             옵션가 : 
-//             <select id='allPricePm' class='form-select'><option value='+'>+</option><option value='-'>-</option></select>
-//             <input class='form-control' type='number' id='allPrice' />
-//             수량 : <input class='form-control' type='number' id='allQuan' />
-//             <input type='button' class='btn btn-secondary' value='일괄적용' onclick='allExec()' />
-//             </div>
-//         </th>
-//       </tr>
-//       <tr>
-//         <th scope='col' rowspan='2' >#</th>
-//         <th scope='col' colspan='{$cnt}'>옵션명</th>
-//         <th scope='col' rowspan='2'>옵션가</th>
-//         <th scope='col' rowspan='2'>수량</th>
-//         <th scope='col' rowspan='2'></th>
-//       </tr>
-//   ";
 
-//   // th 부분에 옵션명 표시
-//   for($i=0; $i<$cnt; $i++){
-//     $html .= "<th scope='col'>".$obox[$i]."</th>";
-//   }
-    
-//   $html .= "
-//       <tr>
-        
-//     </thead>
-//     <tbody>
-//   ";
-  
-  
-//   $v1box = explode(",",$vbox[0]);
-//   $v2box = explode(",",$vbox[1]);
 
-//   $lcnt = 1;
-//   if($box_cnt == 3){
-
-//     // 2,3차 옵션을 2차 배열로 합침.
-//     foreach($v2box as $v){
-//       $arr[$v] = $vbox[2];
-//     }
-  
-//     // 1차 옵션 고정값
-//     for($i=0; $i<count($v1box); $i++){
-      
-//       $opt_name1 = $v1box[$i];
-//       $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name1}' />";
-
-//       // 2차배열 키,값을 나눔
-//       foreach($arr as $key => $val){
-//         $opt_name2 = $key;      // 2차옵션 고정값.
-//         $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$opt_name2}' />";
-        
-//         if(!empty($opt_name2)){
-//           $opt_value3 = explode(",",$val);
-          
-//           // 3차옵션 출력
-//           // 1차 - 2차 - 3차 설정한 개수만큼 출력됨.
-//           // 반복문 겹치는거 말고 이걸 출력할 방법이 생각이 안남.
-//           foreach($opt_value3 as $v){
-//               $opt_input3 = "<input type='hidden' name='opt_v3[]' value='{$v}' />";
-              
-//               // 옵션 , 전후로 값이 없어 빈값일때 미출력 처리 ## 3차까지 있을때만 작동함.
-//               if(empty($opt_name1) || empty($opt_name2) || empty($v)){
-//               }else{
-//                   $html .= "
-//                       <tr class='tr_{$lcnt}'>
-//                         <td></td>
-//                         <td>{$opt_name1}{$opt_input1}</td>
-//                         <td>{$opt_name2}{$opt_input2}</td>
-//                         <td>{$v}{$opt_input3}</td>
-//                         <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
-//                         <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0'/></td>
-//                         <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
-//                       </tr>
-//                       ";
-//                   $lcnt++;
-//                 }
-//             }
-//         }
-      
-//       }
-//     }
-    
-    
-//   }else{
-//     for($i=0; $i<count($v1box); $i++){
-      
-//       $opt_name = $v1box[$i];
-//       $opt_input1 = "<input type='hidden' name='opt_v1[]' value='{$opt_name}' />";
-//       foreach($v2box as $v){
-//         // 1,2차까지만 입력되었을때 , 전후로 빈값 처리 
-//         // 2차 안걸러내면 1차뒤로 2차는 input이 옴. td가 하나씩 땡겨짐.
-        
-//         if($box_cnt == 1){
-//           if(!empty($opt_name)){
-//             $html .= "
-//                 <tr class='tr_{$lcnt}'>
-//                   <td></td>
-//                   <td>{$opt_name}{$opt_input1}</td>
-//                   <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-//                   <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-//                   <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel($lcnt)' /></td>
-//                 </tr>
-//             ";
-//             $lcnt++;
-//           }
-//         }else if($box_cnt == 2){
-//           if(!empty($opt_name) && !empty($v)){
-//             $opt_input2 = "<input type='hidden' name='opt_v2[]' value='{$v}' />";
-//             $html .= "
-//                 <tr class='tr_{$lcnt}'>
-//                   <td></td>
-//                   <td>{$opt_name}{$opt_input1}</td>
-//                   <td>{$v}{$opt_input2}</td>
-//                   <td><input type='number' class='form-control' id='' name='addval[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-//                   <td><input type='number' class='form-control' id='' name='addquan[]' maxlength='8' oninput='maxLengthCheck(this)' placeholder='0' /></td>
-//                   <td><input type='button' class='btn btn-outline-danger' value='삭제' onclick='lineDel({$lcnt})' /></td>
-//                 </tr>
-//             ";
-//             $lcnt++;
-//           }
-//         }
-        
-        
-//       }
-//     }
-//   }
-    
-  
-  
-//   $html .= "    
-//     </tbody>
-//   ";
-  
-//   return $html;
-// }
 
 
 

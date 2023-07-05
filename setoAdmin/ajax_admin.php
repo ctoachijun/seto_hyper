@@ -716,6 +716,125 @@ switch ($w_mode) {
     echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
   
+  case "chkRegData" :
+    $col = "a_".$type;
+    
+    $sql = "SELECT * FROM st_admin WHERE {$col} = '{$val}' AND a_open = 'Y'";
+    $re = sql_fetch($sql);
+    
+    if($re){
+      $output['state'] = "N";
+    }else{
+      $output['state'] = "Y";
+    }
+    
+    $output['sql'] = $sql;
+    
+    echo json_encode($output, JSON_UNESCAPED_UNICODE);
+  break;
+  
+  case "regAdmin" :
+    
+    // 서버상 디렉토리를 만들어야하기 때문에 DB 입력을 선행.
+    $passwd = password_hash($upw,PASSWORD_DEFAULT);
+    if($group == "SK"){
+      $dcol = "a_comp = '세토웍스', a_regnum = '1418131588', a_owner = '조충연', a_comptel = '07088498904', a_postcode = 06165,
+              a_addr = '서울 강남구 삼성로 554', a_daddr = '예성빌딩 3층', a_site = 'https://setoworks.com', ";
+    }else{
+      if(!$postcode) $postcode = 0;
+      
+      $company = addslashes($company);      
+      $owner = addslashes($owner);      
+      $site = addslashes($site);      
+      
+      $dcol = "a_comp = '{$company}', a_regnum = '{$reg_number}', a_owner = '{$owner}', a_comptel = '{$comp_tel}', 
+              a_postcode = {$postcode}, a_addr = '{$addr}', a_daddr = '{$daddr}', a_site = '{$site}', ";
+    }
+        
+    $manager = addslashes($manager);
+    $part = addslashes($part);
+    $title = addslashes($title);
+    $email = addslashes($email);
+    $sql = "INSERT INTO st_admin SET a_group = '{$group}', a_id = '{$uid}', a_pw = '{$passwd}', {$dcol}            
+            a_name = '{$manager}', a_part = '{$part}', a_title = '{$title}', a_tel = '{$mtel}', a_email = '{$email}', a_rdate = now()
+    ";
+    $re = sql_exec($sql);
+    
+    
+    if($re){
+      // 등록 된 관리자의 idx 추출
+      $isql = "SELECT * FROM st_admin ORDER BY a_idx DESC LIMIT 0,1";
+      $ire = sql_fetch($isql);
+      $naidx = $ire['a_idx'];
+      $naid = $ire['a_id'];
+      
+      // 디렉토리 이름 확보, 필요한 디렉토리 생성
+      $dir = "{$naidx}_{$naid}";
+      $up_root = "../img/maker/{$dir}";
+      
+      mkdir($up_root,0777);
+      mkdir($up_root."/brand"); // 기본 brand 디렉토리가 있어야 이후 브랜드부터 상품까지 업로드 가능.
+      
+      // 로고 이미지 업로드
+      $lfile = $_FILES['thumbsnail_img'];
+      $lftmp = $lfile['tmp_name'];
+      $lname = $lfile['name'];
+      
+      if($lname){
+        $logo_name = "{$company}_logo";
+        $fbox = explode(".",$lname);
+        $whak = end($fbox);
+        
+        $upname = $logo_name.".".$whak;
+        $up_path = $up_root."/".$upname;
+        
+        $res = move_uploaded_file($lftmp, $up_path);
+        if($res){
+          $lusql = "UPDATE st_admin SET a_logo = '{$upname}' WHERE a_idx = {$naidx}";
+          $lure = sql_exec($lusql);
+        }else{
+          $output['error'] = "로고파일 업로드 실패";
+        }
+      }
+      
+      // 사업자 등록증 이미지 업로드
+      $sfile = $_FILES['thumbsnail2_img'];
+      $sftmp = $sfile['tmp_name'];
+      $sname = $sfile['name'];
+      
+      if($sname){
+        $reg_name = "{$company}_reg";
+        $fbox = explode(".",$sname);
+        $whak = end($fbox);
+        
+        $upname = $reg_name.".".$whak;
+        $up_path = $up_root."/".$upname;
+        
+        $res = move_uploaded_file($sftmp, $up_path);
+        if($res){
+          $susql = "UPDATE st_admin SET a_regimg = '{$upname}' WHERE a_idx = {$naidx}";
+          $sure = sql_exec($susql);
+        }else{
+          $output['error'] = "사업자 등록증 파일 업로드 실패";
+        }
+      }
+      
+      $output['state'] = "Y";
+      
+      $output['lusql'] = $lusql;
+      $output['susql'] = $lusql;
+    }else{
+      $output['state'] = "N";
+    }
+
+    $output['sql'] = $sql;
+    
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
+  
+  
+  
+  
   
   
   

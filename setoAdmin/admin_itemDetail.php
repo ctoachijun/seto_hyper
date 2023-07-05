@@ -12,7 +12,7 @@ $return_page = "admin_itemList.php?".$_SERVER['QUERY_STRING'];
 $opt_input_html = setOptInputHtml("","","",$reg_type);
 $opt_cnt = 1;
 
-
+$img_path = $noimg_url;
 if($reg_type == "E"){
    $iidx = $itemNumber;
    $item = getItemInfo($iidx);

@@ -819,19 +819,30 @@ function setAllDeliNum(admin){
 }
 
 // 확장자로 엑셀 파일 판단
-function chkFileType(file){
-  let whak = file[0].name.split(".");
-  if(whak.indexOf("xlsx") > -1 || whak.indexOf("xls") > -1){
-    return true;
-  }else{
-    return false;
+function chkFileType(file,type){
+  let whak;
+  
+  if(type == 1){
+    whak = file[0].name.split(".");
+    if(whak.indexOf("xlsx") > -1 || whak.indexOf("xls") > -1){
+      return true;
+    }else{
+      return false;
+    }
+  }else if(type == 2){
+    whak = file.name.split(".");
+    if(whak.indexOf("jpg") > -1 || whak.indexOf("gif") > -1 || whak.indexOf("png") > -1 || whak.indexOf("jpeg") > -1 || whak.indexOf("bmp") > -1 || whak.indexOf("webp") > -1 || whak.indexOf("svg") > -1){
+      return true;
+    }else{
+      return false;
+    }
   }
     
 }
 
 function chgAllDeliNum(){
   let f = new FormData($("#allexcel")[0]);
-  if(chkFileType($("#allnumber")[0].files)){
+  if(chkFileType($("#allnumber")[0].files,1)){
     
     console.log("업로드합니당");
     f.append("w_mode","chgAllDeliNum");
@@ -858,6 +869,213 @@ function chgAllDeliNum(){
   } 
 }
 
+function goReg(){
+  $("form").attr("action","admin_accountReg.php");
+  $("input[name=reg_type").val("I");
+  $("form").submit();
+}
+
+function chkRegData(obj,num){
+  let col,id,txt;
+  let val = obj.value;
+  
+  if(num == 1){
+      col = "regnum";
+      id = "reg_number";
+      txt = "사업자 등록번호";
+  }else if(num == 2){
+    col = "id";
+    id = "uid";
+    txt = "ID";
+  }
+  
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"chkRegData","val":val,"type":col},
+    success: function(result){
+      let json = JSON.parse(result);
+      // console.log(json);
+      
+      if(json.state == "N"){
+        // $(".error_"+col).html("이미 등록되어 있는 "+txt+"입니다.");
+        $(".error_"+col).html("중복입니다.");
+        $("#"+id).val("");
+        $("#"+id).focus();
+      }else{
+        $(".error_"+col).html("");
+      }
+    }
+  })
+}
+
+function chkRegPw(){
+  let pw1 = $("#upw").val();
+  let pw2 = $("#upw2").val();
+  
+  if(pw1 !== pw2){
+    $(".error_pw").html("비밀번호 확인과 일치하지 않습니다.");
+    $("input[name=pwjud").val(1);
+  }else{
+    $(".error_pw").html("");
+    $("input[name=pwjud").val("");
+  }
+}
+
+function chkEmail(obj){
+  if( chkEmailType(obj.value) ){
+    $(".error_email").html("");
+    $("input[name=emailjud").val("");
+  }else{
+    $(".error_email").html("올바른 이메일 형식이 아닙니다.");
+    $("input[name=emailjud").val(1);
+    $("#email").focus();
+  }
+}
+
+function chkLength(num,obj){
+  let value = obj.value;
+  if(num == 1){
+    if( value.length < 4){
+      $(".error_id").html("ID는 4글자 이상으로 입력 해 주세요");
+      return false;
+    }else{
+      $(".error_id").html("");
+    }
+  }else if(num == 2){
+    if( value.length < 6){
+      $(".error_pw").html("비밀번호는 6글자 이상으로 입력 해 주세요");
+      $("#upw").focus();
+      $("input[name=lengjud").val(1);
+      return false;
+    }else{
+      $(".error_pw").html("");
+      $("input[name=lengjud").val("");
+    }
+  }
+}
+
+function regAdmin(){
+  let jud = $("input[type=radio]:checked").val();
+  
+  if(jud == "MK"){
+    if( !$("input[name=thumbsnail_img").val() ){
+      $("html,body").scrollTop(0);
+      alert("로고 이미지를 등록 해 주세요");
+      $(".thumbimg").click();
+      return false;
+    }
+    if( !$("input[name=thumbsnail2_img").val() ){
+      $("html,body").scrollTop(0);
+      alert("사업자 등록증을 등록 해 주세요");
+      $(".thumbimg2").click();
+      return false;
+    }
+    if( !$("#company").val() ){
+      ptop = $("#company").offset().top;
+      alert("회사명을 입력 해 주세요.");
+      $("html,body").animate({
+        scrollTop : 0
+      },50);
+      $("#company").focus();
+      return false;
+    }
+    if( !$("#reg_number").val() ){
+      alert("사업자 등록 번호를 입력 해 주세요.");
+      $("html,body").animate({
+        scrollTop : 0
+      },50);
+      $("#reg_number").focus();
+      return false;
+    }
+    if( !$("#owner").val() ){
+      alert("대표명을 입력 해 주세요.");
+      $("html,body").animate({
+        scrollTop : 0
+      },50);
+      $("#owner").focus();
+      return false;
+    }
+    
+  }
+  
+  if( !$("#manager").val() ){
+    alert("담당자명을 입력 해 주세요.");
+    $("#manager").focus();
+    return false;
+  }
+  if( !$("#mtel").val() ){
+    alert("연락처를 입력 해 주세요.");
+    $("#mtel").focus();
+    return false;
+  }
+  if( !$("#email").val() ){
+    alert("이메일을 입력 해 주세요.");
+    $("#email").focus();
+    return false;
+  }
+  if( !$("#uid").val() ){
+    alert("ID를 입력 해 주세요.");
+    $("#uid").focus();
+    return false;
+  }
+  if( $("input[name=emailjud").val() == "1" ){
+    alert("이메일 주소를 확인 해 주세요.");
+    $("#email").focus();
+    return false;
+  }
+  if( !$("#upw").val() || !$("#upw2").val() ){
+    alert("비밀번호를 확인 해 주세요.");
+    $("#upw").focus();
+    return false;
+  }
+  if( $("input[name=pwjud").val() == "1" ){
+    alert("비밀번호를 확인 해 주세요.");
+    $("#upw").focus();
+    return false;
+  }
+  if( $("input[name=lengjud").val() == "1" ){
+    alert("비밀번호를 확인 해 주세요.");
+    $("#upw").focus();
+    return false;
+  }
+  
+  if( confirm("등록 하시겠습니까?") ){
+    let f = new FormData($("#adminForm")[0]);
+    f.append("w_mode","regAdmin");
+    
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      processData: false,
+      contentType: false,
+      data: f,
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          alert("정상 등록 되었습니다.");
+          location.href = $("input[name=return_page").val();
+        }else{
+          errorAlert();
+        }
+        
+      }
+      
+    })
+  }
+  
+}
+
+function goDetailAdmin(id){
+  $("form").attr("action","admin_accountReg.php");
+  $("input[name=reg_type").val("V");
+  $("form").prepend("<input type='hidden' name='aid' value='"+id+"' />");
+  $("form").submit();
+}
+
+
 
 
 
@@ -871,16 +1089,22 @@ function chgAllDeliNum(){
 // 이미지 업로드시 파일 업로드 없이 바로 미리보기
 function setThumbnail(event,did) {
   let file = event.target.files[0];
-  var reader = new FileReader();
-
-    reader.onload = function(e) {
-      // $('#'+did).html("");
-      $('#'+did).css({"background": "url('"+e.target.result+"') 50% 50%"});
-      $('#'+did).css({'background-repeat': 'no-repeat'});
-      $('#'+did).css({'background-size': 'contain'});
-    };
-
-    reader.readAsDataURL(file);
+  
+  if(chkFileType(file,2)){
+    var reader = new FileReader();
+  
+      reader.onload = function(e) {
+        // $('#'+did).html("");
+        $('#'+did).css({"background": "url('"+e.target.result+"') 50% 50%"});
+        $('#'+did).css({'background-repeat': 'no-repeat'});
+        $('#'+did).css({'background-size': 'contain'});
+      };
+  
+      reader.readAsDataURL(file);
+  }else{
+    alert("이미지 파일만 업로드 가능합니다.");
+    return false;
+  }
 }
 
 
@@ -936,13 +1160,14 @@ function removeComma(str){
 }
 
 function chkEmailType(email) {
+  console.log(email);
   let re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
   return re.test(email);
 }
 
 function chkEnNum(obj){
   let re = obj.value;
-  re = re.replace(/[^a-zA-Z\.]/g,'');
+  re = re.replace(/[^a-zA-Z0-9\.]/g,'');
   obj.value = re;
 }
 
@@ -1000,4 +1225,40 @@ function maxLengthCheck(object){
 
 function errorAlert(){
   alert("시스템 오류입니다.\n반복 될 경우 고객센터로 문의 주세요.");
+}
+
+
+// 카카오 주소
+function openPost(){
+  let width = 500;
+  let height = 500;
+
+  new daum.Postcode({
+    width: width,
+    height: height,
+    oncomplete: function(data) {
+      let post = data.zonecode;
+      let jaddr = data.jibunAddress;
+      let jaddr_en = data.jibunAddressEnglish;
+      let raddr = data.roadAddress;
+      let raddr_en = data.roadAddressEnglish;
+
+      if(!jaddr){
+        jaddr = data.autoJibunAddress;
+        jaddr_en = data.autoJibunAddressEnglish;
+      }
+      // console.log(data);
+      $("input[name=postcode]").val(post);
+      $("input[name=addr]").val(raddr);
+    },
+    onsearch: function(data){
+      animation: "true"
+    }
+
+  }).open({
+    popupName: 'searchAddr',
+    left: (width + 300) - (window.screen.width),
+    top: (window.screen.height / 2) - (height / 2)
+
+  });
 }

@@ -1,5 +1,5 @@
 <?php
-$host = 'db.setodmin.gabia.io';
+$host = '211.47.74.38';
 $user = 'setodmin';
 $pass = 'setodb12!@';
 $db = 'dbsetodmin';

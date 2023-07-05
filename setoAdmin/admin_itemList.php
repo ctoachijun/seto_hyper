@@ -172,6 +172,7 @@ $nopt = array("sw","return_cur");
                 <th>배송비</th>
                 <th>배송업체</th>
                 <th>배송예정일</th>
+                <th>즉시적용</th>
                 <th></th>
               </tr>
             </thead>
@@ -187,6 +188,8 @@ $nopt = array("sw","return_cur");
                 $item_img = "<img src='{$img_path}/{$imgname}'>";
               }              
             
+              // 현재 즉시적용
+              $step = getItemStepTxt($iidx);
 ?>            
               <tr>
                 <td><?=$item_img?></td>
@@ -197,6 +200,7 @@ $nopt = array("sw","return_cur");
                 <td><?=number_format($v['i_delival'])?></td>
                 <td><?=$v['i_delicomp']?></td>
                 <td><?=$v['i_deliday']?></td>
+                <td><?=$step?></td>
                 <td><input type='button' class='default-sm-btn' value='상세' onclick='editItem(<?=$iidx?>)' /></td>
               </tr>
 <?

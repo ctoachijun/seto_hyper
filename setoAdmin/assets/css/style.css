@@ -1476,6 +1476,63 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+/*
+  관리자 목록
+*/
+
+.adminlist .middle_div{flex-direction:column;}
+.adminlist .middle_div form{width:90%}
+.adminlist .middle_div .total_count{width:8%;text-align:left;font-size:.8rem;align-items: flex-end;}
+.adminlist .search_div{justify-content:space-between;height:2.5rem;width:100%;margin-bottom:15px;}
+.adminlist .search_div .typeselect{height:2.5rem;width:16%;margin-right:10px;}
+.adminlist .search_div .swinput{height:2.5rem;width:40%;margin-right:10px;}
+.adminlist .search_div .btn{height:2.5rem;}
+.adminlist .search_div div:nth-child(2){width:80%}
+.adminlist .search_div div:last-child{width:10%; justify-content: flex-end;}
+.adminlist .search_div img{cursor:pointer;width:50px;height:auto;}
+.adminlist .middle_div .table_div{width:90%;}
+.adminlist table {width:100%;text-align:center;}
+.adminlist table th{border-top:1px solid #ACACAC;border-bottom:1px solid #ACACAC;font-size:.9rem;background:#f1f5f3;height:40px;}
+.adminlist table th:first-child{max-width:5%}
+.adminlist table tbody tr:nth-child(odd){background:#f4eded;}
+.adminlist table tbody tr{height:40px;border-bottom:1px solid #ACACAC}
+.adminlist table tbody tr:hover{background:#dde7f9}
+.adminlist table td{height:20px;font-size:.8rem;}
+.adminlist .middle_div .paging_div{margin-top:20px;}  
+.adminlist .detail_txt{text-decoration:underline;color:#1767f0}
+
+
+
+
+
+
+
+/*
+  관리자 등록
+*/
+.adminDetail {font-size:0.8rem;}
+.adminDetail input::placeholder{color:#CCC}
+.adminDetail .middle_div {padding:1rem;}
+.adminDetail .middle_div .disp_none{display:none !important;}
+.adminDetail .middle_div .row{width:100%;}
+.adminDetail .middle_div input{font-size:0.8rem;}
+.adminDetail .middle_div select{font-size:0.8rem}
+.adminDetail .middle_div #comp_mk{margin-left:20px;}
+.adminDetail .middle_div .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
+.adminDetail .middle_div .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
+.adminDetail .middle_div .thumbsnail .thumbbtn_div{position:absolute;bottom:0;right:0;opacity:0.7;padding:0.2rem;}
+.adminDetail .middle_div .thumbsnail .thumbbtn_div .thumbimg{display:none;}
+.adminDetail .middle_div .thumbsnail .thumbbtn_div .thumbimg2{display:none;}
+.adminDetail .middle_div .reg_row{margin-bottom:20px;}
+.adminDetail .middle_div .error{color:red;margin-left:20px;font-size:0.7rem}
+.adminDetail .middle_div .addr_div input:first-child{width:20%;margin-right:10px;}
+.adminDetail .middle_div .addr_div input:last-child{width:80%}
+.adminDetail .middle_div .position_div input:first-child{width:50%;margin-right:10px;}
+.adminDetail .middle_div .position_div input:last-child{width:50%}
+.adminDetail .middle_div .pil{margin-left:5px;color:red;}
+
+
+
 
 
 /*
