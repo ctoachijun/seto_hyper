@@ -1500,7 +1500,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .adminlist table td{height:20px;font-size:.8rem;}
 .adminlist .middle_div .paging_div{margin-top:20px;}  
 .adminlist .detail_txt{text-decoration:underline;color:#1767f0}
-
+.adminlist .middle_div .closeacc{background:#bbb}
 
 
 
@@ -1518,6 +1518,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .adminDetail .middle_div input{font-size:0.8rem;}
 .adminDetail .middle_div select{font-size:0.8rem}
 .adminDetail .middle_div #comp_mk{margin-left:20px;}
+.adminDetail .middle_div #settop{margin-left:20px;}
 .adminDetail .middle_div .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
 .adminDetail .middle_div .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
 .adminDetail .middle_div .thumbsnail .thumbbtn_div{position:absolute;bottom:0;right:0;opacity:0.7;padding:0.2rem;}
@@ -1530,6 +1531,10 @@ input[type="number"]::-webkit-inner-spin-button {
 .adminDetail .middle_div .position_div input:first-child{width:50%;margin-right:10px;}
 .adminDetail .middle_div .position_div input:last-child{width:50%}
 .adminDetail .middle_div .pil{margin-left:5px;color:red;}
+.adminDetail .middle_div .readonly{background:#eee;}
+.adminDetail .middle_div .regbtn_div .btn-primary{width:150px;}
+.adminDetail .middle_div .regbtn_div .btn-danger{margin:0px 10px;}
+.adminDetail .middle_div .regbtn_div .btn-secondary{width:80px;margin-left:20px;}
 
 
 

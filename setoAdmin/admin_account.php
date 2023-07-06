@@ -44,7 +44,7 @@ if($type == "c"){
 
 $sql = "SELECT * FROM st_admin {$where} ORDER BY a_idx DESC {$limit}";
 $admin_box = sql_query($sql);
-echo "$sql <br>";
+// echo "$sql <br>";
 
 
 
@@ -132,8 +132,10 @@ $nopt = array("sw","type","total_cnt","return_cur","reg_type","aid");
             $manager = $v['a_name'];
             $tel = $v['a_tel'];
             $email = $v['a_email'];
+            $open = $v['a_open'];
+            $open == "N" ? $otr = "closeacc" : $otr = "";
 ?>            
-            <tr>
+            <tr class="<?=$otr?>">
               <td><?=$number?></td>
               <td><?=$group_txt?></td>
               <td><?=$id?></td>

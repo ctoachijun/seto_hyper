@@ -8,7 +8,7 @@
     },
     ".bash_history": {
       "type": "-",
-      "size": 4768,
+      "size": 4778,
       "lmtime": 0,
       "modified": true
     },
@@ -44,12 +44,7 @@
       "lmtime": 1687152980691.2507,
       "modified": false
     },
-    "ajax_hyper.php": {
-      "type": "-",
-      "size": 613,
-      "lmtime": 1687152808802.3284,
-      "modified": false
-    },
+    "backup": {},
     "gabia.html": {
       "type": "-",
       "size": 15243,
@@ -84,10 +79,33 @@
         },
         "2_choo": {
           "brand": {
-            "세토웍스": {}
+            "세토웍스": {},
+            "전체테스트용2": {
+              "20230703_1688357787.jpg": {
+                "type": "-",
+                "size": 162004,
+                "lmtime": 1688551003918.7542,
+                "modified": false
+              },
+              "logo_brand.png": {
+                "type": "-",
+                "size": 10048,
+                "lmtime": 1688516631945.6335,
+                "modified": false
+              }
+            }
           }
         },
         "3_joo": {
+          "brand": {}
+        },
+        "4_jang": {
+          "brand": {}
+        },
+        "5_jang2": {
+          "brand": {}
+        },
+        "6_jang4": {
           "brand": {}
         }
       },
@@ -113,8 +131,8 @@
     "js": {
       "hyper.js": {
         "type": "-",
-        "size": 26868,
-        "lmtime": 1688460247660.7844,
+        "size": 33563,
+        "lmtime": 1688550043153.3357,
         "modified": false
       }
     },
@@ -3785,22 +3803,28 @@
       },
       "db_config.php": {
         "type": "-",
-        "size": 1873,
-        "lmtime": 1688460155269.006,
+        "size": 1865,
+        "lmtime": 1688520528933.425,
         "modified": false
       },
       "hyper.php": {
         "type": "-",
-        "size": 37397,
-        "lmtime": 1688460200719.1348,
+        "size": 31703,
+        "lmtime": 1688549848145.9695,
         "modified": false
       }
     },
     "setoAdmin": {
       "admin_account.php": {
         "type": "-",
-        "size": 4467,
-        "lmtime": 1687745447242.7002,
+        "size": 5012,
+        "lmtime": 1688550589170.2002,
+        "modified": false
+      },
+      "admin_accountReg.php": {
+        "type": "-",
+        "size": 12123,
+        "lmtime": 1688550813658.7732,
         "modified": false
       },
       "admin_brandList.php": {
@@ -3811,8 +3835,8 @@
       },
       "admin_footer.php": {
         "type": "-",
-        "size": 1631,
-        "lmtime": 1687397498017.5237,
+        "size": 1720,
+        "lmtime": 1688521405857.812,
         "modified": false
       },
       "admin_header.php": {
@@ -3823,14 +3847,14 @@
       },
       "admin_itemDetail.php": {
         "type": "-",
-        "size": 25312,
-        "lmtime": 1688375715287.8562,
+        "size": 25335,
+        "lmtime": 1688516750587.1272,
         "modified": false
       },
       "admin_itemList.php": {
         "type": "-",
-        "size": 7750,
-        "lmtime": 1688375715306.8562,
+        "size": 7910,
+        "lmtime": 1688517621872.5886,
         "modified": false
       },
       "admin_mailList.php": {
@@ -3853,16 +3877,16 @@
       },
       "ajax_admin.php": {
         "type": "-",
-        "size": 22085,
-        "lmtime": 1688460085387.8296,
+        "size": 26005,
+        "lmtime": 1688547345744.7598,
         "modified": false
       },
       "assets": {
         "css": {
           "style.css": {
             "type": "-",
-            "size": 38214,
-            "lmtime": 1688460510213.6235,
+            "size": 40983,
+            "lmtime": 1688549620944.6414,
             "modified": false
           }
         },

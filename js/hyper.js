@@ -955,22 +955,26 @@ function chkLength(num,obj){
   }
 }
 
-function regAdmin(){
+function regAdmin(aidx){
   let jud = $("input[type=radio]:checked").val();
   
   if(jud == "MK"){
-    if( !$("input[name=thumbsnail_img").val() ){
-      $("html,body").scrollTop(0);
-      alert("로고 이미지를 등록 해 주세요");
-      $(".thumbimg").click();
-      return false;
+    
+    if($("input[name=reg_type").val() == "I"){
+      if( !$("input[name=thumbsnail_img").val() ){
+        $("html,body").scrollTop(0);
+        alert("로고 이미지를 등록 해 주세요");
+        $(".thumbimg").click();
+        return false;
+      }
+      if( !$("input[name=thumbsnail2_img").val() ){
+        $("html,body").scrollTop(0);
+        alert("사업자 등록증을 등록 해 주세요");
+        $(".thumbimg2").click();
+        return false;
+      }
     }
-    if( !$("input[name=thumbsnail2_img").val() ){
-      $("html,body").scrollTop(0);
-      alert("사업자 등록증을 등록 해 주세요");
-      $(".thumbimg2").click();
-      return false;
-    }
+
     if( !$("#company").val() ){
       ptop = $("#company").offset().top;
       alert("회사명을 입력 해 주세요.");
@@ -1024,11 +1028,12 @@ function regAdmin(){
     $("#email").focus();
     return false;
   }
-  if( !$("#upw").val() || !$("#upw2").val() ){
+  if( $("input[name=reg_type]").val() == "I" && ( !$("#upw").val() || !$("#upw2").val() ) ){
     alert("비밀번호를 확인 해 주세요.");
     $("#upw").focus();
     return false;
   }
+  
   if( $("input[name=pwjud").val() == "1" ){
     alert("비밀번호를 확인 해 주세요.");
     $("#upw").focus();
@@ -1043,6 +1048,7 @@ function regAdmin(){
   if( confirm("등록 하시겠습니까?") ){
     let f = new FormData($("#adminForm")[0]);
     f.append("w_mode","regAdmin");
+    f.append("admin_idx",aidx);
     
     $.ajax({
       url : "ajax_admin.php",
@@ -1075,7 +1081,29 @@ function goDetailAdmin(id){
   $("form").submit();
 }
 
-
+function delAdmin(idx){
+  if( confirm("관련 브랜드 및 상품파일, 정보까지 모두 삭제됩니다.\n신중히 선택 해 주세요.\n\n삭제 하시겠습니까?") ){
+    let rp = $("input[name=return_page").val();
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"delAdmin","admin_idx":idx},
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+        
+        if(json.state == "Y"){
+          alert("정상 처리 되었습니다"); 
+          location.replace(rp);
+        }else{
+          errorAlert();
+        }
+      }
+    })
+    
+    
+  }
+}
 
 
 

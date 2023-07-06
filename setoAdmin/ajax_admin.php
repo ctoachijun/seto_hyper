@@ -23,6 +23,7 @@ switch ($w_mode) {
         $_SESSION['admin_id'] = $id;
         $_SESSION['admin_idx'] = $re['a_idx'];
         $_SESSION['admin_group'] = $re['a_group'];
+        $_SESSION['admin_top'] = $re['a_top'];
       } else {
         $output['state'] = "N";
       }
@@ -560,6 +561,11 @@ switch ($w_mode) {
     $re = sql_exec($sql);
     
     $output['sql'] = $sql;
+
+    // 로그
+    $exec = "주문 idx \"{$oidx}\" 송장번호 수정";
+    $sql = addslashes($sql);
+    $res = setAdminLog($aid,$aidx,$sql,$exec);
     
     if($re){
       $output['state'] = "Y";
@@ -587,6 +593,14 @@ switch ($w_mode) {
     if($re){
       $output['state'] = "Y";
       $output['sql'] = $sql;
+
+    
+      // 로그
+      $exec = "주문 idx \"{$oidx}\" 취소처리 - 결제idx : {$pmidx}";
+      $sql = addslashes($sql);
+      $res = setAdminLog($aid,$aidx,$sql,$exec);
+
+
     }else{
       $output['state'] = "N";
     }
@@ -654,8 +668,8 @@ switch ($w_mode) {
       $sodate_txt = "ORDER BY o_odate DESC";
     }
     
-    $sql = "SELECT * FROM st_order {$join} {$where} {$sodate_txt}";
-    $re = sql_query($sql);
+    $osql = "SELECT * FROM st_order {$join} {$where} {$sodate_txt}";
+    $re = sql_query($osql);
     
     $arr_oidx = array();
     foreach($re as $v){
@@ -713,6 +727,12 @@ switch ($w_mode) {
     unlink($efiles);
     $ouput['state'] = "Y";
     
+    // 로그
+    $exec = "일괄 업로드. 대상 sql과 마지막 실행된 sql";
+    $sql_txt = "{$osql}\n{$sql}";
+    $sql_txt = addslashes($sql_txt);
+    $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+    
     echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
   
@@ -755,18 +775,37 @@ switch ($w_mode) {
     $part = addslashes($part);
     $title = addslashes($title);
     $email = addslashes($email);
-    $sql = "INSERT INTO st_admin SET a_group = '{$group}', a_id = '{$uid}', a_pw = '{$passwd}', {$dcol}            
-            a_name = '{$manager}', a_part = '{$part}', a_title = '{$title}', a_tel = '{$mtel}', a_email = '{$email}', a_rdate = now()
-    ";
+    
+    if($settop == "Y"){
+      $top_col = "a_top = 'Y', ";
+    }else{
+      $top_col = "a_top = 'N', ";
+    }
+    
+    if($reg_type == "I"){
+      $sql = "INSERT INTO st_admin SET a_group = '{$group}', a_id = '{$uid}', a_pw = '{$passwd}', {$dcol}            
+              a_name = '{$manager}', a_part = '{$part}', a_title = '{$title}', a_tel = '{$mtel}', a_email = '{$email}', 
+              {$top_col} a_rdate = now()
+      ";
+    }else{
+      $sql = "UPDATE st_admin SET 
+                {$dcol} a_name = '{$manager}', a_part = '{$part}', a_title = '{$title}', a_tel = '{$mtel}', {$top_col} a_email = '{$email}' 
+              WHERE a_idx = {$admin_idx}";      
+    }
     $re = sql_exec($sql);
     
     
     if($re){
-      // 등록 된 관리자의 idx 추출
-      $isql = "SELECT * FROM st_admin ORDER BY a_idx DESC LIMIT 0,1";
-      $ire = sql_fetch($isql);
-      $naidx = $ire['a_idx'];
-      $naid = $ire['a_id'];
+      // 관리자의 idx 추출
+      if($reg_type == "I"){
+        $isql = "SELECT * FROM st_admin ORDER BY a_idx DESC LIMIT 0,1";
+        $ire = sql_fetch($isql);
+        $naidx = $ire['a_idx'];
+        $naid = $ire['a_id'];
+      }else{
+        $naidx = $admin_idx;
+        $naid = $uid;
+      }
       
       // 디렉토리 이름 확보, 필요한 디렉토리 생성
       $dir = "{$naidx}_{$naid}";
@@ -820,13 +859,39 @@ switch ($w_mode) {
       }
       
       $output['state'] = "Y";
-      
       $output['lusql'] = $lusql;
       $output['susql'] = $lusql;
+
+      // 로그
+      $reg_type == "I" ? $reg_txt = "등록" : $reg_txt = "수정";
+      $exec = "관리자 계정 {$reg_txt}";
+      $sql_txt = "{$sql}\n{$lusql}\n{$susql}";
+      $sql_txt = addslashes($sql_txt);
+      $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+      
     }else{
       $output['state'] = "N";
     }
 
+    $output['sql'] = $sql;
+    
+    echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
+  
+  case "delAdmin" :
+    $sql = "UPDATE st_admin SET a_open = 'N' WHERE a_idx = {$admin_idx}";
+    $re = sql_exec($sql);
+    
+    if($re){
+      $output['state'] = "Y";
+
+      // 로그
+      $exec = "관리자 계정 삭제";
+      $sql = addslashes($sql);
+      $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+    }else{
+      $output['state'] = "N";
+    }
     $output['sql'] = $sql;
     
     echo json_encode($output,JSON_UNESCAPED_UNICODE);

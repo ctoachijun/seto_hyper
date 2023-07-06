@@ -2,18 +2,21 @@
 include "./admin_header.php";
 
 if (!$reg_type) $reg_type = "I";
-$reg_type == "I" ? $reg_txt = "등록" : $reg_txt = "";
+$reg_type == "I" ? $reg_txt = "등록" : $reg_txt = "수정";
 $return_page = "admin_account.php?".$_SERVER['QUERY_STRING'];
 $img_path = $img_path2 = $noimg_url;
+$set_disp = "";
 
 if ($reg_type == "V") {
   $admin = getAdminInfo($aid);
-  var_dump($admin);
     
   $aidx = $admin['a_idx'];
   $group = $admin['a_group'];
   $sels = "checked";
   $selm = "";
+  $top = $admin['a_top'];
+  $readonly = "readonly";
+  $open = $admin['a_open'];
 
   
   if($group == "MK"){
@@ -22,9 +25,23 @@ if ($reg_type == "V") {
     $owner = $admin['a_owner'];
     $comptel = $admin['a_comptel'];
     $postcode = $admin['a_postcode'];
+    $addr = $admin['a_addr'];
+    $daddr = $admin['a_daddr'];
+    
     $site = $admin['a_site'];
     $sels = "";
     $selm = "checked";
+    
+    if(!$postcode) $postcode = "";
+    
+    $logo = $admin['a_logo'];
+    $regdoc = $admin['a_regimg'];
+    
+    empty($logo)? $img_path = $noimg_url : $img_path = "../img/maker/{$aidx}_{$aid}/{$logo}";
+    empty($regdoc)? $img_path2 = $noimg_url : $img_path2 = "../img/maker/{$aidx}_{$aid}/{$regdoc}";
+    
+  }else{
+    $set_disp = "$('.onlymk').addClass('disp_none');";  
   }
 
   $id = $aid;
@@ -35,7 +52,7 @@ if ($reg_type == "V") {
   $email = $admin['a_email'];
 
 } else {
-  
+  $set_disp = "$('.onlymk').addClass('disp_none');";  
 }
 
 
@@ -46,7 +63,8 @@ if ($reg_type == "V") {
 <script>
   $(function () {
 
-    $(".onlymk").addClass("disp_none");
+    <?=$set_disp?>
+    
     // 대표 이미지 세팅
     $('#thumbsimg').css({ "background": "url('<?= $img_path ?>') 50% 50%" });
     $('#thumbsimg').css({ 'background-repeat': 'no-repeat' });
@@ -88,15 +106,11 @@ if ($reg_type == "V") {
 
 <div class="container adminDetail">
   <div class="pagetitle">
-    <h1>관리자 계정
-      <?= $reg_txt ?>
-    </h1>
+    <h1>관리자 계정</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="main.php">Home</a></li>
-        <li class="breadcrumb-item active">관리자 계정
-          <?= $reg_txt ?>
-        </li>
+        <li class="breadcrumb-item active">관리자 계정</li>
       </ol>
     </nav>
   </div><!-- End Page Title -->
@@ -116,11 +130,15 @@ if ($reg_type == "V") {
           <input type='hidden' name='cur_page' value="<?= $return_cur ?>" />
 
           
+          <div class="col-md-12"><h3>관리자 정보 <?=$reg_txt?></h3></div>
           <div class="col-md-12">
             <div class="reg_row d-flex">
               <div class="col-sm-8">
                 <input type="radio" id="comp_sk" name="group" value="SK" <?=$sels?> /><label for="comp_sk">세토억스</label>
                 <input type="radio" id="comp_mk" name="group" value="MK" <?=$selm?> /><label for="comp_mk">메이커스</label>
+                <? if($admin_top == "Y") : ?>                
+                  <input type="checkbox" name="settop" value='Y' id='settop' <? if($top == "Y") echo "checked"; ?>><label for="settop">슈퍼관리자</label>
+                <? endif; ?>
               </div>
             </div>
           </div>
@@ -153,13 +171,13 @@ if ($reg_type == "V") {
               <div class="col-sm-5">
                 <label for="pname" class="form-label">회사명</label><span class="pil">*</span>
                 <input type="text" class="form-control" id="company" name="company" onchange="chkSpaceFe(this);"
-                value="<??>">
+                value="<?= $comp ?>">
               </div>
               <div class="col-sm-1"></div>
               <div class="col-sm-5">
                 <label for="pname" class="form-label">사업자 등록 번호</label><span class="pil">*</span><span class='error error_regnum'></span>
                 <input type="text" class="form-control" id="reg_number" name="reg_number" oninput="maxLengthCheck(this); onlyNum(this)" onchange="chkSpaceFe(this); chkRegData(this,1)" maxlength="10"
-                value="<?= $item_name ?>" placeholder="- 빼고 입력">
+                value="<?= $regnum ?>" placeholder="- 빼고 입력">
               </div>
             </div>
           </div>
@@ -168,13 +186,13 @@ if ($reg_type == "V") {
               <div class="col-sm-5">
                 <label for="pname" class="form-label">대표명</label><span class="pil">*</span>
                 <input type="text" class="form-control" id="owner" name="owner" onchange="chkSpaceFe(this);"
-                  value="<??>">
+                  value="<?= $owner ?>">
               </div>
               <div class="col-sm-1"></div>
               <div class="col-sm-5">
                 <label for="pname" class="form-label">회사 전화번호</label>
                 <input type="number" class="form-control" id="comp_tel" name="comp_tel" oninput="maxLengthCheck(this)" onchange="chkSpaceFe(this);" maxlength="13"
-                  value="<?= $item_name ?>" placeholder="- 빼고 입력">
+                  value="<?= $comptel ?>" placeholder="- 빼고 입력">
               </div>
             </div>
           </div>          
@@ -185,15 +203,15 @@ if ($reg_type == "V") {
                 <label for="" class="form-label">주소</label>
                 <input type='button' value='주소검색' onclick='openPost()' />
                 <div class='d-flex addr_div'>
-                  <input type='text' class='form-control' name="postcode" readonly />
-                  <input type='text' class='form-control' name="addr" readonly />
+                  <input type='text' class='form-control' name="postcode" readonly value="<?=$postcode?>"/>
+                  <input type='text' class='form-control' name="addr" readonly value="<?=$addr?>"/>
                 </div>
               </div>
               <div class="col-sm-1"></div>
               <div class="col-sm-5">
                 <label for="pname" class="form-label">상세주소</label>
                 <input type="text" class="form-control" id="daddr" name="daddr" onchange="chkSpaceFe(this)"
-                  value="<?= $item_name ?>">
+                  value="<?= $daddr ?>">
               </div>
             </div>
           </div>
@@ -244,8 +262,8 @@ if ($reg_type == "V") {
             <div class="reg_row d-flex">
               <div class="col-sm-5">
                 <label for="pname" class="form-label">ID</label><span class="pil">*</span><span class='error error_id'></span>
-                <input type="text" class="form-control" id="uid" name="uid" oninput="chkEnNum(this); chkLength(1,this)" onchange="chkSpaceFe(this); chkRegData(this,2)"
-                  value="<?= $id ?>" disabled>
+                <input type="text" class="form-control <?=$readonly?>" id="uid" name="uid" oninput="chkEnNum(this); chkLength(1,this)" onchange="chkSpaceFe(this); chkRegData(this,2)"
+                  value="<?= $id ?>" readonly>
               </div>
               <div class="col-sm-1"></div>
             </div>
@@ -256,14 +274,12 @@ if ($reg_type == "V") {
             <div class="reg_row d-flex">
               <div class="col-sm-5">
                 <label for="pname" class="form-label">비밀번호</label><span class="pil">*</span><span class='error error_pw'></span>
-                <input type="password" class="form-control" id="upw" name="upw" oninput="chkRegPw()" onchange="chkSpaceFe(this);chkLength(2,this);"
-                  value="<?= $item_name ?>">
+                <input type="password" class="form-control" id="upw" name="upw" oninput="chkRegPw()" onchange="chkSpaceFe(this);chkLength(2,this);">
               </div>
               <div class="col-sm-1"></div>
               <div class="col-sm-5">
                 <label for="pname" class="form-label">비밀번호 확인</label><span class="pil">*</span>
-                <input type="password" class="form-control" id="upw2" name="upw2" oninput="chkRegPw();" onchange="chkSpaceFe(this);chkLength(2,this);"
-                  value="<?= $item_name ?>">
+                <input type="password" class="form-control" id="upw2" name="upw2" oninput="chkRegPw();" onchange="chkSpaceFe(this);chkLength(2,this);">
               </div>
             </div>
             <? endif; ?>
@@ -271,12 +287,13 @@ if ($reg_type == "V") {
 
 
 
-
           <div class="text-center regbtn_div">
-            <button type="button" class="btn btn-primary" onclick="regAdmin()">등록</button>
-            <? if ($reg_type == "E"): ?>
-              <button type="button" class="btn btn-danger" onclick="delItem(<?= $iidx ?>)">삭제</button>
+<?        if($open == "Y") :  // 삭제 된 계정은 수정/삭제 막아서 정보는 보되 조작은 불가능하게 처리 ?>
+            <button type="button" class="btn btn-primary" onclick="regAdmin(<?= $aidx ?>)"><?=$reg_txt?></button>
+            <? if ($reg_type == "V"): ?>
+              <button type="button" class="btn btn-danger" onclick="delAdmin(<?= $aidx ?>)">삭제</button>
             <? endif; ?>
+<?        endif; ?>          
             <button type="button" class="btn btn-secondary" onclick="cancelReturn()">취소</button>
           </div>
         </form><!-- End Multi Columns Form -->
