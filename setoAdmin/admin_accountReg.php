@@ -6,17 +6,18 @@ $reg_type == "I" ? $reg_txt = "등록" : $reg_txt = "수정";
 $return_page = "admin_account.php?".$_SERVER['QUERY_STRING'];
 $img_path = $img_path2 = $noimg_url;
 $set_disp = "";
+$sels = "checked";
+$selm = "";
 
 if ($reg_type == "V") {
   $admin = getAdminInfo($aid);
     
   $aidx = $admin['a_idx'];
   $group = $admin['a_group'];
-  $sels = "checked";
-  $selm = "";
   $top = $admin['a_top'];
   $readonly = "readonly";
   $open = $admin['a_open'];
+  $pwex = "(재설정)";
 
   
   if($group == "MK"){
@@ -269,11 +270,10 @@ if ($reg_type == "V") {
             </div>
           </div>
           
-          <? if($reg_type == "I") : ?>
           <div class="col-md-12">
             <div class="reg_row d-flex">
               <div class="col-sm-5">
-                <label for="pname" class="form-label">비밀번호</label><span class="pil">*</span><span class='error error_pw'></span>
+                <label for="pname" class="form-label">비밀번호<?=$pwex?></label><span class="pil">*</span><span class='error error_pw'></span>
                 <input type="password" class="form-control" id="upw" name="upw" oninput="chkRegPw()" onchange="chkSpaceFe(this);chkLength(2,this);">
               </div>
               <div class="col-sm-1"></div>
@@ -282,13 +282,12 @@ if ($reg_type == "V") {
                 <input type="password" class="form-control" id="upw2" name="upw2" oninput="chkRegPw();" onchange="chkSpaceFe(this);chkLength(2,this);">
               </div>
             </div>
-            <? endif; ?>
           </div>          
 
 
 
           <div class="text-center regbtn_div">
-<?        if($open == "Y") :  // 삭제 된 계정은 수정/삭제 막아서 정보는 보되 조작은 불가능하게 처리 ?>
+<?        if($reg_type == "I" || $open == "Y") :  // 삭제 된 계정은 수정/삭제 막아서 정보는 보되 조작은 불가능하게 처리 ?>
             <button type="button" class="btn btn-primary" onclick="regAdmin(<?= $aidx ?>)"><?=$reg_txt?></button>
             <? if ($reg_type == "V"): ?>
               <button type="button" class="btn btn-danger" onclick="delAdmin(<?= $aidx ?>)">삭제</button>

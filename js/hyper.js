@@ -955,6 +955,47 @@ function chkLength(num,obj){
   }
 }
 
+function chkPwLength(num,obj){
+  let value = obj.value;
+  if(value.length < 6){
+    console.log(value);
+    if(num == 1){
+      $(".error_npw").html("비밀번호는 6글자 이상으로 입력 해 주세요.");
+      $("input[name=lengjud").val(1);
+      $("#newPassword").focus();
+    }else{
+      $(".error_rnpw").html("비밀번호는 6글자 이상으로 입력 해 주세요.");
+      $("input[name=lengjud").val(2);
+      $("#renewPassword").focus();
+    }
+  }else{
+    $(".error").html("");
+    $("input[name=lengjud").val("");
+  }
+}
+
+function chkCurPw(obj,idx){
+  console.log(obj.value+" "+idx);
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"chkCurPw","pw":obj.value,"admin_idx":idx},
+    success: function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+      if(json.state == "N"){
+        $(".error_pw").html("비밀번호가 일치하지 않습니다.");
+        $("#currentPassword").focus();
+        $("input[name=pwjud").val(1);
+        return false;
+      }else{
+        $(".error_pw").html("");
+        $("input[name=pwjud").val("");
+      }
+    }
+  })
+}
+
 function regAdmin(aidx){
   let jud = $("input[type=radio]:checked").val();
   
@@ -1036,6 +1077,7 @@ function regAdmin(aidx){
   
   if( $("input[name=pwjud").val() == "1" ){
     alert("비밀번호를 확인 해 주세요.");
+    $(".error_pw").html("비밀번호 확인과 일치하지 않습니다.");
     $("#upw").focus();
     return false;
   }
@@ -1100,10 +1142,96 @@ function delAdmin(idx){
         }
       }
     })
-    
-    
   }
 }
+
+function saveProfile(idx){
+  if( !$("#manager").val() ){
+    alert("담당자명을 입력 해 주세요.");
+    $("#manager").focus();
+    return false;
+  }
+  if( !$("#tel").val() ){
+    alert("연락처를 입력 해 주세요.");
+    $("#tel").focus();
+    return false;
+  }
+  if( !$("#email").val() ){
+    alert("이메일을 입력 해 주세요.");
+    $("#email").focus();
+    return false;
+  }
+  if( $("input[name=emailjud").val() == "1" ){
+    alert("이메일 주소를 확인 해 주세요.");
+    $("#email").focus();
+    return false;
+  }  
+  
+  let f = new FormData($("form")[0]);
+  f.append("w_mode","saveProfile");
+  f.append("admin_idx",idx);
+  
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    processData: false,
+    contentType: false,
+    data: f,
+    success: function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+      
+      if(json.state == "Y"){
+        history.go(0);
+      }else{
+        errorAlert();
+      }
+      
+    }
+  }) 
+  
+}
+
+function chgPw(idx){
+  let npw = $("#newPassword").val();
+  let rpw = $("#renewPassword").val();
+  
+  
+  if( $("input[name=pwjud").val() == 1){
+    $(".error_pw").html("비밀번호가 일치하지 않습니다.");
+    $("#currentPassword").focus();
+    return false;
+  }
+  if(npw != rpw){
+    $(".error_npw").html("새 비밀번호 확인과 일치하지 않습니다.");
+    $("#newPassword").focus();
+    return false;
+  }
+
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"chgPw","chgpw":npw,"admin_idx":idx},
+    success: function(result){
+      let json = JSON.parse(result);
+      
+      if(json.state == "Y"){
+        alert("정상적으로 변경 되었습니다.");
+        history.go(0);
+      }else{
+        errorAlert();
+      }
+    }
+  })
+  
+  
+}
+
+
+
+
+
+
 
 
 

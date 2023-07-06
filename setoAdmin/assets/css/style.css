@@ -1520,7 +1520,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .adminDetail .middle_div #comp_mk{margin-left:20px;}
 .adminDetail .middle_div #settop{margin-left:20px;}
 .adminDetail .middle_div .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
-.adminDetail .middle_div .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
 .adminDetail .middle_div .thumbsnail .thumbbtn_div{position:absolute;bottom:0;right:0;opacity:0.7;padding:0.2rem;}
 .adminDetail .middle_div .thumbsnail .thumbbtn_div .thumbimg{display:none;}
 .adminDetail .middle_div .thumbsnail .thumbbtn_div .thumbimg2{display:none;}
@@ -1537,6 +1536,16 @@ input[type="number"]::-webkit-inner-spin-button {
 .adminDetail .middle_div .regbtn_div .btn-secondary{width:80px;margin-left:20px;}
 
 
+
+/*
+  프로필 수정 화면
+*/
+.adminProfile .thumbsnail{width:100%;height:150px;border:1px solid #CECECE;position:relative;}
+.adminProfile .thumbsnail .thumbbtn_div{position:absolute;bottom:0;right:0;opacity:0.7;padding:0.2rem;}
+.adminProfile .thumbsnail .thumbbtn_div .thumbimg{display:none;}
+.adminProfile .error{color:red;font-size:0.7rem;margin-bottom:5px;}
+.adminProfile .savebtn{margin:20px 0px;width:100px;}
+.adminProfile .pil{margin-top:5px;color:red;}
 
 
 

@@ -897,7 +897,98 @@ switch ($w_mode) {
     echo json_encode($output,JSON_UNESCAPED_UNICODE);
   break;
   
+  case "saveProfile" :
+      $admin = getAdminInfoIdx($admin_idx);
+      $naidx = $admin['a_idx'];
+      $naid = $admin['a_id'];
+      $company = $admin['a_comp'];
+      
+      $dir = "{$naidx}_{$naid}";
+      $up_root = "../img/maker/{$dir}";
+
+
+      // 로고 이미지 업로드
+      $lfile = $_FILES['thumbsnail_img'];
+      $lftmp = $lfile['tmp_name'];
+      $lname = $lfile['name'];
+      
+      if($lname){
+        $logo_name = "{$company}_logo";
+        $fbox = explode(".",$lname);
+        $whak = end($fbox);
+        
+        $upname = $logo_name.".".$whak;
+        $up_path = $up_root."/".$upname;
+        
+        $res = move_uploaded_file($lftmp, $up_path);
+        if($res){
+        }else{
+          $output['error'] = "로고파일 업로드 실패";
+        }
+      }
+    
+      $manager = addslashes($manager);
+      $part = addslashes($part);
+      $title = addslashes($title);
+      $site = addslashes($site);
+      $sql = "UPDATE st_admin SET a_name = '{$manager}', a_tel = '{$tel}', a_email = '{$email}', a_site = '{$site}', a_part = '{$part}', a_title = '{$title}'
+              WHERE a_idx = {$naidx}";
+      $re = sql_exec($sql);
+      $output['sql'] = $sql;
+      
+      if($re){
+        $output['state'] = "Y";
+        
+        // 로그
+        $exec = "{$company} - {$manager} 프로필 수정";
+        $sql = addslashes($sql);
+        $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+        
+      }else{
+        $output['state'] = "N";
+      }
+      
+      echo json_encode($output,JSON_UNESCAPED_UNICODE);
+  break;
   
+  case "chkCurPw":
+    $admin = getAdminInfoIdx($admin_idx);
+    $npw = $admin['a_pw'];
+    
+    if(password_verify($pw,$npw)){
+      $output['state'] = "Y";
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output);
+  break;
+  
+  case "chgPw":
+    $hash = password_hash($chgpw,PASSWORD_DEFAULT);
+    $sql = "UPDATE st_admin SET a_pw = '{$hash}' WHERE a_idx = {$admin_idx}";
+    $re = sql_exec($sql);
+    
+    $output['sql'] = $sql;
+    if($re){
+      $output['state'] = "Y";
+      
+      
+      $admin = getAdminInfoIdx($admin_idx);
+      $company = $admin['a_comp'];
+      $manager = $admin['a_name'];
+      
+      // 로그
+      $exec = "{$company} - {$manager} 비밀번호 변경";
+      $sql = addslashes($sql);
+      $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+      
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output);
+  break;
   
   
   

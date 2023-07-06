@@ -33,10 +33,17 @@
   $admin_info = getAdminInfoIdx($admin_idx);
   $admin_logo = $admin_info['a_logo'];
   
-  
   $noimg = "<img src='/img/no_img2.jpg' />";  
   $noimg_url = "../img/no_img2.jpg";
-  $logo_path = "../img/maker/{$admin_idx}_{$admin_id}/{$admin_logo}";
+  
+  if($admin_group == "SK"){
+    $logo_path = "../img/seto_emb.png";
+    $so = "세토웍스 한국";
+  }else{
+    $logo_path = "../img/maker/{$admin_idx}_{$admin_id}/{$admin_logo}";
+  }
+  
+  
   
 ?>
 
@@ -125,14 +132,14 @@
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6><?=$admin_id?></h6>
-              <span>Web Designer</span>
+              <span><?=$so?></span>
             </li>
             <li>
               <hr class="dropdown-divider">
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="admin_accountEdt.php">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
