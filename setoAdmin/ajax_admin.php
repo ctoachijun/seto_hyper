@@ -942,7 +942,7 @@ switch ($w_mode) {
         // 로그
         $exec = "{$company} - {$manager} 프로필 수정";
         $sql = addslashes($sql);
-        $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+        $res = setAdminLog($aid,$aidx,$sql,$exec);
         
       }else{
         $output['state'] = "N";
@@ -981,7 +981,7 @@ switch ($w_mode) {
       // 로그
       $exec = "{$company} - {$manager} 비밀번호 변경";
       $sql = addslashes($sql);
-      $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+      $res = setAdminLog($aid,$aidx,$sql,$exec);
       
     }else{
       $output['state'] = "N";
