@@ -16,9 +16,9 @@ $maker_select = getMakerSelect($maker_idx);
 // 해당 메이커의 브랜드 데이터를 추출
 $brand = getBrandList($maker_idx,$sw);
 
+
 // 총 건수
 $total_cnt = count($brand);
-
 
 
 ?>
@@ -81,7 +81,9 @@ $total_cnt = count($brand);
               $logo_img = "<img src='{$img_path}/{$logo}'>";
             }
             
-              
+            // 업체이름 
+            $brand_admin = getAdminInfoIdx($bv['b_aidx']);
+            $comp = $brand_admin['a_comp'];
             
 ?>
               <div class="wrap_box" onclick="goBrandDetail(<?=$bidx?>)">
@@ -89,6 +91,7 @@ $total_cnt = count($brand);
                     <div class="brand_logo"><?=$logo_img?></div>
                     <div class="brand_name"><?=$bname?></div>
                     <div class="brand_desc"><?=$bdesc?></div>
+                    <div class="brand_desc">(<?=$comp?>)</div>
                   </div>
               </div>
 <?        endforeach; 

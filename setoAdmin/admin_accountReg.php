@@ -264,7 +264,7 @@ if ($reg_type == "V") {
               <div class="col-sm-5">
                 <label for="pname" class="form-label">ID</label><span class="pil">*</span><span class='error error_id'></span>
                 <input type="text" class="form-control <?=$readonly?>" id="uid" name="uid" oninput="chkEnNum(this); chkLength(1,this)" onchange="chkSpaceFe(this); chkRegData(this,2)"
-                  value="<?= $id ?>" readonly>
+                  value="<?= $id ?>" <?=$readonly?>>
               </div>
               <div class="col-sm-1"></div>
             </div>

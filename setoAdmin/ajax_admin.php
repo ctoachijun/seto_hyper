@@ -210,7 +210,7 @@ switch ($w_mode) {
         $output['state'] = "Y";
         
         // 로그
-        $sql_txt = "{$sql}\n{$sql2}";
+        $sql_txt = "{$sql}\n{$sql1}";
         $exec = "브랜드 \"{$bname}\" 및 관련 상품 정보 삭제";
         $sql_txt = addslashes($sql_txt);
         setAdminLog($aid,$aidx,$sql_txt,$exec);
@@ -884,11 +884,31 @@ switch ($w_mode) {
     
     if($re){
       $output['state'] = "Y";
-
+      
+      $head = date("Ymd");
+      $ainfo = getAdminInfoIdx($admin_idx);
+      $taidx = $admin_idx;
+      $taid = $ainfo['a_id'];
+      $dir = "{$taidx}_{$taid}";
+      $tarname = $head."_{$dir}.tar.gz";
+      
+      // 해당 계정 디렉토리 백업
+      $cmd = "tar zcvf ../backup/maker_backup/{$tarname} ../img/maker/{$dir}";
+      exec($cmd);
+      
+      // 해당 계정 디렉도리 삭제
+      $cmd = "rm -rf ../img/maker/{$dir}";
+      exec($cmd);
+      
+      // DB에서 연계 된 데이터 삭제
+      // DB 삭제하려다, 그냥 놔두고 브랜드목록에서 계정이 있는 브랜드만 표시되도록
+      // 처리 함.
+    
+            
       // 로그
       $exec = "관리자 계정 삭제";
       $sql = addslashes($sql);
-      $res = setAdminLog($aid,$aidx,$sql_txt,$exec);
+      $res = setAdminLog($aid,$aidx,$sql,$exec);
     }else{
       $output['state'] = "N";
     }

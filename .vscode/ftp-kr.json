@@ -11,8 +11,7 @@
     "autoDownload": false,
     "ignore": [
         ".git",
-        "/.vscode",
-        ".ash_history",
+        ".vscode",
         ".bash_history",
         ".bash_logout",
         ".bashrc",

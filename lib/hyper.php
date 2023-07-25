@@ -81,7 +81,10 @@ function getAdminInfoIdx($idx)
 
 function chkLoginAdmin($aid, $aidx)
 {
-  if (!$aid || !$aidx) {
+  $admin = getAdminInfo($aid);
+  
+  if (!$admin) {
+    session_destroy();
     echo "<script>
     alert('로그인이 필요한 메뉴입니다.');
     location.replace('./');
@@ -160,17 +163,19 @@ function chkMyOrder($aidx,$oidx,$agroup){
   };
 }
 function getBrandList($idx,$sw){
+  
+  $join = "as b INNER JOIN st_admin as a ON b.b_idx = a.a_idx";
   if($idx != "ALL"){
-    $where = "WHERE b_aidx = {$idx}";  
+    $where = "WHERE b.b_aidx = {$idx}";  
   }else{
-    $where = "WHERE 1";
+    $where = " WHERE a.a_open = 'Y'";
   }
   
   if($sw){
-    $where .= " AND b_name like '%{$sw}%'";
+    $where .= " AND b.b_name like '%{$sw}%'";
   }
   
-  $sql = "SELECT * FROM st_brand {$where} ORDER BY b_wdate DESC";
+  $sql = "SELECT * FROM st_brand {$join} {$where} ORDER BY b.b_wdate DESC";
   // echo "$sql <br>";
   return sql_query($sql);
 }
@@ -185,7 +190,10 @@ function getMakerSelect($idx){
     $midx = $v['a_idx'];
     $idx == $midx ? $tsel = "selected" : $tsel = "";
     
-    $html .= "<option value='{$midx}' {$tsel}>{$mname}</option>";
+    if($midx > 1){
+      $html .= "<option value='{$midx}' {$tsel}>{$mname}</option>";
+    }
+    
   }
   $html .= "</select>";
   

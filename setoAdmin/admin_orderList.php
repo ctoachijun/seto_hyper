@@ -271,9 +271,9 @@ $where = $join." ".$where;
               <td><?=$payment?></td>
               <td><?=$order_date?></td>
               <td><?=$cancel?></td>
-              <td><?=$delivery?> : 
+              <td><?=$delivery?>  
                 <div class='deli_td d-flex align-items-center'>
-                  <input type='text' class="form-control " name='deli_number<?=$oidx?>' onkeyup='onlyNum(this)' maxlength="15" <?=$rol?> value="<?=$deli_number?>" />
+                  <input type='text' class="form-control " name='deli_number<?=$oidx?>' onkeyup='onlyNum(this)' maxlength="30" <?=$rol?> value="<?=$deli_number?>" />
                   <input type='button' class='default_btn' value='적용' <?=$onclk?> <?=$rol?> />
                 </div>
               </td>

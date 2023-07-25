@@ -17,7 +17,6 @@ $tel = $admin['a_tel'];
 $site = $admin['a_site'];
 $email = $admin['a_email'];
 
-
 if($group == "SK"){
   $logo = "../img/seto_emb.png";
 }else{
@@ -65,7 +64,7 @@ if($group == "SK"){
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="<?=$logo_path?>" alt="Profile" class="rounded-circle">
+              <img src="<?=$logo?>" alt="Profile" class="rounded-circle">
               <h2><?=$admin_id?></h2>
               <h3><?=$so?></h3>
             </div>

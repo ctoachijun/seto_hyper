@@ -190,7 +190,8 @@ if($code == 1){
     ->setCellValue("H".$num, $order_date)
     ->setCellValue("I".$num, $cancel)
     ->setCellValue("J".$num, $delivery)
-    ->setCellValue("K".$num, $deli_number,PHPExcel_Cell_DataType::TYPE_STRING);
+    // ->setCellValue("K".$num, $deli_number,PHPExcel_Cell_DataType::TYPE_STRING);
+    ->setCellValueExplicit('K'.$num, $deli_number, PHPExcel_Cell_DataType::TYPE_STRING);
     $num++;
     $cnt++;
     // echo "num : $num<br>";

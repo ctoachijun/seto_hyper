@@ -124,7 +124,7 @@
 
   <main class="form-signin">
     <form method="post" id="accnt" onsubmit="return chkAccnt();" action="./main.php">
-      <img class="mb-4" src="./tpl/assets/img/logo.png" alt="" width="72" height="57">
+      <img class="mb-4" src="../img/seto_emb.png" alt="" width="72" height="57">
       <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
       <input type="text" id="id" name="id" class="form-control" placeholder="ID" required autofocus>
       <input type="password" id="pw" name="pw" class="form-control" placeholder="Password" required>
