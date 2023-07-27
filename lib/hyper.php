@@ -735,8 +735,6 @@ function getOptTableHtml($oname,$oval,$cnt,$edit_data){
               $lcnt++;
             }
           }
-          
-          
         }
       }
     }
@@ -747,6 +745,30 @@ function getOptTableHtml($oname,$oval,$cnt,$edit_data){
     
   }
   return $html;
+}
+
+
+
+
+
+
+
+/*
+  유저측 함수들
+*/
+function getMyCode($midx,$iidx){
+  $sql = "SELECT * FROM st_mkt_code WHERE mc_iidx = {$iidx} AND mc_midx = {$midx}";
+  return sql_fetch($sql);
+}
+function chkMyCode($midx,$iidx){
+  $sql = "SELECT * FROM st_mkt_code WHERE mc_iidx = {$iidx} AND mc_midx = {$midx}";
+  return sql_num_rows($sql);
+}
+function createMktCode($midx){
+  $midx_txt = sprintf('%08d',$midx);
+  $code = "GW{$midx_txt}".time();
+  
+  return $code;
 }
 
 
@@ -1040,4 +1062,8 @@ function setAdminLog($id,$idx,$sql,$exec){
 
 
 
+
 ?>
+
+
+

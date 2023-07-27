@@ -1011,6 +1011,23 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
   
+  case "crtCode":
+    
+    // 등록 된 것이 없으니 코드 생성후 추가.
+    $code = createMktCode($midx);
+    
+    $isql = "INSERT INTO st_mkt_code SET mc_midx = {$midx}, mc_iidx = {$iidx}, mc_code = '{$code}', mc_type = '{$mkt_type}', mc_value={$mkt_value}, mc_wdate = now()";
+    $ire = sql_exec($isql);
+    
+    if($ire){
+      $output['state'] = "Y";
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output);
+  break;
+  
   
   
   
