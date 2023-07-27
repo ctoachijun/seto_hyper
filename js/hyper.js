@@ -1418,3 +1418,20 @@ function openPost(){
 
   });
 }
+
+function setMktType(num){
+  $(".by").removeClass("bdact");
+  $(".dg").removeClass("bdact");
+  $(".yu").removeClass("vhide");
+  $(".dn").removeClass("vhide");
+
+  if(num == 1){
+    $(".by").addClass("bdact");
+    $(".dn").addClass("vhide");
+    $("input[name=mkt_type]").val("P");
+  }else{
+    $(".dg").addClass("bdact");
+    $(".yu").addClass("vhide");
+    $("input[name=mkt_type]").val("W");
+  }
+}

@@ -8,9 +8,9 @@
     },
     ".bash_history": {
       "type": "-",
-      "size": 3769,
+      "size": 3998,
       "lmtime": 0,
-      "modified": false
+      "modified": true
     },
     ".bash_logout": {
       "type": "-",
@@ -33,9 +33,9 @@
     ".git": {},
     ".mysql_history": {
       "type": "-",
-      "size": 166,
+      "size": 219,
       "lmtime": 0,
-      "modified": false
+      "modified": true
     },
     ".vscode": {},
     "README.md": {
@@ -45,6 +45,12 @@
       "modified": false
     },
     "backup": {},
+    "favicon.ico": {
+      "type": "-",
+      "size": 4202,
+      "lmtime": 0,
+      "modified": false
+    },
     "gabia.html": {
       "type": "-",
       "size": 15243,

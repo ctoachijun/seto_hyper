@@ -266,7 +266,8 @@ switch ($w_mode) {
       
       // 상품 정보 업데이트
       $sql = "UPDATE st_item SET i_bidx = {$brand_index}, i_name = '{$pname}', i_img = '{$file_name}', i_keyword = '{$keyword_txt}', i_deliday = '{$delivery_maybe}', i_delival = $delivery_coast,
-        i_delicomp = '{$delivery_comp}', i_period = '{$period}', i_quantity = {$product_quantity}, i_moq = {$product_moq}, i_price = {$product_price}, i_sell_type = '{$sale_type}'
+        i_delicomp = '{$delivery_comp}', i_period = '{$period}', i_quantity = {$product_quantity}, i_moq = {$product_moq}, i_price = {$product_price}, i_sell_type = '{$sale_type}',
+        i_mkt_type = '{$mkt_type}', i_mkt_value={$mkt_value}
         WHERE i_idx = {$iidx}";
       $re = sql_exec($sql);
       // $output['sql'] = $sql;

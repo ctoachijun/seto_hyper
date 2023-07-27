@@ -46,6 +46,21 @@ if($reg_type == "E"){
    // 키워드 html 
    $key_html = setKeywordHtml($keyword);
    
+   // 진행타입
+   $stype = $item['i_sell_type'];
+   $stype == "D" ? $rdact = "ract" : $rcact = "ract";
+   
+   // 수수료 타입
+   $bdtype = $item['i_mkt_type'];
+   $bdvalue = $item['i_mkt_value'];
+   if($bdtype == "P"){
+      $bact = "bdact" ; 
+      $dview = "vhide";
+   }else{
+      $dact = "bdact";
+      $bview = "vhide";
+   } 
+   
    
    // 옵션 개수 세팅 & 옵션 input 세팅
    $io_idx = $item['io_idx'];
@@ -105,6 +120,9 @@ if($reg_type == "E"){
    $divnow = "now1";
    $btnnow = "btn-now1";
    $iconnow = "cicon1";
+   $rdact = "ract";
+   $bact = "bdact";
+   $dview = "vhide";
 }
 
 ?>
@@ -193,6 +211,13 @@ if($reg_type == "E"){
          }
        
       });
+      
+      $(".form-check-label").click(function(){
+         $(".form-check-label").removeClass("ract");
+         $(this).addClass("ract");
+      })
+      
+      
    });
 
 
@@ -229,6 +254,7 @@ if($reg_type == "E"){
                <input type='hidden' name='opt_cnt' value="<?=$opt_cnt?>" />
                <input type='hidden' name='cur_page' value="<?=$return_cur?>" />
                <input type='hidden' name='item_img' value="<?=$item_img?>" />
+               <input type="hidden" name='mkt_type' value='<?=$bdtype?>' />
                
                <div class="col-md-12">
                   <label for="pname" class="form-label">상품명</label>
@@ -443,6 +469,7 @@ if($reg_type == "E"){
                      </div>
                   </div>
                </div>
+               <div class="divid"></div>
                <div class="col-12 d-flex">
                   <div class="col-sm-1 d-flex align-items-center justify-content-center">키워드 : <br>(10개 까지)</div>
                   <div class="col-sm-4 d-flex align-items-center">
@@ -457,22 +484,36 @@ if($reg_type == "E"){
                      </div>
                   </div>
                </div>
+               <div class="divid"></div>
 
 
-
-               <div class="col-12">
-                  <div class="radio_div d-flex justify-content-center">
-                     <input class="form-radio-input" type="radio" id="radioDh" name='sale_type' value="D" checked>
-                     <label class="form-check-label" for="radioDh">
-                        대행형
-                     </label>
-                     <input class="form-radio-input" type="radio" id="radioCp" name='sale_type' value="C">
-                     <label class="form-check-label" for="radioCp">
-                        총판형
-                     </label>
+               <div class="col-12 d-flex">
+                  <div class="col-md-6 col-sm-6 d-flex align-items-center">
+                     <div class="radio_div d-flex justify-content-center">
+                        <input class="form-radio-input" type="radio" id="radioDh" name='sale_type' value="D" checked>
+                        <label class="form-check-label <?=$rdact?>" for="radioDh" >대행형</label>
+                        <input class="form-radio-input" type="radio" id="radioCp" name='sale_type' value="C">
+                        <label class="form-check-label <?=$rcact?>" for="radioCp">총판형</label>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6 ">
+                     <div class="sellt_div d-flex">
+                        <div class="sellt_panner d-flex">
+                           <div class="by <?=$bact?>" onclick="setMktType(1)">비율( % )</div>
+                           <div class="dg <?=$dact?>" onclick="setMktType(2)">단가</div>
+                        </div>
+                        <div class="sellt_cont">
+                           <p class="sellt_notice">비율은 판매 총액의 % 만큼, 단가는 판매당 지급하는 방식입니다.</p>
+                           <div>
+                              <input type="text" class="form-control" name="mkt_value" value="<?=$bdvalue?>" oninput="onlyNum(this)"/><span class="yu <?=$bview?>">%</span><span class="dn <?=$dview?>">원</span>
+                           </div>
+                           
+                        </div>
+                     </div>
                   </div>
                </div>
-
+               <div class="divid"></div>
+               
                <div class="col-12">
                   <div class="opt_row col-lg-12 d-flex">
                      <div class="col-lg-12 opt_title d-flex">

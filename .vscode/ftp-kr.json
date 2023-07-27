@@ -16,6 +16,7 @@
         ".bash_logout",
         ".bashrc",
         ".bash_profile",
-        ".mysql_histoy"
+        ".mysql_histoy",
+        "backup"
     ]
 }
