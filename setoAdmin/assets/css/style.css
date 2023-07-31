@@ -1567,6 +1567,49 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 
+/* 
+  문의 카테고리 화면
+*/
+.mooniClass .middle_div{margin-bottom:70px;}
+.mooniClass .left_div .left_cont,.mooniClass .right_div .right_cont{height:auto;padding:1.5rem;border:1px solid #ccc; border-radius:10px;}
+.mooniClass .cont_title{font-size:1.5rem;margin-bottom:20px;border-bottom:2px solid #777;padding-bottom:3px;}
+.mooniClass .cont_top .btn-primary{width:60px;margin-left:5px;}
+.mooniClass .cont_body{margin-top:10px; border:1px solid #ccc;height:300px;margin-bottom:10px;padding:1.5rem;overflow:auto;}
+.mooniClass .cont_body .body_row{margin-bottom:10px;}
+.mooniClass .cont_body .body_row:hover{background:#d6ecc3}
+.mooniClass .cont_bottom .btn-primary{width:100px;margin-left:5px;}
+
+/* 
+  문의 리스트
+*/
+.moonilist .middle_div .total_count{width:8%;text-align:left;font-size:.8rem;align-items: flex-end;}
+.moonilist .search_div{height:2.5rem;width:100%;margin-bottom:15px;}
+.moonilist .search_div .typeselect,.moonilist .search_div .tclassselect,.moonilist .search_div .swselect{height:2.5rem;width:16%;margin-right:10px;}
+.moonilist .search_div .gpselect{height:2.5rem;width:20%;margin-right:10px;}
+.moonilist .search_div .swinput{height:2.5rem;width:40%;margin-right:10px;}
+.moonilist .search_div .btn{height:2.5rem;}
+.moonilist .search_div div:nth-child(2){width:100%}
+.moonilist .search_div img{cursor:pointer;width:50px;height:auto;}
+.moonilist .middle_div{flex-direction:column;}
+.moonilist .middle_div form{width:90%}
+.moonilist .middle_div .total_count{width:8%;text-align:left;font-size:.8rem;align-items: flex-end;}
+.moonilist .middle_div .table_div{width:90%;}
+.moonilist table{width:100%;text-align:center;}
+.moonilist table th{border-top:1px solid #ACACAC;}
+.moonilist table th:first-child{max-width:5%}
+.moonilist table tr{height:35px;border-bottom:1px solid #ACACAC}
+.moonilist table td{height:20px;font-size:.8rem;}
+.moonilist table td:first-child{width:6%;font-weight:700;font-size:1rem}
+.moonilist table td:nth-child(2){width:8%}
+.moonilist table td:nth-child(3){width:12%}
+.moonilist table td:nth-child(4){width:6%}
+.moonilist table td:nth-child(5){width:20%}
+.moonilist table td:nth-child(6){width:20%}
+.moonilist table td:last-child{width:15%}
+.moonilist table tbody tr:nth-child(odd){background:#EFEFEF;}
+.moonilist .middle_div .paging_div{margin-top:20px;}
+
+
 /*
   페이지네이션
 */

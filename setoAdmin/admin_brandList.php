@@ -16,7 +16,6 @@ $maker_select = getMakerSelect($maker_idx);
 // 해당 메이커의 브랜드 데이터를 추출
 $brand = getBrandList($maker_idx,$sw);
 
-
 // 총 건수
 $total_cnt = count($brand);
 

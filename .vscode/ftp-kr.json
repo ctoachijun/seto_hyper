@@ -17,6 +17,6 @@
         ".bashrc",
         ".bash_profile",
         ".mysql_histoy",
-        "backup"
+        "/backup"
     ]
 }

@@ -1028,6 +1028,69 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
   
+  case "setMcHtml" :
+    
+    // 카테고리 값에 입력값과 일치하지 않으면 진행    
+    if(strpos($txt,$val) === false){
+      $val = addslashes($val);
+      
+      $sql = "INSERT INTO st_mooni_category SET mnc_name='{$val}', mnc_class='{$tclass}', mnc_wdate = now()";
+      $re = sql_exec($sql);
+
+      if($re){
+        $output['state'] = "Y";
+        $output['html'] = getMooniListHtml($tclass);
+        
+        // 로그
+        $exec = "문의 유형 [{$val}] 추가";
+        $sql = addslashes($sql);
+        $res = setAdminLog($aid,$aidx,$sql,$exec);
+      }else{
+        $output['state'] = "N";
+      }
+    }else{
+      // 문자열에 포함 된 값이므로 중복.
+      $output['state'] = "J";
+    }
+    
+    echo json_encode($output);
+  break;
+  
+  case "delBodyRow" :
+    $output['val'] = $val;
+    $sql = "DELETE FROM st_mooni_category WHERE mnc_class = '{$tclass}' AND mnc_name = '{$val}'";
+    $re = sql_exec($sql);
+
+    if($re){
+      $output['state'] = "Y";
+      $output['html'] = getMooniListHtml($tclass);
+      $output['sql'] = $sql;
+
+      // 로그
+      $exec = "문의 유형 [{$val}] 삭제";
+      $sql = addslashes($sql);
+      $res = setAdminLog($aid,$aidx,$sql,$exec);
+      
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output);
+  break;
+  
+  case "setSel2" :
+    if(!$val2) $val2 = 0;
+    $html = setMooniTypeSel($val,$val2);      
+    $output['val'] = $val;
+    $output['val2'] = $val2;
+    $output['html'] = $html;
+    
+    echo json_encode($output);
+  break;
+  
+  
+  
+  
   
   
   

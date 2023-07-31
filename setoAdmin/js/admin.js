@@ -1196,7 +1196,6 @@ function chgPw(idx){
   let npw = $("#newPassword").val();
   let rpw = $("#renewPassword").val();
   
-  
   if( $("input[name=pwjud").val() == 1){
     $(".error_pw").html("비밀번호가 일치하지 않습니다.");
     $("#currentPassword").focus();
@@ -1223,13 +1222,89 @@ function chgPw(idx){
       }
     }
   })
-  
-  
 }
 
+function setMcHtml(type){
+  let val,tclass,lr;
+  
+  if(type == "l"){
+    val = $("input[name=sname]").val();
+    tclass = "S";
+    lr = "left";
+  }else{
+    val = $("input[name=pname]").val();
+    tclass = "P";
+    lr = "right";
+  }
+  
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"setMcHtml","tclass":tclass,"val":val},
+    success : function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+      
+      if(json.state == "Y"){
+        $("input[name="+tclass.toLowerCase()+"name]").val("");
+        $("input[name="+tclass.toLowerCase()+"name]").focus();
+        $("."+lr+"_div .cont_body").html(json.html);
+      }else{
+        errorAlert();
+      }
+    }
+  })
+}
 
+function delBodyRow(type,num){
+  let val; 
+  if(type == "l"){
+    val = $(".brvl"+num).html();
+    tclass = "S";
+    lr = "left";
+    $("input[name=sname]").val("");
+  }else{
+    val = $(".brvr"+num).html();
+    tclass = "P";
+    lr = "right";
+    $("input[name=pname]").val("");
+  }
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"delBodyRow","val":val,"tclass":tclass},
+    success: function(result){
+      let json = JSON.parse(result);
+      console.log(json);
+      
+      if(json.state == "Y"){
+        $("."+lr+"_div .cont_body").html(json.html);
+      }else{
+        errorAlert();
+      }
+    }
+  })
+}
 
+function setSel2(obj){
+  let val = obj.value;
+  let val2 = $(".typeselect").val();
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"setSel2","val":val,"val2":val2},
+    success : function(result){
+      let json = JSON.parse(result);
+      // console.log(json);
+      
+      $(".typeselect").html(json.html);
+    }
+  })
+}
 
-
+function sortType(){
+  $("input[name=sw]").val("");
+  $("form").submit();
+}
 
 

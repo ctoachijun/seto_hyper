@@ -155,6 +155,10 @@ function getOrderInfo($oidx){
   $sql = "SELECT * FROM st_order as o JOIN st_payment as p ON o.o_pmidx = p.pm_idx WHERE o.o_idx = {$oidx}";
   return sql_fetch($sql);
 }
+function getMyBrandItem($midx){
+  $sql = "SELECT * FROM st_brand as b INNER JOIN st_item as i ON b.b_idx = i.i_bidx WHERE b_aidx = {$midx}";
+  return sql_query($sql);
+}
 function chkMyOrder($aidx,$oidx,$agroup){
   $sql = "SELECT * FROM st_order WHERE o_aidx = {$aidx} AND o_idx = {$oidx}";
   
@@ -162,9 +166,28 @@ function chkMyOrder($aidx,$oidx,$agroup){
     alert_back("접근 권한이 없습니다.");
   };
 }
+// 내 브랜드의 아이템 목록을 셀렉트로 
+function setMyBrandItemSel($aidx,$gprod){
+  $data = getMyBrandItem($aidx);
+  
+  $html = "<option value='N'>전체</option>";
+  foreach($data as $v){
+    $iname = mb_strimwidth($v['i_name'],0,20,"...");
+    $iidx = $v['i_idx'];
+    if($iidx == $gprod){
+      $thissel = "selected";
+    }else{
+      $thissel = "";
+    }
+    $html .= "<option value='{$iidx}' {$thissel}>{$iname}</option>";
+  }
+  
+  return $html;
+}
+
 function getBrandList($idx,$sw){
   
-  $join = "as b INNER JOIN st_admin as a ON b.b_idx = a.a_idx";
+  $join = "as b INNER JOIN st_admin as a ON b.b_aidx = a.a_idx";
   if($idx != "ALL"){
     $where = "WHERE b.b_aidx = {$idx}";  
   }else{
@@ -640,9 +663,6 @@ function getOptTableHtml($oname,$oval,$cnt,$edit_data){
 
   }else{
     
-
-    
-    
     $v1box = explode(",",$vbox[0]);
     $v2box = explode(",",$vbox[1]);
   
@@ -746,6 +766,57 @@ function getOptTableHtml($oname,$oval,$cnt,$edit_data){
   }
   return $html;
 }
+function getMooniList($type){
+  $sql = "SELECT * FROM st_mooni_category WHERE mnc_class='{$type}'";
+  return sql_query($sql);
+}
+function getMooniListHtml($type){
+  
+  $data = getMooniList($type);
+  $cnt = 1;
+  foreach($data as $v){
+    $name = $v['mnc_name'];
+    if($type == "S"){
+      $lrname = "brvl{$cnt}";
+      $ins = "l";
+    }else{
+      $lrname = "brvr{$cnt}";
+      $ins = "r";
+    }
+    
+    $html .= "<div class='body_row br{$cnt} d-flex justify-content-between'><div class='{$lrname}'>{$name}</div><div class='cpointer' onclick='delBodyRow(\"{$ins}\",{$cnt})'>X</div></div>";
+    $cnt++;
+  }
+  
+  return $html;
+}
+function setMooniTypeSel($tclass,$tidx){
+  $data = getMooniList($tclass);
+  $html = "<option value='N'>==선택==</option>";
+  foreach($data as $v){
+    $name = $v['mnc_name'];
+    $idx = $v['mnc_idx'];
+    $sel = "";
+    if($tidx == $idx) $sel = "selected";
+    
+    $html .= "<option value='{$idx}' {$sel}>{$name}</option>";
+  }
+  
+  return $html;
+}
+function getMooniAllCount($where){
+  $sql = "SELECT * FROM st_mooni {$where}";
+  return sql_num_rows($sql);
+}
+
+
+
+
+
+
+
+
+
 
 
 
@@ -818,6 +889,8 @@ function getPaging($tbl, $qs, $where){
     $tbl_name = "st_item";
   }else if($tbl == "seto_order"){
     $tbl_name = "st_order";
+  }else if($tbl == "seto_mooni"){
+    $tbl_name = "st_mooni";
   }
   
   // 쿼리스트링에서 변수 및 값 대입

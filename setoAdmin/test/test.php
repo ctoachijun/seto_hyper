@@ -1,6 +1,9 @@
 <?
 include "../../lib/hyper.php";
 
+if(!isset($_SESSION['admin_id']) && !isset($_SESSIONI['admin_idx'])){
+  echo "일단... 지금 로그인은 안되어 있는 상태라 제대로 동작하지 않을 수 있습니다~~<br><br><br>";  
+}
 
 
 // 코드 생성

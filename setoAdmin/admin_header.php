@@ -17,18 +17,25 @@
   $current_file = end($script_box);
     
   // 초기화
-  $smail_col = $main_col = $sbrand_col = $sorder_col = "collapsed";
+  $smail_col = $main_col = $sbrand_col = $sorder_col = $smooni_col = $current_li1 = $current_li2 = "collapsed";
+  $disp_mooni = "";
   
   // 파일에 따라 메뉴 선택 css 활성화
   if($current_file == "main.php"){
     $main_col = ""; 
   }else if($current_file == "admin_mailList.php"){
     $smail_col = "";
-  }else if($current_file == "admin_brandList.php || $current_file == admin_itemList.php || $current_file == itemDetail.php "){
+  }else if($current_file == "admin_brandList.php" || $current_file == "admin_itemList.php" || $current_file == "itemDetail.php"){
     $sbrand_col = "";
   }else if($current_file == "admin_orderList.php"){
     $sorder_col = "";
+  }else if($current_file == "admin_mooniList.php" || $current_file == "admin_mooniClass.php"){
+    $smooni_col = "";    
+    $disp_mooni = "show";
+    
+    $current_file == "admin_mooniList.php" ? $current_li1 = "active" : $current_li2 = "active";
   }
+  
   
   $admin_info = getAdminInfoIdx($admin_idx);
   $admin_logo = $admin_info['a_logo'];
@@ -87,7 +94,8 @@
   ======================================================== -->
 
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
-  <script src="../js/hyper.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="./js/admin.js"></script>
  
 </head>
 
@@ -169,7 +177,7 @@
         </li><!-- End Profile Nav -->
 
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
   </header><!-- End Header -->
 
@@ -183,25 +191,42 @@
           <i class="bi bi-grid"></i>
           <span>Dashboard</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li>
       <li class="nav-item">
         <a class="nav-link <?=$smail_col?>" href="admin_mailList.php">
           <i class="bi bi-envelope"></i>
           <span>구독 메일 목록</span>
         </a>
-      </li><!-- End Maillist Nav -->
+      </li>
       <li class="nav-item">
         <a class="nav-link <?=$sbrand_col?>" href="admin_brandList.php">
           <i class="bi bi-bootstrap"></i>
           <span>브랜드 목록</span>
         </a>
-      </li><!-- End Maillist Nav -->
+      </li>
       <li class="nav-item">
         <a class="nav-link <?=$sorder_col?>" href="admin_orderList.php">
           <i class="bi bi-cart-check"></i>
           <span>주문 목록</span>
         </a>
-      </li><!-- End Maillist Nav -->
+      </li>
+      <li class="nav-item">
+        <a class="nav-link <?=$smooni_col?>" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-file-earmark-text"></i>
+          <span>문의 관리</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse <?=$disp_mooni?>" data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="admin_mooniList.php" class="<?=$current_li1?>">
+              <i class="bi bi-circle"></i><span>문의 목록</span>
+            </a>
+          </li>
+          <li>
+            <a href="admin_mooniClass.php" class="<?=$current_li2?>">
+              <i class="bi bi-circle"></i><span>문의 유형 관리</span>
+            </a>
+          </li>
+      </li>
       
       
       <!-- <li class="nav-item">
