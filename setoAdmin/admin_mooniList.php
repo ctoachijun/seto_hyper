@@ -190,12 +190,13 @@ $nopt = array("sw","type","total_cnt","tclass","return_cur","swsel","gprod");
               $mname = $mbox['m_name'];
               $cate = $v['mnc_name'];
               $iidx = $v['mn_iidx'];
+              $mnidx = $v['mn_idx'];
               
               $item_info = getItemInfo($iidx);
               $item_name = mb_strimwidth($item_info['i_name'],0,20,"...");
 ?>            
 
-              <tr>
+              <tr class="cpointer" onclick="goMooniDetail(<?=$mn_idx?>)">
                 <td><?=$number?></td>
                 <td><?=$cate?></td>
                 <td><?=$item_name?></td>

@@ -161,7 +161,7 @@ $where = $join." ".$where;
   <div class="cont col-lg-12 card">
     <div class="top_div card-body">
       <h5 class="card-title">주문</h5>
-
+      <div class="txt-desc">주문번호 클릭 시 상세화면으로 이동합니다.</div>
     </div>
 
     <div class="middle_div card-body d-flex align-items-center">
@@ -191,6 +191,12 @@ $where = $join." ".$where;
             <div class="d-flex">
               <input type='button' class='btn btn-outline-success' value='송장번호 일괄업로드' onclick='setAllDeliNum(<?=$admin_idx?>)' />
               <img src="../img/exel.png" onclick="downExcel(2,'<?=$admin_idx?>')" />
+              <div class="upload_desc">
+                <span>일괄 업로드 하는법.</span><br>
+                1. 우측의 엑셀 아이콘을 클릭 해, <b>엑셀파일을 다운로드</b> 받습니다.<br>
+                2. 다운로드 받으신 엑셀 파일을 열고, 송장번호 입력란에 송장번호를 입력 후 <br>
+                입력하신 엑셀 파일을 업로드하시면 일괄 업로드가 됩니다.
+              </div>
             </div>
           </div>
         </form>
@@ -297,6 +303,16 @@ $where = $join." ".$where;
   </div>
 </div>
 
+
 <?
 include "./admin_footer.php";
 ?>
+
+<script>
+  $(".btn-outline-success").hover(function(){
+    $(".upload_desc").show();
+  })
+  $(".btn-outline-success").mouseleave(function(){
+    $(".upload_desc").hide();
+  })
+</script>

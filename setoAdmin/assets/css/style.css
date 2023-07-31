@@ -1420,9 +1420,11 @@ input[type="number"]::-webkit-inner-spin-button {
   주문 리스트
 */
 .orderlist .top_div input[type=file]{display:none;}
+.orderlist .top_div h5{margin-bottom:0;}
+.orderlist .top_div .txt-desc{font-size:.8rem;font-weight:700;}
 .orderlist .middle_div{flex-direction:column;}
 .orderlist .middle_div form{width:100%}
-.orderlist .search_div{justify-content:space-between;height:2.5rem;width:100%;margin-bottom:15px;}
+.orderlist .search_div{justify-content:space-between;height:2.5rem;width:100%;margin-bottom:15px;position:relative;}
 .orderlist .search_div .typeselect{height:2.5rem;width:20%;margin-right:10px;}
 .orderlist .search_div .sortselect{height:2.5rem;width:14%;margin-right:10px;}
 .orderlist .search_div .swinput{height:2.5rem;width:50%;margin-right:10px;}
@@ -1442,6 +1444,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .orderlist .deli_td input{font-size:.8rem}
 .orderlist .deli_td .default_btn{margin-left:10px; height:25px; font-size:.7rem;}
 .orderlist .middle_div .paging_div{margin-top:20px;}
+.orderlist .search_div .upload_desc{position:absolute;width:300px !important;height:auto;top:50px;right:50px;background:#fff;border:1px solid #1767f0;font-size:.8rem;padding:.5rem;word-break: break-all;border-radius:10px;display:none;}
+.orderlist .search_div .upload_desc span{font-weight:700;}
 
 .orderlist table td:first-child{width:10%}
 .orderlist table td:nth-child(2){width:5%}
@@ -1607,6 +1611,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .moonilist table td:nth-child(6){width:20%}
 .moonilist table td:last-child{width:15%}
 .moonilist table tbody tr:nth-child(odd){background:#EFEFEF;}
+.moonilist table tbody tr:hover{background:#f3f4ff;}
 .moonilist .middle_div .paging_div{margin-top:20px;}
 
 
