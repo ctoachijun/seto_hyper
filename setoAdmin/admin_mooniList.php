@@ -135,7 +135,6 @@ $nopt = array("sw","type","total_cnt","tclass","return_cur","swsel","gprod");
     <div class="middle_div card-body d-flex align-items-center">
       <form action="<?=$PHP_SELF?>" method="GET" onsubmit="return chgCurPage();" >
       <? echo qsChgForminput($pqs,$nopt); ?>
-        <!-- <input type="hidden" name="pqs" value="<?=$pqs?>" />       -->
         <div class="search_div d-flex">
           <div class="total_count d-flex">총 <?=$total_cnt?>건</div>
           <div class="d-flex">
@@ -177,26 +176,37 @@ $nopt = array("sw","type","total_cnt","tclass","return_cur","swsel","gprod");
               <th>제목</th>
               <th>내용</th>
               <th>작성일</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
 <?         
           if($mooni_box) :
             foreach($mooni_box as $v) :
-              $subj = mb_strimwidth($v['mn_subject'],0,50,"...");
-              $cont = mb_strimwidth($v['mn_cont'],0,50,"...");
-              $mdate = $v['mn_mdate'];
+              $subj = mb_strimwidth($v['mn_subject'],0,45,"...");
+              $cont = mb_strimwidth($v['mn_cont'],0,45,"...");
+              $mdate_box = explode(" ",$v['mn_mdate']);
               $mbox = getMemberInfo($v['mn_midx']);
               $mname = $mbox['m_name'];
               $cate = $v['mnc_name'];
               $iidx = $v['mn_iidx'];
               $mnidx = $v['mn_idx'];
+              $aidx = $v['mn_aidx'];
+              
+              $mdate = $mdate_box[0];
+              if(empty($aidx)){
+                $ans_txt = "<span class='noans'>미답변</span>";
+              }else{
+                $ans_txt = "<span class='yans'>완료</span>";
+              }
+              
+              
               
               $item_info = getItemInfo($iidx);
               $item_name = mb_strimwidth($item_info['i_name'],0,20,"...");
 ?>            
 
-              <tr class="cpointer" onclick="goMooniDetail(<?=$mn_idx?>)">
+              <tr class="cpointer" onclick="goMooniDetail(<?=$mnidx?>)">
                 <td><?=$number?></td>
                 <td><?=$cate?></td>
                 <td><?=$item_name?></td>
@@ -204,6 +214,7 @@ $nopt = array("sw","type","total_cnt","tclass","return_cur","swsel","gprod");
                 <td><?=$subj?></td>
                 <td><?=$cont?></td>
                 <td><?=$mdate?></td>
+                <td><?=$ans_txt?></td>
               </tr>
 <?
               $number--;

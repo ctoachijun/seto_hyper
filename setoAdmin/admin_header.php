@@ -221,11 +221,13 @@
               <i class="bi bi-circle"></i><span>문의 목록</span>
             </a>
           </li>
+          <? if($admin_group == "SK") : ?>
           <li>
             <a href="admin_mooniClass.php" class="<?=$current_li2?>">
               <i class="bi bi-circle"></i><span>문의 유형 관리</span>
             </a>
           </li>
+          <? endif; ?>
       </li>
       
       

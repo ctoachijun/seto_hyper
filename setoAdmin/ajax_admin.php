@@ -1088,8 +1088,26 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
   
-  
-  
+  case "regMoonAns" :
+    $cont = addslashes($cont);
+    $sql = "UPDATE st_mooni SET mn_aidx = {$ansidx}, mn_answer = '{$cont}', mn_adate = now() WHERE mn_idx = {$mnidx}";
+    $re = sql_exec($sql);
+    
+    $output['sql'] = $sql;
+    
+    if($re){
+      $output['state'] = "Y";
+      
+      //로그
+      $exec = "문의에 답변 등록";
+      $sql = addslashes($sql);
+      $res = setAdminLog($aid,$aidx,$sql,$exec);
+    }else{
+      $output['state'] = "N";
+    }
+    
+    echo json_encode($output);
+  break;
   
   
   

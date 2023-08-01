@@ -808,7 +808,10 @@ function getMooniAllCount($where){
   $sql = "SELECT * FROM st_mooni {$where}";
   return sql_num_rows($sql);
 }
-
+function getMooniInfo($idx){
+  $sql = "SELECT * FROM st_mooni as m INNER JOIN st_mooni_category as mc ON m.mn_mncidx = mc.mnc_idx WHERE m.mn_idx = {$idx}";
+  return sql_fetch($sql);
+}
 
 
 

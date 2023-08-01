@@ -1609,10 +1609,46 @@ input[type="number"]::-webkit-inner-spin-button {
 .moonilist table td:nth-child(4){width:6%}
 .moonilist table td:nth-child(5){width:20%}
 .moonilist table td:nth-child(6){width:20%}
-.moonilist table td:last-child{width:15%}
+.moonilist table td:nth-child(7){width:7%}
+.moonilist table td:last-child{width:5%}
 .moonilist table tbody tr:nth-child(odd){background:#EFEFEF;}
 .moonilist table tbody tr:hover{background:#f3f4ff;}
 .moonilist .middle_div .paging_div{margin-top:20px;}
+.moonilist .noans{font-weight:700;color:red;}
+.moonilist .yans{color:#197bf2}
+
+
+
+/* 
+  문의 상세
+*/
+.moonidetail section{padding:1rem 2rem;border-bottom:1px solid #ccc;margin-bottom:20px;}
+.moonidetail section .box_row{margin-bottom:30px;}
+.moonidetail section:first-of-type{border-top:2px solid #777;padding:20px;}
+.moonidetail section:first-of-type .box_row > div,.moonidetail section:last-of-type .box_row:nth-of-type(2) > div{width:50%;display:flex;}
+.moonidetail section:first-of-type .d-flex{margin-bottom:10px;}
+.moonidetail section .d-flex .row_cont{display:flex;}
+.moonidetail section .d-flex .row_cont > div{display:flex;justify-content: center;align-items: center;}
+.moonidetail section .d-flex .row_cont > div:first-child{width:120px;background:#e9ecf7;height:45px;font-size:.9rem}
+.moonidetail section .d-flex .row_cont > div{background:#f8f7f7;padding-left:30px;padding-right:30px;}
+.moonidetail section .d-flex .row_cont .subject{font-size:1.3rem;font-weight:500;}
+.moonidetail section .d-flex .row_cont a{margin-right:20px;}
+.moonidetail section .d-flex .cont{width:100%;}
+.moonidetail section .d-flex .cont div:last-child{width:calc(90% - 150px);padding-top:10px;padding-bottom:20px;justify-content: flex-start;}
+.moonidetail .noans{font-weight:700;color:red;}
+.moonidetail .yans{color:#197bf2}
+.moonidetail section:last-of-type .row_cont{width:100%;}
+.moonidetail section:last-of-type .box_row:last-of-type .row_cont:last-of-type > div:last-of-type{width:calc(90% - 150px);}
+.moonidetail section:last-of-type .row_cont:first-of-type span{font-size:.8rem;margin-left:20px}
+.moonidetail section:last-of-type textarea{width:100%;height:250px;resize:none;margin-top:10px;margin-bottom:10px;}
+.moonidetail section:last-of-type textarea:read-only{background:#fcfafa;}
+.moonidetail .btn_div{width:calc(100% - 170px);}
+.moonidetail .btn_div .btn{height:40px;width:100%;}
+.moonidetail .btn_div .btn-primary{width:120px;margin-right:20px;}
+
+
+
+
 
 
 /*

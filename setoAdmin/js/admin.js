@@ -1307,4 +1307,43 @@ function sortType(){
   $("form").submit();
 }
 
+function goMooniDetail(num){
+  $("form").prepend("<input type='hidden' name='moonidx' value='"+num+"'>");
+  $("form").attr("action","admin_mooniDetail.php");
+  $("form").submit();
+}
+
+function regMoonAns(){
+  let midx = $("input[name=moonidx").val();
+  let aidx = $("input[name=answeridx").val();
+  let cont = $("#cont").val();
+  
+  if(!cont){
+    alert("답변을 입력 해 주세요.");
+    $("#cont").focus();
+    return false;
+  }
+  
+  if( confirm("답변을 등록 하시겠습니까?") ){
+    $.ajax({
+      url : "ajax_admin.php",
+      type: "post",
+      data: {"w_mode":"regMoonAns","ansidx":aidx,"mnidx":midx,"cont":cont},
+      success: function(result){
+        let json = JSON.parse(result);
+        console.log(json);
+
+        if(json.state == "Y"){
+          alert("등록 되었습니다.");
+          history.go(-1);
+          return false;
+        }else{
+          errorAlert();
+        }
+      }
+    })
+  }
+  
+  
+}
 
