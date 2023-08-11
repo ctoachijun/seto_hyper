@@ -19,7 +19,7 @@
 	<link rel="stylesheet" href="https://use.typekit.net/ooj8sfy.css">
 	<link rel="stylesheet" href="https://unpkg.com/image-compare-viewer/dist/image-compare-viewer.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
-	<link rel="stylesheet" href="assets/css/style.css">
+	<link rel="stylesheet" href="/setoLand/atoll/assets/css/style.css">
   
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
   <script>
@@ -59,7 +59,7 @@
 			<header>
 				<p class="header-bg"></p>
 				<div class="header-container">
-					<a href="/" class="logo"><img src="assets/img/logo.png" alt="Silence Corner"></a>				
+					<a href="/" class="logo"><img src="/setoLand/atoll/assets/img/logo.png" alt="Silence Corner"></a>				
 				</div>
 			</header>
 			<div class="container">
@@ -82,9 +82,9 @@
 					</div>
 					<div class="camera">
 						<canvas id="introCanvas" class="canvas-camera"></canvas>
-						<!-- <img id="introCamera" src="assets/img/intro-camera.png" alt="ATOLL"> -->
+						<!-- <img id="introCamera" src="/setoLand/atoll/assets/img/intro-camera.png" alt="ATOLL"> -->
 					</div>
-					<p class="product"><img src="assets/img/intro-product.png" alt="ATOLL"></p>
+					<p class="product"><img src="/setoLand/atoll/assets/img/intro-product.png" alt="ATOLL"></p>
 				</div>
 			</div>
 		</div><!--  intro -->
@@ -99,33 +99,33 @@
 				<h3 class="line"><strong>비교불가,</strong> <span>ATOLL</span>만의 특징들</h3>
 				<div class="point-blocks">
 					<div class="point point-1">
-						<div class="icon"><img src="assets/img/icon-p1.png" alt=""></div>
+						<div class="icon"><img src="/setoLand/atoll/assets/img/icon-p1.png" alt=""></div>
 						<span class="title">POINT. 01</span>
 						<p class="text">쉽고 빠르고 안전한 360도 구도 전환</p>
 					</div>
 					<div class="point point-2">
-						<div class="icon"><img src="assets/img/icon-p2.png" alt=""></div>
+						<div class="icon"><img src="/setoLand/atoll/assets/img/icon-p2.png" alt=""></div>
 						<span class="title">POINT. 02</span>
 						<p class="text">탈착, 재조정이 필요 없는 편리함</p>
 					</div>
 					<div class="point point-3">
-						<div class="icon"><img src="assets/img/icon-p3.png" alt=""></div>
+						<div class="icon"><img src="/setoLand/atoll/assets/img/icon-p3.png" alt=""></div>
 						<span class="title">POINT. 03</span>
 						<p class="text">딱 맞는 위치선정 더 균형잡힌 무게 중심</p>
 					</div>
 					<div class="break"></div>
 					<div class="point point-4">
-						<div class="icon"><img src="assets/img/icon-p4.png" alt=""></div>
+						<div class="icon"><img src="/setoLand/atoll/assets/img/icon-p4.png" alt=""></div>
 						<span class="title">POINT. 04</span>
 						<p class="text">역방향 배치해도 카메라는 똑바로!</p>
 					</div>
 					<div class="point point-5">
-						<div class="icon"><img src="assets/img/icon-p5.png" alt=""></div>
+						<div class="icon"><img src="/setoLand/atoll/assets/img/icon-p5.png" alt=""></div>
 						<span class="title">POINT. 05</span>
 						<p class="text">장착한 상태에서 렌즈 교체 가능</p>
 					</div>
 					<div class="point point-6">
-						<div class="icon"><img src="assets/img/icon-p6.png" alt=""></div>
+						<div class="icon"><img src="/setoLand/atoll/assets/img/icon-p6.png" alt=""></div>
 						<span class="title">POINT. 06</span>
 						<p class="text">표준 알카스위스 플레이트 호환</p>
 					</div>
@@ -145,9 +145,9 @@
 					<div class="spec-table">
 						<ul class="row row-img">
 							<li></li>
-							<li><img src="assets/img/spec-1.png" alt="ATOLL"></li>
-							<li><img src="assets/img/spec-2.png" alt="ATOLL"></li>
-							<li><img src="assets/img/spec-3.png" alt="ATOLL"></li>
+							<li><img src="/setoLand/atoll/assets/img/spec-1.png" alt="ATOLL"></li>
+							<li><img src="/setoLand/atoll/assets/img/spec-2.png" alt="ATOLL"></li>
+							<li><img src="/setoLand/atoll/assets/img/spec-3.png" alt="ATOLL"></li>
 						</ul>
 						<ul class="row row-model">
 							<li class="title"></li>
@@ -411,7 +411,7 @@
 	<script src="https://unpkg.com/counterup2@2.0.2/dist/index.js"></script>
 	<script src="https://unpkg.com/image-compare-viewer@1.4.1/dist/image-compare-viewer.min.js"></script>
 	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-	<!-- <script src="assets/lib/mobile-detect.min.js"></script>  -->
-	<script src="assets/js/index.js"></script>
+	<!-- <script src="/setoLand/atoll/assets/lib/mobile-detect.min.js"></script>  -->
+	<script src="/setoLand/atoll/assets/js/index.js"></script>
 </body>
 </html>

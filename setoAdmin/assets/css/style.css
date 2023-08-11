@@ -1248,6 +1248,9 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 .div_line{width:80%;margin:20px;border-bottom:1px solid #AAA;}
+.notop{margin-top:0;}
+
+
 
 /*
   # 메일 페이지
@@ -1395,8 +1398,6 @@ input[type="number"]::-webkit-inner-spin-button {
 .itemdetail .middle_div .regbtn_div button:first-child{width:150px;margin-right:20px;}
 .itemdetail .middle_div .regbtn_div button:last-child{width:100px;margin-left:20px;}
 
-
-
 .itemdetail .middle_div .opt_row{margin-bottom:10px}
 .itemdetail .middle_div .opt_row div{margin-right:10px;}
 .itemdetail .middle_div .opt_row .opt_value .btn_div{margin-left:20px;}
@@ -1414,6 +1415,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .itemdetail .middle_div .row_div .table_div tbody td:nth-child(6){width:16%}
 .itemdetail .middle_div .row_div .table_div tbody td input{text-align:right}
 
+.itemdetail #url_text{position:absolute;left:0;bottom:0;width:1px;height:1px;margin:0;padding:0;border:0}
 
 
 /*

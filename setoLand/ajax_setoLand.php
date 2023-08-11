@@ -1,6 +1,6 @@
 <?
-header('content-Type: text/json');
-header('Access-Control-Allow-Origin: *');
+// header('content-Type: text/json');
+// header('Access-Control-Allow-Origin: *');
 
 include "../lib/hyper.php";
 

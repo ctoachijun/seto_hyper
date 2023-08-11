@@ -30,6 +30,10 @@ if($reg_type == "E"){
    }
    
    $item_price = $item['i_price'];
+   $land_url = $item['i_landing_url'];
+   $fund_url = $item['i_funding_url'];
+   $preo_url = $item['i_preorder_url'];
+   
    
    // 주문기간 세팅
    $period_box = explode("|",$item['i_period']);
@@ -470,7 +474,41 @@ if($reg_type == "E"){
                   </div>
                </div>
                <div class="divid"></div>
+               
+               
+               <div class="col-12 d-flex notop">
+                  <div class="col-md-6 col-sm-6">
+                     <label for="dval" class="form-label">랜딩 url</label>
+                     <div class="col-sm-11 d-flex">
+                        <input type="text" id="land_url" name="land_url" class="form-control " onchange="chkSpaceFe(this)" value="<?=$land_url?>" placeholder="http, https 포함해서 전부 넣어주세요."/>
+                     </div>
+                  </div>
+                  <div class="col-md-6 col-sm-6">
+                     <label for="dval" class="form-label">프리오더 url</label>
+                     <div class="col-sm-11 d-flex">
+                           <input type="text" id="preo_url" name="preo_url" class="form-control " onchange="chkSpaceFe(this)" value="<?=$preo_url?>" placeholder="http, https 포함해서 전부 넣어주세요."/>
+                     </div>
+                  </div>
+               </div>
                <div class="col-12 d-flex">
+                  <div class="col-md-6 col-sm-6">
+                     <label for="dval" class="form-label">펀딩페이지 url</label>
+                     <div class="col-sm-11 d-flex">
+                        <input type="text" id="fund_url" name="fund_url" class="form-control " onchange="chkSpaceFe(this)" value="<?=$fund_url?>" placeholder="http, https 포함해서 전부 넣어주세요."/>
+                     </div>
+                  </div>
+                  <? if($reg_type == "E"): ?>                  
+                     <div class="col-md-6 col-sm-6">
+                        <label for="dval" class="form-label">확인 url</label>
+                        <div class="col-sm-11 d-flex">
+                           <input type="button" class="btn btn-outline-secondary" value="url 복사" onclick="copyUrl(<?=$iidx?>)" />
+                        </div>
+                     </div>
+                  <? endif; ?>
+               </div>
+               <div class="divid"></div>
+
+               <div class="col-12 d-flex notop">
                   <div class="col-sm-1 d-flex align-items-center justify-content-center">키워드 : <br>(10개 까지)</div>
                   <div class="col-sm-4 d-flex align-items-center">
                      <input type="text" name="kw" id="kw" class="form-control " onchange="chkSpaceFe(this)" />
@@ -487,7 +525,7 @@ if($reg_type == "E"){
                <div class="divid"></div>
 
 
-               <div class="col-12 d-flex">
+               <div class="col-12 d-flex notop">
                   <div class="col-md-6 col-sm-6 d-flex align-items-center">
                      <div class="radio_div d-flex justify-content-center">
                         <input class="form-radio-input" type="radio" id="radioDh" name='sale_type' value="D" checked>
@@ -551,6 +589,7 @@ if($reg_type == "E"){
                   <? endif; ?>
                   <button type="button" class="btn btn-secondary" onclick="cancelReturn()">취소</button>
                </div>
+               <input id="url_text" value="" />
          </form><!-- End Multi Columns Form -->
          
          </div>   <!-- end of card-body -->

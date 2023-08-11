@@ -704,7 +704,7 @@ function setStepDate(){
     let oedate = $("input[name=open_end").val();
     let psdate = $("input[name=pre_start").val();
     let pedate = $("input[name=pre_end").val();
-    let now = $("input[name]:checked").val();
+    let now = $("input[name=write_now]:checked").val();
     let dt = $("input[name=datetime_jud").val();
     
         
@@ -1343,7 +1343,30 @@ function regMoonAns(){
       }
     })
   }
-  
-  
 }
+
+function copyUrl(idx){
+  $.ajax({
+    url : "ajax_admin.php",
+    type: "post",
+    data: {"w_mode":"copyUrl","iidx":idx},
+    success : function(result){
+      let json = JSON.parse(result);
+      
+      if (navigator.clipboard !== undefined) {
+        navigator.clipboard.writeText(json.url).then(() => {
+          alert("복사 되었습니다.");
+        })
+      }else{
+        $("#url_text").val(json.url);
+        $("#url_text").select();
+        document.execCommand('copy');
+      }
+      alert("복사 되었습니다.");
+    }
+  })
+
+}
+
+
 

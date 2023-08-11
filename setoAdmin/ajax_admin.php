@@ -262,12 +262,15 @@ switch ($w_mode) {
       $pname = addslashes($product_name);
       $period = $order_start."|".$order_end;
       if(!$product_moq) $product_moq = 1;
+      $land_url = addslashes($land_url);
+      $preo_url = addslashes($preo_url);
+      $fund_url = addslashes($fund_url);
 
       
       // 상품 정보 업데이트
       $sql = "UPDATE st_item SET i_bidx = {$brand_index}, i_name = '{$pname}', i_img = '{$file_name}', i_keyword = '{$keyword_txt}', i_deliday = '{$delivery_maybe}', i_delival = $delivery_coast,
         i_delicomp = '{$delivery_comp}', i_period = '{$period}', i_quantity = {$product_quantity}, i_moq = {$product_moq}, i_price = {$product_price}, i_sell_type = '{$sale_type}',
-        i_mkt_type = '{$mkt_type}', i_mkt_value={$mkt_value}
+        i_mkt_type = '{$mkt_type}', i_mkt_value={$mkt_value}, i_landing_url = '{$land_url}', i_funding_url = '{$fund_url}', i_preorder_url = '{$preo_url}'
         WHERE i_idx = {$iidx}";
       $re = sql_exec($sql);
       // $output['sql'] = $sql;
@@ -363,58 +366,67 @@ switch ($w_mode) {
         // $res = true;
         if($res){
           $pname = addslashes($product_name);
+          $land_url = addslashes($land_url);
+          $preo_url = addslashes($preo_url);
+          $fund_url = addslashes($fund_url);
+                    
           $period = $order_start."|".$order_end;
           
           if(!$product_moq) $product_moq = 1;
           
           $sql = "INSERT INTO st_item SET i_bidx = {$brand_index}, i_name = '{$pname}', i_img = '{$file_name}', i_keyword = '{$keyword_txt}', i_deliday = '{$delivery_maybe}', i_delival = $delivery_coast,
                   i_delicomp = '{$delivery_comp}', i_period = '{$period}', i_quantity = {$product_quantity}, i_moq = {$product_moq}, i_price = {$product_price}, i_sell_type = '{$sale_type}',
+                  i_landing_url = '{$land_url}', i_funding_url = '{$fund_url}', i_preorder_url = '{$preo_url}',
                   i_wdate = now();";
           $re = sql_exec($sql);
-          // $output['sql'] = $sql;
+          $output['sql'] = $sql;
   
           
-          // 상품 idx 확보
-          $sql1 = "SELECT * FROM st_item ORDER BY i_idx DESC LIMIT 0,1";
-          $re1 = sql_fetch($sql1);
-          $iidx = $re1['i_idx'];
-          
-          // 옵션 개수별로 column 세팅
-          for($i=1,$a=0; $i<=$opt_cnt; $i++){
-            $title = ${"optname".$i};
-            $opt_name = ${"optvalue".$i};
+          if($re){
+            // 상품 idx 확보
+            $sql1 = "SELECT * FROM st_item ORDER BY i_idx DESC LIMIT 0,1";
+            $re1 = sql_fetch($sql1);
+            $iidx = $re1['i_idx'];
             
-            $io_col .= "io{$i}_name = '{$title}', io{$i}_value = '{$opt_name}', ";
-          }
-          
-          $io_sql = "INSERT INTO st_item_opt SET io_iidx = {$iidx}, {$io_col} io_wdate = now()";
-          $io_re = sql_exec($io_sql);
-          
-          // 옵션 idx 확보
-          $io_idx_sql = "SELECT * FROM st_item_opt ORDER BY io_idx DESC LIMIT 0,1";
-          $io_idx_re = sql_fetch($io_idx_sql);
-          $ioidx = $io_idx_re['io_idx'];
-          
-          // 재고수량, 추가금액 입력 - 부분적으로 지워진 옵션에 대응하기위해 전부 다 입력
-          for($i=0; $i<count($addquan); $i++){
-            $ioe_value = $opt_v1[$i].",".$opt_v2[$i].",".$opt_v3[$i];
-            $ioe_keep = $addquan[$i];
-            $ioe_add_value = $addval[$i];
+            // 옵션 개수별로 column 세팅
+            for($i=1,$a=0; $i<=$opt_cnt; $i++){
+              $title = ${"optname".$i};
+              $opt_name = ${"optvalue".$i};
+              
+              $io_col .= "io{$i}_name = '{$title}', io{$i}_value = '{$opt_name}', ";
+            }
             
-            $ioe_sql = "INSERT INTO st_item_opt_etc SET ioe_ioidx = {$ioidx}, ioe_value = '{$ioe_value}', ioe_keep = '{$ioe_keep}', ioe_add_value = '{$ioe_add_value}', ioe_wdate = now()";
-            $ioe_re = sql_exec($ioe_sql);
+            $io_sql = "INSERT INTO st_item_opt SET io_iidx = {$iidx}, {$io_col} io_wdate = now()";
+            $io_re = sql_exec($io_sql);
+
+            if($io_re){
+              
+            }            
+            // 옵션 idx 확보
+            $io_idx_sql = "SELECT * FROM st_item_opt ORDER BY io_idx DESC LIMIT 0,1";
+            $io_idx_re = sql_fetch($io_idx_sql);
+            $ioidx = $io_idx_re['io_idx'];
+            
+            // 재고수량, 추가금액 입력 - 부분적으로 지워진 옵션에 대응하기위해 전부 다 입력
+            for($i=0; $i<count($addquan); $i++){
+              $ioe_value = $opt_v1[$i].",".$opt_v2[$i].",".$opt_v3[$i];
+              $ioe_keep = $addquan[$i];
+              $ioe_add_value = $addval[$i];
+              
+              $ioe_sql = "INSERT INTO st_item_opt_etc SET ioe_ioidx = {$ioidx}, ioe_value = '{$ioe_value}', ioe_keep = '{$ioe_keep}', ioe_add_value = '{$ioe_add_value}', ioe_wdate = now()";
+              $ioe_re = sql_exec($ioe_sql);
+            }
+            
+            // 기간설정 입력
+            !$write_now ? $now_page = "N" : $now_page = $write_now;
+            $landing_date = $land_start."|".$land_end;
+            $open_date = $open_start."|".$open_end;
+            $pre_date = $pre_start."|".$pre_end;
+            
+            $trans_sql = "INSERT INTO st_item_step SET is_iidx = {$iidx}, is_landing_date = '{$landing_date}', is_open_date = '{$open_date}', is_pre_date = '{$pre_date}', is_now_page = '{$now_page}', is_wdate = now()";
+            $trans_re = sql_exec($trans_sql);
+            $output['trans_sql'] = $trans_sql;
           }
-          
-          
-          // 기간설정 입력
-          !$write_now ? $now_page = "N" : $now_page = $write_now;
-          $landing_date = $land_start."|".$land_end;
-          $open_date = $open_start."|".$open_end;
-          $pre_date = $pre_start."|".$pre_end;
-          
-          $trans_sql = "INSERT INTO st_item_step SET is_iidx = {$iidx}, is_landing_date = '{$landing_date}', is_open_date = '{$open_date}', is_pre_date = '{$pre_date}', is_now_page = '{$now_page}', is_wdate = now()";
-          $trans_re = sql_exec($trans_sql);
-          $output['trans_sql'] = $trans_sql;
           
   
           if($re){
@@ -536,7 +548,7 @@ switch ($w_mode) {
       is_landing_date = '{$land_date}', is_open_date = '{$open_date}', is_pre_date = '{$pre_date}', is_now_page = '{$now_page}'
       WHERE is_iidx = {$dt}";
     $re = sql_exec($sql);
-    // $output['sql'] = $sql;
+    $output['sql'] = $sql;
     if($re){
       $output['state'] = "Y";
             
@@ -1109,6 +1121,14 @@ switch ($w_mode) {
     echo json_encode($output);
   break;
   
+  case "copyUrl" :
+    $param = makeItemParam($iidx);
+    $url = "http://hyperlanding.net/itemView/?itemMngCode={$param}";   
+    
+    $output['url'] = $url;
+    
+    echo json_encode($output);
+  break;
   
   
   

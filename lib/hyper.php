@@ -1122,7 +1122,6 @@ function getFilename($fname,$dir){
   
   return $f;
 }
-
 function setAdminLog($id,$idx,$sql,$exec){
   $admin = getAdminInfoIdx($idx);
   $comp = $admin['a_comp'];
@@ -1135,6 +1134,39 @@ function setAdminLog($id,$idx,$sql,$exec){
   
   // return $log_sql;
 }
+function makeItemParam($idx){
+  $alph = array();
+  for($i=97; $i <= 122; $i++){
+    array_push($alph,chr($i));
+  }
+  for($i=97; $i <= 122; $i++){
+    array_push($alph,strtoupper(chr($i)));
+  }
+
+  // itemView에 넘겨지는 파라미터 포맷
+  // {알파벳2개}{두자리숫자}_{한자리숫자}{$idx}{한자리숫자}{알파벳4~7개}
+
+  for($a=0; $a<2; $a++){
+    $a1 .= $alph[array_rand($alph)];
+  }
+  $n1 = sprintf('%02d',rand(0,99));
+  $core = rand(0,9).$idx.rand(0,9);
+  
+  for($i=0; $i<rand(7,14); $i++){
+    $a2 .= $alph[array_rand($alph)];
+  }
+    
+  return $a1.$n1."_".$core.$a2;
+}
+function decodeParam($param){
+  $onum = preg_replace("/[^0-9]/","",$param);
+  $fslice = substr($onum,3);
+  $idx = substr($fslice,0,-1);
+  
+  return $idx;  
+}
+
+
 
 
 
