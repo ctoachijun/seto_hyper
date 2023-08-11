@@ -662,6 +662,14 @@ function chkStepDate(){
     jud = 2;
     return false;
   }
+  // 랜딩 종료일이 오픈, 프리오더 종료일과 겹치거나 크다
+  if( (oedate && ledate >= oedate) || (pedate && ledate >= pedate) ){
+    alert("랜딩 종료일이 다른 기간 종료일과 겹칩니다.");
+    jud = 2;
+    return false;
+  }
+  
+  
   
   // 오픈기간 체크
   if( (osdate && oedate) && (osdate > oedate) ){
@@ -672,6 +680,12 @@ function chkStepDate(){
   // 오픈 종료일이 프리오더 시작일과 겹치거나 크다.
   if( (psdate && oedate >= psdate) ){
     alert("오픈 종료일이 프리오더 시작일과 겹칩니다.");
+    jud = 2;
+    return false;
+  }
+  // 오픈 종료일이 프리오더 종료일과 겹치거나 크다.
+  if( (pedate && oedate >= pedate) ){
+    alert("오픈 종료일이 프리오더 종료일과 겹칩니다.");
     jud = 2;
     return false;
   }
@@ -1124,6 +1138,12 @@ function goDetailAdmin(id){
 }
 
 function delAdmin(idx){
+  
+  if(idx == 1){
+    alert("삭제할 수 없는 계정입니다.");
+    return false;
+  }
+  
   if( confirm("관련 브랜드 및 상품파일, 정보까지 모두 삭제됩니다.\n신중히 선택 해 주세요.\n\n삭제 하시겠습니까?") ){
     let rp = $("input[name=return_page").val();
     $.ajax({
@@ -1137,6 +1157,9 @@ function delAdmin(idx){
         if(json.state == "Y"){
           alert("정상 처리 되었습니다"); 
           location.replace(rp);
+        }else if(json.state == "NS"){
+          alert("본인 계정은 삭제 할 수 없습니다.");
+          return false;
         }else{
           errorAlert();
         }

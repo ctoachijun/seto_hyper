@@ -892,38 +892,41 @@ switch ($w_mode) {
   break;
   
   case "delAdmin" :
-    $sql = "UPDATE st_admin SET a_open = 'N' WHERE a_idx = {$admin_idx}";
-    $re = sql_exec($sql);
-    
-    if($re){
-      $output['state'] = "Y";
-      
-      $head = date("Ymd");
-      $ainfo = getAdminInfoIdx($admin_idx);
-      $taidx = $admin_idx;
-      $taid = $ainfo['a_id'];
-      $dir = "{$taidx}_{$taid}";
-      $tarname = $head."_{$dir}.tar.gz";
-      
-      // 해당 계정 디렉토리 백업
-      $cmd = "tar zcvf ../backup/maker_backup/{$tarname} ../img/maker/{$dir}";
-      exec($cmd);
-      
-      // 해당 계정 디렉도리 삭제
-      $cmd = "rm -rf ../img/maker/{$dir}";
-      exec($cmd);
-      
-      // DB에서 연계 된 데이터 삭제
-      // DB 삭제하려다, 그냥 놔두고 브랜드목록에서 계정이 있는 브랜드만 표시되도록
-      // 처리 함.
-    
-            
-      // 로그
-      $exec = "관리자 계정 삭제";
-      $sql = addslashes($sql);
-      $res = setAdminLog($aid,$aidx,$sql,$exec);
+    if($admin_idx == $aidx){
+      $output['state'] = "NS";
     }else{
-      $output['state'] = "N";
+      $sql = "UPDATE st_admin SET a_open = 'N' WHERE a_idx = {$admin_idx}";
+      $re = sql_exec($sql);
+      
+      if($re){
+        $output['state'] = "Y";
+        
+        $head = date("Ymd");
+        $ainfo = getAdminInfoIdx($admin_idx);
+        $taidx = $admin_idx;
+        $taid = $ainfo['a_id'];
+        $dir = "{$taidx}_{$taid}";
+        $tarname = $head."_{$dir}.tar.gz";
+        
+        // 해당 계정 디렉토리 백업
+        // $cmd = "tar zcvf ../backup/maker_backup/{$tarname} ../img/maker/{$dir}";
+        // exec($cmd);
+        
+        // 해당 계정 디렉도리 삭제
+        // $cmd = "rm -rf ../img/maker/{$dir}";
+        // exec($cmd);
+        
+        // DB에서 연계 된 데이터 삭제
+        // DB 삭제하려다, 그냥 놔두고 브랜드목록에서 활성화 된 계정이 있는 브랜드만 표시되도록
+        // 처리 함.
+              
+        // 로그
+        $exec = "관리자 계정 삭제";
+        $sql = addslashes($sql);
+        $res = setAdminLog($aid,$aidx,$sql,$exec);
+      }else{
+        $output['state'] = "N";
+      }
     }
     $output['sql'] = $sql;
     
