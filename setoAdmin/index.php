@@ -105,12 +105,11 @@
               jud = false;
             }
           })
-          
+
           if(jud){
-            // return true;
-            location.href="main.php";
+            return true;
+            // location.href="main.php";
           }
-          
           return false;
       }
 

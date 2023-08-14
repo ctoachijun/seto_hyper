@@ -8,7 +8,7 @@
     },
     ".bash_history": {
       "type": "-",
-      "size": 3712,
+      "size": 3433,
       "lmtime": 0,
       "modified": true
     },
@@ -93,16 +93,20 @@
         "modified": false
       },
       "maker": {
-        "1_bbangs": {
-          "brand": {}
-        },
+        "1_bbangs": {},
         "2_seto": {
           "brand": {
             "세토웍스": {
-              "20230704_1688457052.jpg": {
+              "20230810_1691648265.jpg": {
                 "type": "-",
-                "size": 120895,
-                "lmtime": 1690435679010.5598,
+                "size": 545451,
+                "lmtime": 1691712694473.0093,
+                "modified": false
+              },
+              "20230811_1691717727.jpg": {
+                "type": "-",
+                "size": 52150,
+                "lmtime": 1691731197166.6755,
                 "modified": false
               },
               "logo_brand.png": {
@@ -120,12 +124,6 @@
         "4_testes": {
           "brand": {
             "F": {
-              "20230725_1690262156.jpg": {
-                "type": "-",
-                "size": 106809,
-                "lmtime": 1690435679118.56,
-                "modified": false
-              },
               "logo_brand.webp": {
                 "type": "-",
                 "size": 40966,
@@ -134,12 +132,6 @@
               }
             },
             "안빠져": {
-              "20230712_1689145838.jpg": {
-                "type": "-",
-                "size": 230248,
-                "lmtime": 1690848036546.782,
-                "modified": false
-              },
               "logo_brand.jpg": {
                 "type": "-",
                 "size": 64512,
@@ -162,7 +154,22 @@
           }
         },
         "5_samsong": {
-          "brand": {},
+          "brand": {
+            "샘송전자": {
+              "20230811_1691726748.jpg": {
+                "type": "-",
+                "size": 72492,
+                "lmtime": 1691731197199.6775,
+                "modified": false
+              },
+              "logo_brand.jpg": {
+                "type": "-",
+                "size": 86765,
+                "lmtime": 1691731197232.6768,
+                "modified": false
+              }
+            }
+          },
           "샘송전자_logo.jpg": {
             "type": "-",
             "size": 86765,
@@ -208,6 +215,14 @@
       "size": 1270,
       "lmtime": 1687152733435.409,
       "modified": false
+    },
+    "itemView": {
+      "index.php": {
+        "type": "-",
+        "size": 2982,
+        "lmtime": 1691719309955.0298,
+        "modified": false
+      }
     },
     "js": {
       "common.js": {
@@ -3896,8 +3911,8 @@
       },
       "hyper.php": {
         "type": "-",
-        "size": 34394,
-        "lmtime": 1690857849198.4783,
+        "size": 35181,
+        "lmtime": 1691731197262.6748,
         "modified": false
       }
     },
@@ -3940,8 +3955,8 @@
       },
       "admin_itemDetail.php": {
         "type": "-",
-        "size": 27175,
-        "lmtime": 1690444860521.3774,
+        "size": 29429,
+        "lmtime": 1691731197286.6758,
         "modified": false
       },
       "admin_itemList.php": {
@@ -3988,16 +4003,16 @@
       },
       "ajax_admin.php": {
         "type": "-",
-        "size": 33795,
-        "lmtime": 1690868061780.303,
+        "size": 34815,
+        "lmtime": 1691731140604.4968,
         "modified": false
       },
       "assets": {
         "css": {
           "style.css": {
             "type": "-",
-            "size": 48031,
-            "lmtime": 1690871557307.4297,
+            "size": 48161,
+            "lmtime": 1691731197316.6743,
             "modified": false
           }
         },
@@ -6707,8 +6722,8 @@
       "js": {
         "admin.js": {
           "type": "-",
-          "size": 36426,
-          "lmtime": 1690870055558.677,
+          "size": 37733,
+          "lmtime": 1691731139844.9932,
           "modified": false
         }
       },
@@ -9668,8 +9683,8 @@
     "setoLand": {
       "ajax_setoLand.php": {
         "type": "-",
-        "size": 625,
-        "lmtime": 1688460546061.4995,
+        "size": 631,
+        "lmtime": 1691731197335.9312,
         "modified": false
       },
       "atoll": {
@@ -10224,8 +10239,8 @@
         },
         "index.php": {
           "type": "-",
-          "size": 20935,
-          "lmtime": 1687242109642.855,
+          "size": 21175,
+          "lmtime": 1691731197357.951,
           "modified": false
         },
         "inputInfo.php": {
@@ -10238,6 +10253,12 @@
           "type": "-",
           "size": 11198,
           "lmtime": 1687241152216.535,
+          "modified": false
+        },
+        "preorder.php": {
+          "type": "-",
+          "size": 83,
+          "lmtime": 1691656203297.146,
           "modified": false
         },
         "proc_payment.php": {
@@ -10256,6 +10277,410 @@
           "type": "-",
           "size": 3180,
           "lmtime": 1687306307572.9001,
+          "modified": false
+        }
+      },
+      "niid": {
+        "assets": {
+          ".DS_Store": {
+            "type": "-",
+            "size": 6150,
+            "lmtime": 1691715689657.0176,
+            "modified": false
+          },
+          "css": {
+            "style.css": {
+              "type": "-",
+              "size": 23984,
+              "lmtime": 1691715689682.018,
+              "modified": false
+            }
+          },
+          "font": {
+            "SUIT-Bold.woff2": {
+              "type": "-",
+              "size": 174012,
+              "lmtime": 1691715689757.018,
+              "modified": false
+            },
+            "SUIT-ExtraBold.woff2": {
+              "type": "-",
+              "size": 173476,
+              "lmtime": 1691715689791.0168,
+              "modified": false
+            },
+            "SUIT-ExtraLight.woff2": {
+              "type": "-",
+              "size": 167468,
+              "lmtime": 1691715689823.0168,
+              "modified": false
+            },
+            "SUIT-Heavy.woff2": {
+              "type": "-",
+              "size": 169064,
+              "lmtime": 1691715689858.719,
+              "modified": false
+            },
+            "SUIT-Light.woff2": {
+              "type": "-",
+              "size": 170376,
+              "lmtime": 1691715689921.5073,
+              "modified": false
+            },
+            "SUIT-Medium.woff2": {
+              "type": "-",
+              "size": 173028,
+              "lmtime": 1691715689957.4956,
+              "modified": false
+            },
+            "SUIT-Regular.woff2": {
+              "type": "-",
+              "size": 169120,
+              "lmtime": 1691715689990.4946,
+              "modified": false
+            },
+            "SUIT-SemiBold.woff2": {
+              "type": "-",
+              "size": 173356,
+              "lmtime": 1691715690027.6267,
+              "modified": false
+            },
+            "SUIT-Thin.woff2": {
+              "type": "-",
+              "size": 159316,
+              "lmtime": 1691715690062.7935,
+              "modified": false
+            },
+            "SUIT-Variable.woff2": {
+              "type": "-",
+              "size": 475404,
+              "lmtime": 1691715690113.4976,
+              "modified": false
+            }
+          },
+          "images": {
+            ".DS_Store": {
+              "type": "-",
+              "size": 6148,
+              "lmtime": 1691715690133.542,
+              "modified": false
+            },
+            "Subtraction 6.png": {
+              "type": "-",
+              "size": 1660,
+              "lmtime": 1691715690152.6414,
+              "modified": false
+            },
+            "bag": {
+              "0_0.png": {
+                "type": "-",
+                "size": 66038,
+                "lmtime": 1691715691958.0059,
+                "modified": false
+              },
+              "0_1.png": {
+                "type": "-",
+                "size": 80248,
+                "lmtime": 1691715691995.014,
+                "modified": false
+              },
+              "0_2.png": {
+                "type": "-",
+                "size": 52691,
+                "lmtime": 1691715692027.9485,
+                "modified": false
+              },
+              "0_3.png": {
+                "type": "-",
+                "size": 69623,
+                "lmtime": 1691715692058.2085,
+                "modified": false
+              },
+              "1_0.png": {
+                "type": "-",
+                "size": 69731,
+                "lmtime": 1691715692091.4553,
+                "modified": false
+              },
+              "1_1.png": {
+                "type": "-",
+                "size": 78493,
+                "lmtime": 1691715692123.9482,
+                "modified": false
+              },
+              "1_2.png": {
+                "type": "-",
+                "size": 45008,
+                "lmtime": 1691715692156.51,
+                "modified": false
+              },
+              "1_3.png": {
+                "type": "-",
+                "size": 71328,
+                "lmtime": 1691715692191.3687,
+                "modified": false
+              },
+              "2_0.png": {
+                "type": "-",
+                "size": 66608,
+                "lmtime": 1691715692226.3696,
+                "modified": false
+              },
+              "2_1.png": {
+                "type": "-",
+                "size": 74980,
+                "lmtime": 1691715692258.3787,
+                "modified": false
+              },
+              "2_2.png": {
+                "type": "-",
+                "size": 60411,
+                "lmtime": 1691715692301.766,
+                "modified": false
+              },
+              "2_3.png": {
+                "type": "-",
+                "size": 67453,
+                "lmtime": 1691715692340.4873,
+                "modified": false
+              },
+              "3_0.png": {
+                "type": "-",
+                "size": 65009,
+                "lmtime": 1691715692378.4143,
+                "modified": false
+              },
+              "3_1.png": {
+                "type": "-",
+                "size": 68349,
+                "lmtime": 1691715692416.994,
+                "modified": false
+              },
+              "3_2.png": {
+                "type": "-",
+                "size": 59295,
+                "lmtime": 1691715692448.6753,
+                "modified": false
+              },
+              "3_3.png": {
+                "type": "-",
+                "size": 68081,
+                "lmtime": 1691715692479.7224,
+                "modified": false
+              }
+            },
+            "facebook.png": {
+              "type": "-",
+              "size": 1247,
+              "lmtime": 1691715690174.6824,
+              "modified": false
+            },
+            "icon_close.png": {
+              "type": "-",
+              "size": 627,
+              "lmtime": 1691715690194.6846,
+              "modified": false
+            },
+            "icon_menu.png": {
+              "type": "-",
+              "size": 539,
+              "lmtime": 1691715690213.6848,
+              "modified": false
+            },
+            "icon_share.png": {
+              "type": "-",
+              "size": 1093,
+              "lmtime": 1691715690239.2544,
+              "modified": false
+            },
+            "instagram.png": {
+              "type": "-",
+              "size": 829,
+              "lmtime": 1691715690256.264,
+              "modified": false
+            },
+            "logo.png": {
+              "type": "-",
+              "size": 5588,
+              "lmtime": 1691715690278.5,
+              "modified": false
+            },
+            "main_video-vector.png": {
+              "type": "-",
+              "size": 54929,
+              "lmtime": 1691715690302.5186,
+              "modified": false
+            },
+            "main_video.png": {
+              "type": "-",
+              "size": 2306571,
+              "lmtime": 1691715690440.2163,
+              "modified": false
+            },
+            "sec3_p1.png": {
+              "type": "-",
+              "size": 6811,
+              "lmtime": 1691715690459.2168,
+              "modified": false
+            },
+            "sec3_p2.png": {
+              "type": "-",
+              "size": 7724,
+              "lmtime": 1691715690477.2168,
+              "modified": false
+            },
+            "sec3_p3.png": {
+              "type": "-",
+              "size": 6001,
+              "lmtime": 1691715690497.2166,
+              "modified": false
+            },
+            "sec3_p4.png": {
+              "type": "-",
+              "size": 5337,
+              "lmtime": 1691715690515.0503,
+              "modified": false
+            },
+            "sec3_p5.png": {
+              "type": "-",
+              "size": 16686,
+              "lmtime": 1691715690534.048,
+              "modified": false
+            },
+            "sec3_p6.png": {
+              "type": "-",
+              "size": 5193,
+              "lmtime": 1691715690556.0503,
+              "modified": false
+            },
+            "sec3_p7.png": {
+              "type": "-",
+              "size": 8155,
+              "lmtime": 1691715690576.0542,
+              "modified": false
+            },
+            "sec3_p8.png": {
+              "type": "-",
+              "size": 8970,
+              "lmtime": 1691715690594.0483,
+              "modified": false
+            },
+            "sec3_p9.png": {
+              "type": "-",
+              "size": 9555,
+              "lmtime": 1691715690614.0505,
+              "modified": false
+            },
+            "sec5_0-.png": {
+              "type": "-",
+              "size": 1836744,
+              "lmtime": 1691715690722.0725,
+              "modified": false
+            },
+            "sec5_0-m.png": {
+              "type": "-",
+              "size": 132978,
+              "lmtime": 1691715690752.074,
+              "modified": false
+            },
+            "sec5_0.png": {
+              "type": "-",
+              "size": 1835300,
+              "lmtime": 1691715690887.1606,
+              "modified": false
+            },
+            "sec5_1-m.png": {
+              "type": "-",
+              "size": 61259,
+              "lmtime": 1691715690916.4324,
+              "modified": false
+            },
+            "sec5_1.png": {
+              "type": "-",
+              "size": 706384,
+              "lmtime": 1691715690994.5208,
+              "modified": false
+            },
+            "sec5_2-m.png": {
+              "type": "-",
+              "size": 170159,
+              "lmtime": 1691715691044.949,
+              "modified": false
+            },
+            "sec5_2.png": {
+              "type": "-",
+              "size": 1888424,
+              "lmtime": 1691715691165.4724,
+              "modified": false
+            },
+            "sec5_3-m.png": {
+              "type": "-",
+              "size": 51764,
+              "lmtime": 1691715691192.9817,
+              "modified": false
+            },
+            "sec5_3.png": {
+              "type": "-",
+              "size": 716570,
+              "lmtime": 1691715691264.321,
+              "modified": false
+            },
+            "sec5_4-m.png": {
+              "type": "-",
+              "size": 280425,
+              "lmtime": 1691715691309.2883,
+              "modified": false
+            },
+            "sec5_4.png": {
+              "type": "-",
+              "size": 4292687,
+              "lmtime": 1691715691602.1252,
+              "modified": false
+            },
+            "sec5_5-m.png": {
+              "type": "-",
+              "size": 260026,
+              "lmtime": 1691715691636.1528,
+              "modified": false
+            },
+            "sec5_5.png": {
+              "type": "-",
+              "size": 3615972,
+              "lmtime": 1691715691810.8496,
+              "modified": false
+            },
+            "sec6_1.png": {
+              "type": "-",
+              "size": 197379,
+              "lmtime": 1691715691857.906,
+              "modified": false
+            },
+            "sec6_2.png": {
+              "type": "-",
+              "size": 223047,
+              "lmtime": 1691715691921.19,
+              "modified": false
+            }
+          },
+          "js": {
+            "index.js": {
+              "type": "-",
+              "size": 6589,
+              "lmtime": 1691715692506.9878,
+              "modified": false
+            }
+          }
+        },
+        "index.php": {
+          "type": "-",
+          "size": 14290,
+          "lmtime": 1691719096815.5295,
+          "modified": false
+        },
+        "preorder.php": {
+          "type": "-",
+          "size": 61,
+          "lmtime": 1691717848272.671,
           "modified": false
         }
       }

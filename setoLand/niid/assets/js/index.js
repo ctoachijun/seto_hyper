@@ -1,6 +1,6 @@
 let player = {};
 let flag_scroll = false;
-const bagImagePath = 'assets/images/bag/';
+const bagImagePath = '/setoLand/niid/assets/images/bag/';
 let images = {};
 let sources = {
   img0_0: bagImagePath + '0_0.png',

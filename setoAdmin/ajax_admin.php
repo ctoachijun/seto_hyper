@@ -7,25 +7,29 @@ $aid = $_SESSION['admin_id'];
 switch ($w_mode) {
   case "adminChk":
     $re = getAdminInfo($id);
-
+    
     if (!$re) {
       $output['state'] = "N";
     } else {
-      $admin_pw = $re['a_pw'];
-
-      // 해시 암호화 된 비밀번호 비교 return : bool
-      if (password_verify($pw, $admin_pw)) {
-        $jud = 1;
-      }
-
-      if ($jud == 1) {
-        $output['state'] = "Y"; 
-        $_SESSION['admin_id'] = $id;
-        $_SESSION['admin_idx'] = $re['a_idx'];
-        $_SESSION['admin_group'] = $re['a_group'];
-        $_SESSION['admin_top'] = $re['a_top'];
-      } else {
+      if($re['a_open'] == "N"){
         $output['state'] = "N";
+      }else{
+        $admin_pw = $re['a_pw'];
+  
+        // 해시 암호화 된 비밀번호 비교 return : bool
+        if (password_verify($pw, $admin_pw)) {
+          $jud = 1;
+        }
+  
+        if ($jud == 1) {
+          $output['state'] = "Y"; 
+          $_SESSION['admin_id'] = $id;
+          $_SESSION['admin_idx'] = $re['a_idx'];
+          $_SESSION['admin_group'] = $re['a_group'];
+          $_SESSION['admin_top'] = $re['a_top'];
+        } else {
+          $output['state'] = "N";
+        }
       }
     }
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
