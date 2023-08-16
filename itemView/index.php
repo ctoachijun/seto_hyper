@@ -10,15 +10,15 @@ $nowp = $step['is_now_page'];
 $today = date("Y-m-d");
 $now_step = $nowp;
 
-// $box1 = explode("|",$step['is_landing_date']);
-// $box2 = explode("|",$step['is_open_date']);
-// $box3 = explode("|",$step['is_pre_date']);
+$land_date = $step['is_landing_date'];
+$open_date = $step['is_open_date'];
+$preo_date = $step['is_pre_date'];
 
 
 if($nowp == "N"){
   
   //시작일과 종료일별로 현재 진행단계를 파악
-  $now_step = judStepDate($step['is_landing_date'],$step['is_open_date'],$step['is_pre_date']);
+  $now_step = judStepDate($land_date,$open_date,$preo_date);
    
 }else if($nowp == "L"){
   // echo "랜딩 즉시적용이다아~!!!<br>";
@@ -27,6 +27,7 @@ if($nowp == "N"){
 }else if($nowp == "P"){
   // echo "프리오더 즉시 !!!<br>";
 }
+
 
 
 // 일자도, 즉시적용도 아무것도 없는 상태

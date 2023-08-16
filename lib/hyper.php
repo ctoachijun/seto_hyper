@@ -1183,77 +1183,21 @@ function judStepDate($ldate,$odate,$pdate){
   
   
   $res = "N";
-  if($ldate == "|" && $odate == "|" && $pdate == "|"){
-    //날짜지정 암것도 없음
-    $res = "N";
-  }else{
-    
-    
-    // 날짜 탐색 방법
-    // 동일 조건에서 최우선 판단기준은 시작일인 경우 프리오더, 종료일인 경우 랜딩이 되어야한다.
-    // 오늘이 8월14일. 랜딩 종료일이 8월 16일이고, 프리오더 종료일이 8월 21일이라면
-    // 오늘은 랜딩페이지가 나와야 정상.
-    // 반대로, 랜딩 시작일이 8월 3일이고, 프리오더 시작일이 8월 10일이라면
-    // 오늘은 프리오더 페이지가 나와야 정상이다.
-    
-    
-    // 범위 탐색
-    if(!empty($lsdate) && !empty($ledate)){
-      if($lsdate <= $today && $ledate >= $today){
-        $res = "L";
-      }
-    }else if(!empty($osdate) && !empty($oedate)){
-      if($osdate <= $today && $oedate >= $today){
-        $res = "O";
-      }
-    }else if(!empty($psdate) && !empty($pedate)){
-      if($psdate <= $today && $pedate >= $today){
-        $res = "P";
-      }
-    }
-    
-    // 범위탐색 후, 종료일 탐색
-    // 펀딩오픈 시작일,종료일 다 있고, 프리오더 종료일만 있다면 매칭되지 않음.
-    if(!empty($pedate) && $pedate >= $today){
-      $res = "P";
-    }else if(!empty($oedate) && $oedate >= $today){
-        $res = "O";
-    }else if(!empty($ledate) && $ledate >= $today){
-      $res = "L";
-    }
 
-    
-    // 프리오더부터 탐색
-    // 종료일이 있고, 오늘보다 작으면 판단 무효
-    if(!empty($pedate) && $pedate < $today){
-    
-      
-    // 종료일이 없거나, 종료일이 있는데 오늘보다 같거가 크면 해당.
-    }else{
-      // 시작일이 있고, 종료일이 없는데 시작일이 오늘보다 작으면 프리오더 확정.
-      if(!empty($psdate) && empty($pedate)){
-        if($psdate <= $today){
-          $res = "P";
-        }
-      
-      // 펀딩오픈 종료일이 있고, 오늘보다 작으면 프리오더 확정. (프리오더 종료일이 오늘보다 같거나 크기 때문.)
-      // 만약 펀딩오픈 종료일이 오늘보다 같거나 컸다면 프리오더 아님.
-      }else if(!empty($oedate) && $oedate < $today){
-        $res = "P";
-      }
-      
-      
-      
+  //날짜지정 암것도 없음
+  if($ldate == "|" && $odate == "|" && $pdate == "|"){
+  }else{
+    // 시작일, 종료일 둘 다 받고있으니, 시작일만 있어도 종료일은 존재함.
+    if(!empty($psdate)){
+      if($psdate <= $today && $pedate >= $today) $res = "P";
     }
-    
-    
-    
-    //펀딩오픈 탐색
-    // 
-    
-    
+    if(!empty($osdate)){
+      if($osdate <= $today && $oedate >= $today) $res = "O";
+    }
+    if(!empty($lsdate)){
+      if($lsdate <= $today && $ledate >= $today) $res = "L";
+    }
   }
-  
   return $res;
 }
   

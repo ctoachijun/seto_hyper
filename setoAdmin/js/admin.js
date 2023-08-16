@@ -643,6 +643,35 @@ function chkStepDate(){
   let psdate = $("input[name=pre_start").val();
   let pedate = $("input[name=pre_end").val();
   let jud = 1;
+  let now = $("input[name=write_now]:checked").val();
+  
+  
+  // 즉시적용 없을때 기간 체크
+  // 시작일, 종료일 둘 중 하나만 들어있으면 둘 다 입력하라고 창 표시.
+  if(!now){
+    if(lsdate || ledate){
+      if(lsdate && ledate){
+      }else{
+        alert("랜딩 탭의 시작일,종료일을 전부 설정 해 주세요.");
+        return false;
+      }
+    }
+    if(osdate || oedate){
+      if(osdate && oedate){
+      }else{
+        alert("오픈중 탭의 시작일,종료일을 전부 설정 해 주세요.");
+        return false;
+      }
+    }
+    if(psdate || pedate){
+      if(psdate && pedate){
+      }else{
+        alert("프리오더 탭의 시작일,종료일을 전부 설정 해 주세요.");
+        return false;
+      }
+    }
+  }
+  
 
   // 랜딩기간 체크  
   if( (lsdate && ledate) && (lsdate > ledate) ){
