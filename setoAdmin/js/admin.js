@@ -87,7 +87,7 @@ function chkBrandNameEdit(obj,org){
 
 
 function regBrand(){
-  console.log();
+
   if(!$("#logo_file")[0].files[0]){
     alert("로고 이미지를 등록 해 주세요.");
     clickFile();
@@ -117,7 +117,7 @@ function regBrand(){
       data : f,
       success : function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "FN"){
           alert("파일 업로드에 실패했습니다.\n지속 될 경우 문의주세요.");
@@ -168,7 +168,7 @@ function editBrand(){
       data : f,
       success : function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "FN"){
           alert("파일 업로드에 실패했습니다.\n지속 될 경우 문의주세요.");
@@ -205,7 +205,7 @@ function delBrand(){
       data: {"w_mode":"delBrand","bidx":bidx,"bname":bname},
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           alert("정상 처리되었습니다.");
@@ -248,7 +248,7 @@ function setKeyWord(){
   }
   
   if(!org_kw){
-    console.log("키워드 없었던거임");
+    // console.log("키워드 없었던거임");
     kw_txt = new_kw;
   }else{
     let karr = org_kw.split("|");
@@ -289,14 +289,14 @@ function setKeyWord(){
 
 function keywordDel(num){
   let org_kw = $("input[name=keyword_txt").val();
-  console.log("num : "+num);
+
   $.ajax({
     url : "ajax_admin.php",
     type: "post",
     data: {"w_mode":"keywordDel","cnum":num,"keyword":org_kw},
     success: function(result){
       let json = JSON.parse(result);
-      console.log(json);
+      // console.log(json);
       
       $(".key_box").html(json.html);
       $("input[name=keyword_txt").val(json.new_kw);
@@ -404,7 +404,7 @@ function regItem(type){
       data: f,
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           alert(txt+' 되었습니다.');
@@ -431,7 +431,7 @@ function delItem(idx){
       data: {"w_mode":"delItem","item_idx":idx,"bindex":bindex,"img":img},
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           alert("정상적으로 삭제 되었습니다.");
@@ -544,8 +544,6 @@ function setOptTable(){
       name += $("#optname"+i).val();
     }else{
       // name += "";  // 이 처리가 없으면 undefind 뜸.
-      console.log(i);
-      console.log(cnt);
       if(i == cnt){
         alert("옵션명 입력을 해 주세요.");
         $("#optname"+i).focus();
@@ -760,7 +758,7 @@ function setStepDate(){
       data: {"w_mode":"setStepDate","land_date":land_date,"open_date":open_date,"pre_date":pre_date,"now":now,"dt":dt},
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           
@@ -821,7 +819,7 @@ function cancelOrder(oidx,pmidx){
       data: {"w_mode":"cancelOrder","oidx":oidx,"pmidx":pmidx},
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           alert("정상적으로 취소 되었습니다.");
@@ -887,7 +885,6 @@ function chgAllDeliNum(){
   let f = new FormData($("#allexcel")[0]);
   if(chkFileType($("#allnumber")[0].files,1)){
     
-    console.log("업로드합니당");
     f.append("w_mode","chgAllDeliNum");
     $.ajax({
       url : "ajax_admin.php",
@@ -899,7 +896,7 @@ function chgAllDeliNum(){
       success: function(result){
         let json = JSON.parse(result);
         
-        console.log(json);
+        // console.log(json);
         $("#allexcel").remove();
         history.go(0);
       }
@@ -1001,7 +998,6 @@ function chkLength(num,obj){
 function chkPwLength(num,obj){
   let value = obj.value;
   if(value.length < 6){
-    console.log(value);
     if(num == 1){
       $(".error_npw").html("비밀번호는 6글자 이상으로 입력 해 주세요.");
       $("input[name=lengjud").val(1);
@@ -1018,14 +1014,12 @@ function chkPwLength(num,obj){
 }
 
 function chkCurPw(obj,idx){
-  console.log(obj.value+" "+idx);
   $.ajax({
     url : "ajax_admin.php",
     type: "post",
     data: {"w_mode":"chkCurPw","pw":obj.value,"admin_idx":idx},
     success: function(result){
       let json = JSON.parse(result);
-      console.log(json);
       if(json.state == "N"){
         $(".error_pw").html("비밀번호가 일치하지 않습니다.");
         $("#currentPassword").focus();
@@ -1143,7 +1137,7 @@ function regAdmin(aidx){
       data: f,
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           alert("정상 등록 되었습니다.");
@@ -1181,7 +1175,7 @@ function delAdmin(idx){
       data: {"w_mode":"delAdmin","admin_idx":idx},
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
         
         if(json.state == "Y"){
           alert("정상 처리 되었습니다"); 
@@ -1231,7 +1225,7 @@ function saveProfile(idx){
     data: f,
     success: function(result){
       let json = JSON.parse(result);
-      console.log(json);
+      // console.log(json);
       
       if(json.state == "Y"){
         history.go(0);
@@ -1295,7 +1289,7 @@ function setMcHtml(type){
     data: {"w_mode":"setMcHtml","tclass":tclass,"val":val},
     success : function(result){
       let json = JSON.parse(result);
-      console.log(json);
+      // console.log(json);
       
       if(json.state == "Y"){
         $("input[name="+tclass.toLowerCase()+"name]").val("");
@@ -1327,7 +1321,7 @@ function delBodyRow(type,num){
     data: {"w_mode":"delBodyRow","val":val,"tclass":tclass},
     success: function(result){
       let json = JSON.parse(result);
-      console.log(json);
+      // console.log(json);
       
       if(json.state == "Y"){
         $("."+lr+"_div .cont_body").html(json.html);
@@ -1383,7 +1377,7 @@ function regMoonAns(){
       data: {"w_mode":"regMoonAns","ansidx":aidx,"mnidx":midx,"cont":cont},
       success: function(result){
         let json = JSON.parse(result);
-        console.log(json);
+        // console.log(json);
 
         if(json.state == "Y"){
           alert("등록 되었습니다.");
