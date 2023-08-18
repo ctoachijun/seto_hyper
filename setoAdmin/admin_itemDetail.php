@@ -502,6 +502,7 @@ if($reg_type == "E"){
                         <label for="dval" class="form-label">확인 url</label>
                         <div class="col-sm-11 d-flex">
                            <input type="button" class="btn btn-outline-secondary" value="url 복사" onclick="copyUrl(<?=$iidx?>)" />
+                           <div class="view_code d-flex align-items-center justify-content-center"></div>
                         </div>
                      </div>
                   <? endif; ?>

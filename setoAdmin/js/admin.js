@@ -1398,21 +1398,22 @@ function copyUrl(idx){
     data: {"w_mode":"copyUrl","iidx":idx},
     success : function(result){
       let json = JSON.parse(result);
-      
+     
       if (navigator.clipboard !== undefined) {
         navigator.clipboard.writeText(json.url).then(() => {
-          alert("복사 되었습니다.");
+          // alert("복사 되었습니다.");
         })
       }else{
         $("#url_text").val(json.url);
         $("#url_text").select();
         document.execCommand('copy');
       }
+      $('.view_code').html(json.func);
       alert("복사 되었습니다.");
     }
   })
-
 }
+
 
 
 

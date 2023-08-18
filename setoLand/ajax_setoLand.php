@@ -6,24 +6,32 @@ include "../lib/hyper.php";
 
 
 switch ($w_mode) {
-  case "regEmail":
     
-    if($test == 1){
-      $iidx = 1;
-      $aidx = 1;
-    }
+  case "collectEmail" :
+    $iidx = decodeParam($code);
     
-    $sql = "INSERT INTO st_smail SET s_aidx = {$aidx}, s_iidx = {$iidx}, s_iname = '{$type}', s_email='{$email}',s_wdate = now();";
+    $item = getItemInfo($iidx);
+    $bidx = $item['i_bidx'];
+    $iname = $item['i_name'];
+    
+    $brand = getBrandInfo($bidx);
+    $bname = $brand['b_name'];
+    $admin_idx = $brand['b_aidx'];    
+    
+    $sql = "INSERT INTO st_smail SET s_aidx = {$admin_idx}, s_iidx = {$iidx}, s_iname = '{$iname}', s_email = '{$email}', s_wdate = now()";
     $re = sql_exec($sql);
+    
     
     if($re){
       $output['state'] = "Y";
     }else{
       $output['state'] = "N";
     }
-    $output['sql'] = $sql;
+    
+    // $output['sql'] = $sql;
     echo json_encode($output);
   break;
+  
 
 
   default:

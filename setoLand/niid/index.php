@@ -1,5 +1,7 @@
 <?
-	
+	if(!$nowp) $nowp = "L";
+	if(!$now_step) $now_step = "L";
+
 	if($nowp == "L" || $now_step == "L"){
 		$ldisp = "";
 		$odisp = "ndisp";
@@ -75,13 +77,13 @@
 				<div class="subscribe-block">
 					<p class="instruction">이메일을 등록하시면, 체험단·기브어웨이 등의 이벤트와 <br class="mobile">예약구매일정 등 최신 소식을 가장 빠르게 받아보실 수 있습니다.</p>
 					<div class="input-field">
-						<input type="text" id="userEmail" class="input-email" maxlength="50" placeholder="Enter Your Email Address">
-						<button class="btn-submit" id="btnSubscribe">SUBMIT</button>
+						<input type="text" id="userEmail" class="input-email" maxlength="50" placeholder="Enter Your Email Address" name="email1">
+						<button class="btn-submit ems1" id="btnSubscribe" onclick="collectEmail('AB13_717UeVknwXiLcg',this)">SUBMIT</button>
 					</div>
 					<div class="checkbox-field">
 						<input type="checkbox" name="terms1" id="terms1" value="1" checked>
 						<label for="terms1" class="checkbox"></label>
-						<a class="check-label" href="#"> 마케팅 활용 동의 (필수)</a>	
+						<a class="check-label"> 마케팅 활용 동의 (필수)</a>	
 					</div>
 				</div>
 			</div>
@@ -305,13 +307,13 @@
 				<div class="subscribe-block">
 					<p class="instruction">이메일을 등록하시면, 체험단·기브어웨이 등의 이벤트와 예약구매일정 등 최신 소식을 가장 빠르게 받아보실 수 있습니다.</p>
 					<div class="input-field">
-						<input type="text" id="userEmailBtm" class="input-email" maxlength="50" placeholder="Enter Your Email Address">
-						<button id="btnSubscribeBtm" class="btn-submit">SUBMIT</button>
+						<input type="text" id="userEmailBtm" class="input-email" maxlength="50" placeholder="Enter Your Email Address" name="email2">
+						<button id="btnSubscribeBtm" class="btn-submit ems2" onclick="collectEmail('AB13_717UeVknwXiLcg',this)">SUBMIT</button>
 					</div>
 					<div class="checkbox-field">
 						<input type="checkbox" name="terms2" id="terms2" value="1" checked>
 						<label for="terms2" class="checkbox"></label>
-						<a class="check-label" href="#"> 마케팅 활용 동의 (필수)</a>	
+						<a class="check-label"> 마케팅 활용 동의 (필수)</a>	
 					</div>
 				</div>
 				<div class="contact-block">
@@ -332,5 +334,6 @@
 	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 	<!-- <script src="/setoLand/niid/assets/lib/mobile-detect.min.js"></script>  -->
 	<script src="/setoLand/niid/assets/js/index.js"></script>
+	<script src="/setoLand/js/setoLand.js"></script>
 </body>
 </html>

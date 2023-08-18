@@ -1133,9 +1133,13 @@ switch ($w_mode) {
     $url = "http://hyperlanding.net/itemView/?itemMngCode={$param}";   
     
     $output['url'] = $url;
+    $output['code'] = $param;
+    $output['func'] = "collectEmail('{$param}',this)";
     
     echo json_encode($output);
   break;
+  
+
   
   
   

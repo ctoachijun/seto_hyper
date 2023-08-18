@@ -84,24 +84,28 @@ $('#btnSubscribe').on('click', function(e){
   let emailReg = /^[^@^\s]+@[^\.@^\s]+(\.[^\.@^\s]+)+$/;
   let consetAgree = $('#terms1:checked').val();
   if (email.length < 1) {
-    alert('Email *Required*');
+    // alert('Email *Required*');
+    alert('이메일 주소를 입력 해 주세요.');
+    $("#userEmail").focus();
     return false;
   } else if (!emailReg.test(email)) {
-    alert('Email format incorrect! Please check again.');
+    // alert('Email format incorrect! Please check again.');
+    alert('올바른 이메일 형식이 아닙니다.');
+    $("#userEmail").focus();
     return false;
   }
   if (consetAgree == undefined) {
-    alert('마케팅 활용 동의 선택 필수');
+    alert('마케팅 활용 동의 선택 필수입니다.');
     return false;
   }
   $('#btnSubscribe').addClass('disabled');
   $('#userEmail').attr('disabled', 'true');
   let data = { 'email' : email };
   sendInfo(data, function(){
-    alert('Thanks for Subscribing!');
-    $('#userEmail').val('');
-    $('#btnSubscribe').removeClass('disabled');
-    $('#userEmail').removeAttr('disabled');
+    // alert('Thanks for Subscribing!');
+    // $('#userEmail').val('');
+    // $('#btnSubscribe').removeClass('disabled');
+    // $('#userEmail').removeAttr('disabled');
   });
 });
 
@@ -111,24 +115,28 @@ $('#btnSubscribeBtm').on('click', function(e){
   let emailReg = /^[^@^\s]+@[^\.@^\s]+(\.[^\.@^\s]+)+$/;
   let consetAgree = $('#terms2:checked').val();
   if (email.length < 1) {
-    alert('Email *Required*');
+    // alert('Email *Required*');
+    alert('이메일 주소를 입력 해 주세요.');
+    $("#userEmailBtm").focus();
     return false;
   } else if (!emailReg.test(email)) {
-    alert('Email format incorrect! Please check again.');
+    // alert('Email format incorrect! Please check again.');
+    alert('올바른 이메일 형식이 아닙니다.');
+    $("#userEmailBtm").focus();
     return false;
   }
   if (consetAgree == undefined) {
-    alert('마케팅 활용 동의 선택 필수');
+    alert('마케팅 활용 동의 선택 필수입니다.');
     return false;
   }
   $('#btnSubscribeBtm').addClass('disabled');
   $('#userEmailBtm').attr('disabled', 'true');
   let data = { 'email' : email };
   sendInfo(data, function(){
-    alert('Thanks for Subscribing!');
-    $('#userEmailBtm').val('');
-    $('#btnSubscribeBtm').removeClass('disabled');
-    $('#userEmailBtm').removeAttr('disabled');
+    // alert('Thanks for Subscribing!');
+    // $('#userEmailBtm').val('');
+    // $('#btnSubscribeBtm').removeClass('disabled');
+    // $('#userEmailBtm').removeAttr('disabled');
   });
 });
 
